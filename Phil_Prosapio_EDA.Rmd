@@ -1,17 +1,68 @@
 ---
-title: "R Notebook"
+title: "Final Project R Notebook"
 output: html_notebook
 ---
 
+#Helper Functions for my Data Cleanup and EDA
+```{r}
+#Helper function to convert the values in the AgeuponOutcome column from time strings (e.g. 1 year, 2 months, etc.) into time in days
+timeWarp <- function(age) {
+  age_elements <- str_split_fixed(age,"\\s",2)
+  norm_age = as.numeric(age_elements[1])
+  norm_age
+  time_unit = age_elements[2]
+  if (grepl(time_unit, "week") | grepl(time_unit, "weeks")) {
+    norm_age = norm_age*7
+  } else if (grepl(time_unit, "month") | grepl(time_unit, "months")) {
+    norm_age = norm_age*30 
+  } else if (grepl(time_unit, "year") | grepl(time_unit, "years")) {
+    norm_age = norm_age * 365
+  }
+  return(norm_age)
+}
+```
+
+
 #Exploratory Data Analysis of Data we got from Kaggle Competition
 ```{r}
+#Load Libraries I need
 library(tidyverse)
 library(ggplot2)
 library(DataExplorer)
 library(caret)
 library(gridExtra)
-sales_data <- read_csv("data/train_v2.csv") %>% 
-sales_data %>% View()
-plot_str(sales_data)
+library(reshape)
+
+#Load in data and start transforming it
+animal_data <- read_csv(gzfile("data/train.csv.gz")) %>% 
+               select(-AnimalID) %>% 
+               transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('Sexual_Organ_Status', 'Sex')))
+
+animal_data$AgeuponOutcome <- vapply(animal_data$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
+
+#Convert Name column into factor so we can see if the fact that the pet had a name documented affected it's outcome. 1=Had Name, 0=Name Unknown
+animal_data$Sexual_Organ_Status <- animal_data$SexuponOutcome$Sexual_Organ_Status
+animal_data$Sex <- animal_data$SexuponOutcome$Sex
+
+animal_data$Name[!is.na(animal_data$Name)] <- 1
+animal_data$Name[is.na(animal_data$Name)] <- 0
+animal_data$Name <- as.factor(animal_data$Name)
+
+animal_data$OutcomeSubtype[is.na(animal_data$OutcomeSubtype)] <- "None"
+
+#Final steps of cleaning up my data
+clean_animal_data <- animal_data %>% 
+                     select(-SexuponOutcome) %>% 
+                     na.omit()
 ```
+
+```{r}
+View(clean_animal_data)
+introduce(clean_animal_data)
+```
+
+
+
+
+
 
