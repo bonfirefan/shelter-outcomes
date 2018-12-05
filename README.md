@@ -1,4 +1,3 @@
-# Final Project: Google Analytics Revenue Prediction
+# Final Project: Shelter animal outcomes
 
-Kaggle Competition here: https://www.kaggle.com/c/ga-customer-revenue-prediction/
-
+Kaggle Competition here: https://www.kaggle.com/apapiu/visualizing-breeds-and-ages-by-outcome
