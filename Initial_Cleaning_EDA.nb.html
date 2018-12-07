@@ -146,7 +146,7 @@ $(document).ready(function () {
 </style>
 <script>
 $(document).ready(function () {
-  window.initializeSourceEmbed("Phil_Prosapio_EDA.Rmd");
+  window.initializeSourceEmbed("Initial_Cleaning_EDA.Rmd");
   window.initializeCodeFolding("show" === "show");
 });
 </script>
@@ -176,8 +176,8 @@ $(document).ready(function () {
 
 
 <!-- rnb-text-begin -->
-<div id="helper-functions-for-my-data-cleanup-and-eda" class="section level1">
-<h1>Helper Functions for my Data Cleanup and EDA</h1>
+<div id="helper-functions-for-data-cleanup-and-eda" class="section level1">
+<h1>#Helper Functions for Data Cleanup and EDA</h1>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0hlbHBlciBmdW5jdGlvbiB0byBjb252ZXJ0IHRoZSB2YWx1ZXMgaW4gdGhlIEFnZXVwb25PdXRjb21lIGNvbHVtbiBmcm9tIHRpbWUgc3RyaW5ncyAoZS5nLiAxIHllYXIsIDIgbW9udGhzLCBldGMuKSBpbnRvIHRpbWUgaW4gZGF5c1xudGltZVdhcnAgPC0gZnVuY3Rpb24oYWdlKSB7XG4gIGFnZV9lbGVtZW50cyA8LSBzdHJfc3BsaXRfZml4ZWQoYWdlLFwiXFxcXHNcIiwyKVxuICBub3JtX2FnZSA9IGFzLm51bWVyaWMoYWdlX2VsZW1lbnRzWzFdKVxuICBub3JtX2FnZVxuICB0aW1lX3VuaXQgPSBhZ2VfZWxlbWVudHNbMl1cbiAgaWYgKGdyZXBsKHRpbWVfdW5pdCwgXCJ3ZWVrXCIpIHwgZ3JlcGwodGltZV91bml0LCBcIndlZWtzXCIpKSB7XG4gICAgbm9ybV9hZ2UgPSBub3JtX2FnZSo3XG4gIH0gZWxzZSBpZiAoZ3JlcGwodGltZV91bml0LCBcIm1vbnRoXCIpIHwgZ3JlcGwodGltZV91bml0LCBcIm1vbnRoc1wiKSkge1xuICAgIG5vcm1fYWdlID0gbm9ybV9hZ2UqMzAgXG4gIH0gZWxzZSBpZiAoZ3JlcGwodGltZV91bml0LCBcInllYXJcIikgfCBncmVwbCh0aW1lX3VuaXQsIFwieWVhcnNcIikpIHtcbiAgICBub3JtX2FnZSA9IG5vcm1fYWdlICogMzY1XG4gIH1cbiAgcmV0dXJuKG5vcm1fYWdlKVxufVxuYGBgIn0= -->
@@ -199,62 +199,26 @@ timeWarp &lt;- function(age) {
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
-</div>
-<div id="exploratory-data-analysis-of-data-we-got-from-kaggle-competition" class="section level1">
-<h1>Exploratory Data Analysis of Data we got from Kaggle Competition</h1>
+<div id="exploratory-data-analysis-of-data" class="section level2">
+<h2>Exploratory Data Analysis of Data</h2>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI0xvYWQgTGlicmFyaWVzIEkgbmVlZFxubGlicmFyeSh0aWR5dmVyc2UpXG5saWJyYXJ5KGdncGxvdDIpXG5saWJyYXJ5KERhdGFFeHBsb3JlcilcbmxpYnJhcnkoY2FyZXQpXG5saWJyYXJ5KGdyaWRFeHRyYSlcbmxpYnJhcnkocmVzaGFwZSlcbiNMb2FkIGluIGRhdGEgYW5kIHN0YXJ0IHRyYW5zZm9ybWluZyBpdFxuYW5pbWFsX2RhdGEgPC0gcmVhZF9jc3YoZ3pmaWxlKFwiZGF0YS90cmFpbi5jc3YuZ3pcIikpICU+JSBcbiAgICAgICAgICAgICAgIHNlbGVjdCgtQW5pbWFsSUQpICU+JSBcbiAgICAgICAgICAgICAgIHRyYW5zZm9ybShTZXh1cG9uT3V0Y29tZSA9IGNvbHNwbGl0KFNleHVwb25PdXRjb21lLCBzcGxpdCA9IFwiXFxcXHMrXCIsIG5hbWVzID0gYygnU2V4dWFsX09yZ2FuX1N0YXR1cycsICdTZXgnKSkpXG5gYGAifQ== -->
-<pre class="r"><code>#Load Libraries I need
-library(tidyverse)
-library(ggplot2)
-library(DataExplorer)
-library(caret)
-library(gridExtra)
-library(reshape)
-#Load in data and start transforming it
-animal_data &lt;- read_csv(gzfile(&quot;data/train.csv.gz&quot;)) %&gt;% 
-               select(-AnimalID) %&gt;% 
-               transform(SexuponOutcome = colsplit(SexuponOutcome, split = &quot;\\s+&quot;, names = c('Sexual_Organ_Status', 'Sex')))</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGlicmFyeShwdXJyKVxuXG5gYGAifQ== -->
+<pre class="r"><code>library(purr)
+</code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-output-begin eyJkYXRhIjoiUGFyc2VkIHdpdGggY29sdW1uIHNwZWNpZmljYXRpb246XG5jb2xzKFxuICBBbmltYWxJRCA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgTmFtZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgRGF0ZVRpbWUgPSBjb2xfZGF0ZXRpbWUoZm9ybWF0ID0gXCJcIiksXG4gIE91dGNvbWVUeXBlID0gY29sX2NoYXJhY3RlcigpLFxuICBPdXRjb21lU3VidHlwZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgQW5pbWFsVHlwZSA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgU2V4dXBvbk91dGNvbWUgPSBjb2xfY2hhcmFjdGVyKCksXG4gIEFnZXVwb25PdXRjb21lID0gY29sX2NoYXJhY3RlcigpLFxuICBCcmVlZCA9IGNvbF9jaGFyYWN0ZXIoKSxcbiAgQ29sb3IgPSBjb2xfY2hhcmFjdGVyKClcbilcbiJ9 -->
-<pre><code>Parsed with column specification:
-cols(
-  AnimalID = col_character(),
-  Name = col_character(),
-  DateTime = col_datetime(format = &quot;&quot;),
-  OutcomeType = col_character(),
-  OutcomeSubtype = col_character(),
-  AnimalType = col_character(),
-  SexuponOutcome = col_character(),
-  AgeuponOutcome = col_character(),
-  Breed = col_character(),
-  Color = col_character()
-)</code></pre>
+<!-- rnb-output-begin eyJkYXRhIjoiRXJyb3IgaW4gbGlicmFyeShwdXJyKSA6IHRoZXJlIGlzIG5vIHBhY2thZ2UgY2FsbGVkIOKAmHB1cnLigJlcbiJ9 -->
+<pre><code>Error in library(purr) : there is no package called ‘purr’</code></pre>
 <!-- rnb-output-end -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYW5pbWFsX2RhdGEkQWdldXBvbk91dGNvbWUgPC0gdmFwcGx5KGFuaW1hbF9kYXRhJEFnZXVwb25PdXRjb21lLCBGVU4gPSB0aW1lV2FycCwgRlVOLlZBTFVFID0gZG91YmxlKDEpKSBcbiNDb252ZXJ0IE5hbWUgY29sdW1uIGludG8gZmFjdG9yIHNvIHdlIGNhbiBzZWUgaWYgdGhlIGZhY3QgdGhhdCB0aGUgcGV0IGhhZCBhIG5hbWUgZG9jdW1lbnRlZCBhZmZlY3RlZCBpdCdzIG91dGNvbWUuIDE9SGFkIE5hbWUsIDA9TmFtZSBVbmtub3duXG5hbmltYWxfZGF0YSRTZXh1YWxfT3JnYW5fU3RhdHVzIDwtIGFuaW1hbF9kYXRhJFNleHVwb25PdXRjb21lJFNleHVhbF9Pcmdhbl9TdGF0dXNcbmFuaW1hbF9kYXRhJFNleCA8LSBhbmltYWxfZGF0YSRTZXh1cG9uT3V0Y29tZSRTZXhcbmFuaW1hbF9kYXRhJE5hbWVbIWlzLm5hKGFuaW1hbF9kYXRhJE5hbWUpXSA8LSAxXG5hbmltYWxfZGF0YSROYW1lW2lzLm5hKGFuaW1hbF9kYXRhJE5hbWUpXSA8LSAwXG5hbmltYWxfZGF0YSROYW1lIDwtIGFzLmZhY3RvcihhbmltYWxfZGF0YSROYW1lKVxuYW5pbWFsX2RhdGEkT3V0Y29tZVN1YnR5cGVbaXMubmEoYW5pbWFsX2RhdGEkT3V0Y29tZVN1YnR5cGUpXSA8LSBcIk5vbmVcIlxuI0ZpbmFsIHN0ZXBzIG9mIGNsZWFuaW5nIHVwIG15IGRhdGFcbmNsZWFuX2FuaW1hbF9kYXRhIDwtIGFuaW1hbF9kYXRhICU+JSBcbiAgICAgICAgICAgICAgICAgICAgIHNlbGVjdCgtU2V4dXBvbk91dGNvbWUpICU+JSBcbiAgICAgICAgICAgICAgICAgICAgIG5hLm9taXQoKVxuYGBgIn0= -->
-<pre class="r"><code>animal_data$AgeuponOutcome &lt;- vapply(animal_data$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
-#Convert Name column into factor so we can see if the fact that the pet had a name documented affected it's outcome. 1=Had Name, 0=Name Unknown
-animal_data$Sexual_Organ_Status &lt;- animal_data$SexuponOutcome$Sexual_Organ_Status
-animal_data$Sex &lt;- animal_data$SexuponOutcome$Sex
-animal_data$Name[!is.na(animal_data$Name)] &lt;- 1
-animal_data$Name[is.na(animal_data$Name)] &lt;- 0
-animal_data$Name &lt;- as.factor(animal_data$Name)
-animal_data$OutcomeSubtype[is.na(animal_data$OutcomeSubtype)] &lt;- &quot;None&quot;
-#Final steps of cleaning up my data
-clean_animal_data &lt;- animal_data %&gt;% 
-                     select(-SexuponOutcome) %&gt;% 
-                     na.omit()</code></pre>
-<!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuVmlldyhjbGVhbl9hbmltYWxfZGF0YSlcbmludHJvZHVjZShjbGVhbl9hbmltYWxfZGF0YSlcbmBgYCJ9 -->
-<pre class="r"><code>View(clean_animal_data)
-introduce(clean_animal_data)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuVmlldyhjbGVhbl9hbmltYWxfZGF0YSlcbmludHJvZHVjZShjbGVhbl9hbmltYWxfZGF0YSlcbmBgYFxuYGBgIn0= -->
+<p><code>r</code>r View(clean_animal_data) introduce(clean_animal_data)</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
-<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbImRhdGEuZnJhbWUiXSwibmNvbCI6OSwibnJvdyI6MX0sInJkZiI6Ikg0c0lBQUFBQUFBQUJ0MVNTMDdETUJDZDVrUFZpSmJTSW03UkxMcG5nY1FKV0tBdWtDbzNtYVlXamwzNVUrREdMRGdEWUNjMlRTSk93TUwybXplZThjejRQVDVzMXRrbUE0QUk0blFFVVd4aEV0bHRCQWxNM1BrR0VDOHRjTWEwY2NEaDZZd2g2K0RPbldZRkRIL2pUcDVrK1d6UG1jUDNkNThmN2JWZUlTa25OU29MNXMxRExabEk4YW84SGhlQ21ab0hjMTVTVlVqVXVPM3ppMEp3VGJrUlJnMDhTOExZdHFaS1VWNE5YRGRhYUhKMm5nZ3pHSHpUUXRSSDVoN3FGTE5vQThST29Ud1JUY1Z2cXNzYWF5SGZ0MGFSQ2djOVh1ZVVhNVNjc0Z3aDIwdmNXL0xXcnkrLy9uSC9FNXNoRC8vY0VWSmZDQVVqS2dnaGtGbEpOTW4zMHNhMlkrcUZqTVd4TFFFaUorVjBFRHlTQStMS2NGZEZ1U29PaHIrczFsN21ReWwzSlQ1cG40eStmYXJVcDdwQVhsR09vWFpHZHNpOE1iUGROczNtUjJuL1BYVGlwcGczNHd1TS9ZdkFlQm44QU04UGU4eTRBd0FBIn0= -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjoiZGF0YS5mcmFtZSIsIm5jb2wiOjksIm5yb3ciOjF9LCJyZGYiOiJINHNJQUFBQUFBQUFCdDFTUzA3RE1CQ2Q1a1BWaUpiU0ltN1JMTHBuZ2NRSldLQXVrQ28zbWFZV2psMzVVK0RHTERnRFlDYzJUU0pPd01MMm16ZWU4Y3o0UFQ1czF0a21BNEFJNG5RRVVXeGhFdGx0QkFsTTNQa0dFQzh0Y01hMGNjRGg2WXdoNitET25XWUZESC9qVHA1aytXelBtY1AzZDU4ZjdiVmVJU2tuTlNvTDVzMURMWmxJOGFvOEhoZUNtWm9IYzE1U1ZValV1TzN6aTBKd1Ria1JSZzA4UzhMWXRxWktVVjROWERkYWFISjJuZ2d6R0h6VFF0Ukg1aDdxRkxOb0E4Uk9vVHdSVGNWdnFzc2FheUhmdDBhUkNnYzlYdWVVYTVTY3NGd2gyMHZjVy9MV3J5Ky8vbkgvRTVzaEQvL2NFVkpmQ0FVaktnZ2hrRmxKTk1uMzBzYTJZK3FGak1XeExRRWlKK1YwRUR5U0ErTEtjRmRGdVNvT2hyK3MxbDdtUXlsM0pUNXBuNHkrZmFyVXA3cEFYbEdPb1haR2RzaThNYlBkTnMzbVIybi9QWFRpcHBnMzR3dU0vWXZBZUJuOEFNOFBlOHk0QXdBQSJ9 -->
 <div data-pagedtable="false">
 <script data-pagedtable-source type="application/json">
 {"columns":[{"label":["rows"],"name":[1],"type":["int"],"align":["right"]},{"label":["columns"],"name":[2],"type":["int"],"align":["right"]},{"label":["discrete_columns"],"name":[3],"type":["int"],"align":["right"]},{"label":["continuous_columns"],"name":[4],"type":["int"],"align":["right"]},{"label":["all_missing_columns"],"name":[5],"type":["int"],"align":["right"]},{"label":["total_missing_values"],"name":[6],"type":["int"],"align":["right"]},{"label":["complete_rows"],"name":[7],"type":["int"],"align":["right"]},{"label":["total_observations"],"name":[8],"type":["int"],"align":["right"]},{"label":["memory_usage"],"name":[9],"type":["dbl"],"align":["right"]}],"data":[{"1":"26710","2":"10","3":"9","4":"1","5":"0","6":"0","7":"26710","8":"267100","9":"1961192"}],"options":{"columns":{"min":{},"max":[10],"total":[9]},"rows":{"min":[10],"max":[10],"total":[1]},"pages":{}}}
@@ -263,10 +227,82 @@ introduce(clean_animal_data)</code></pre>
 <!-- rnb-frame-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<p>There are 1380 unique breeds in the dataset. This is far too many</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubGVuZ3RoKHVuaXF1ZShjbGVhbl9hbmltYWxfZGF0YSRCcmVlZCkpXG5cbmBgYCJ9 -->
+<pre class="r"><code>length(unique(clean_animal_data$Breed))
+</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiWzFdIDEzODBcbiJ9 -->
+<pre><code>[1] 1380</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+</div>
+<div id="feature-engineering" class="section level2">
+<h2>Feature Engineering</h2>
+<p>First we need to clean the dataset to move “mix” into its own feature and keep only the first breed mentioned for the breed mixes</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5fYW5pbWFsX2RhdGEgPC0gY2xlYW5fYW5pbWFsX2RhdGEgJT4lXG4gIG11dGF0ZShtaXggPSBpZmVsc2UoZ3JlcGwoXCJtaXhcIiwgQnJlZWQsIGlnbm9yZS5jYXNlID0gVCksIDEsIDApLFxuICAgICAgICAgYnJlZWRfbmV3ID0gZ3N1YihcIiBNaXhcIiwgXCJcIiwgQnJlZWQpLFxuICAgICAgICAgYnJlZWRfbmV3ID0gc3Ryc3BsaXQoeCA9IGJyZWVkX25ldywgc3BsaXQgPSBcIi9cIiksXG4gICAgICAgICBicmVlZF9uZXcgPSBtYXBfY2hyKGJyZWVkX25ldywgZnVuY3Rpb24oeCl7dW5saXN0KHhbMV0pfSkpXG5gYGAifQ== -->
+<pre class="r"><code>clean_animal_data &lt;- clean_animal_data %&gt;%
+  mutate(mix = ifelse(grepl(&quot;mix&quot;, Breed, ignore.case = T), 1, 0),
+         breed_new = gsub(&quot; Mix&quot;, &quot;&quot;, Breed),
+         breed_new = strsplit(x = breed_new, split = &quot;/&quot;),
+         breed_new = map_chr(breed_new, function(x){unlist(x[1])}))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>It does look like there are a number of popular breeds that take up more than 75% of the dataset:</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5fYW5pbWFsX2RhdGEgJT4lXG4gIGNvdW50KGJyZWVkX25ldywgc29ydCA9IFRSVUUpICU+JVxuICBtdXRhdGUoZnJlcSA9IHJvdW5kKDEwMCAqIG4gLyBzdW0obiksMikpICU+JVxuICBoZWFkKDE2KVxuYGBgIn0= -->
+<pre class="r"><code>clean_animal_data %&gt;%
+  count(breed_new, sort = TRUE) %&gt;%
+  mutate(freq = round(100 * n / sum(n),2)) %&gt;%
+  head(16)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6MTZ9LCJyZGYiOiJINHNJQUFBQUFBQUFCbVZUdjI4VE1SUjJMZ2x0VG1vVFNOZ1FuRHF4TkVPUkdKRFFYWk5JUmFoRkpXVW9FaEp5N3R5Y0ZjZSsrbnkwb2t1WHpwMWhoWW1oY3hjVy9nazJKSkJZcUlRUW9nTURDYytYOHhFZDFuMys4WjYvNy9uWjcvcTkzVFY3MTBZSVdhaGNMU0dyRE5PS0JWMEpWVkJOajRjSWxac3cwWjVHaXBualdrK01TYXlvNyt5RVFxb1FVNWw1bXQyUWhnbUc3ei9YNGpaVlRpZGh6SWhzNG9IRWdaQk9ueWhKeVF0aWRyWnkrUzBTMEdUc1BQaW5VdDhnY293NXFKTW9KRExJekZkenlxYmd3N21vMTllVFdFbk1LSEM2V0NsR25KNFlaczVhRC90aEhDYmN5Q3pzVUF3NkpGdFdPK0l3UDlWU1I4aUFTS2NyR0tObVIyT0xjb3BWSW9tekxVVEFqTDA1RjdaNDFLZENqdUtRQXVVSmtaQjRudlpEN0krY2ZoTEhoTEhjQjRGbnQ3L3lIZTRRQTliaG5FZndLREhnSHJ6ZUNyelVGUEFIOEE0UUFoNEI3Z0x2SytBTDRCTmdXZXQ0M3Z2b3pVZjd2dWZVbjkyKy9IRHEzZEtyNksxMzQ2ejE4dlBHbVdmcnZuWGtMWjQvdmppNWVlNmhkT2k3azlOMGZ6NytUbVgyM2N0WHVyMTJmNkcwdVQ4enYyWUIxYjI0a3piMzI4eGVLTEVxMS9lZGxWZlpQTXRBRWhJODUrVEFGQ0xQSnBVOVNmWUxFalVwRHRwR1J0K1ZkUXpkZERyOVVZemxNeHliV01ab0Ixamg5cDRFUHF3bUJjcUNpQlFWSEVpVy9nK3FCWEpKRmd6MWhPdVRCS3MrRk5Wb2RVMEhTTjJ6dHBUTkczUHo4aXlrTmMzczFVenFDdUZEeXZOS1pIaEF6Sit6REJtbkNiY2pTYmt5bVlBMWJpdWhzTmxuKzRJWlM1b2JtdndGWlllcVd2VURBQUE9In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["breed_new"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]},{"label":["freq"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Domestic Shorthair","2":"8942","3":"33.48"},{"1":"Chihuahua Shorthair","2":"2145","3":"8.03"},{"1":"Pit Bull","2":"2113","3":"7.91"},{"1":"Labrador Retriever","2":"1915","3":"7.17"},{"1":"Domestic Medium Hair","2":"883","3":"3.31"},{"1":"German Shepherd","2":"826","3":"3.09"},{"1":"Domestic Longhair","2":"546","3":"2.04"},{"1":"Australian Cattle Dog","2":"511","3":"1.91"},{"1":"Dachshund","2":"509","3":"1.91"},{"1":"Siamese","2":"426","3":"1.59"},{"1":"Boxer","2":"360","3":"1.35"},{"1":"Border Collie","2":"334","3":"1.25"},{"1":"Miniature Poodle","2":"310","3":"1.16"},{"1":"Australian Shepherd","2":"229","3":"0.86"},{"1":"Yorkshire Terrier","2":"226","3":"0.85"},{"1":"Jack Russell Terrier","2":"222","3":"0.83"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[16]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY291bnQoY2xlYW5fYW5pbWFsX2RhdGEsIGJyZWVkX25ldykgJT4lXG4gICAgYXJyYW5nZShkZXNjKG4pKSAlPiVcbiAgICBmaWx0ZXIobiA+IDIyMikgLT4gY29tbW9uXG5jbGVhbl9hbmltYWxfZGF0YSA8LSBjbGVhbl9hbmltYWxfZGF0YSAlPiVcbiAgbXV0YXRlKGJyZWVkX25ldyA9IHJlcGxhY2UoYnJlZWRfbmV3LCAhKGJyZWVkX25ldyAlaW4lIGNvbW1vbiRicmVlZF9uZXcpLCBcInVuY29tbW9uXCIpKVxuYGBgIn0= -->
+<pre class="r"><code>count(clean_animal_data, breed_new) %&gt;%
+    arrange(desc(n)) %&gt;%
+    filter(n &gt; 222) -&gt; common
+clean_animal_data &lt;- clean_animal_data %&gt;%
+  mutate(breed_new = replace(breed_new, !(breed_new %in% common$breed_new), &quot;uncommon&quot;))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We’ve now grouped the 1365 sparse class breeds into one “Uncommon” group.</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2xlYW5fYW5pbWFsX2RhdGEgJT4lXG4gIGNvdW50KGJyZWVkX25ldywgc29ydCA9IFRSVUUpICU+JVxuICBtdXRhdGUoZnJlcSA9IHJvdW5kKDEwMCAqIG4gLyBzdW0obiksMikpIFxuYGBgIn0= -->
+<pre class="r"><code>clean_animal_data %&gt;%
+  count(breed_new, sort = TRUE) %&gt;%
+  mutate(freq = round(100 * n / sum(n),2)) </code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-frame-begin eyJtZXRhZGF0YSI6eyJjbGFzc2VzIjpbInRibF9kZiIsInRibCIsImRhdGEuZnJhbWUiXSwibmNvbCI6MywibnJvdyI6MTZ9LCJyZGYiOiJINHNJQUFBQUFBQUFCbVZUdjI4VE1SUjJMZ2x0VG1vVG1pQ0VoT0JVRnBabUtCSkNsYXBjazBobGFGRkpHWXFFaEp3N04yZjF6cjc2ZkxTaUN3dHpaMWhoWXVqY2hZVi9naGtrcGtvSUlUb3drT1A1WW9mb3NPNnpuOStQNzluUDd3Yjl2VlY3ejBZSVdhaGNMU0dyREdMRmdxbUVLcWltMW1PRXlrMFFsS1dSWTJKWTZ2T0lKSko2em03QWhRd3dGZG95bnpLUFJ4Rm5ldC9zQlRSSU1Yei91KzVRNlhUVE1EU2tXM2dvc00rRk15QlNVUEtDR00vV05OMDI4V2thT1EvL3NkUTNpWWd3QTNZU0IwVDRXbjExR3JMRjJXZ202N1dOTkpFQ2h4UmllbGpLa0RoOVB0TEdXaDk3UVJLa3pORE03VklNUEVSdnExMStQRDNWUXBjTG53aW54OE9RR28vR05tVVV5MVFRWjRkelB6VDY1a3phNGxHZmNuR1FCQlJDbmhBQkZ4ZUtmRkx4NWU4STNiZ0R0Y0tBRFRqUENUeEdBbGlEVjF1R0Y4b0Fmd0FmQUFIZ0VlQSt4SDREZkFVc0toN1gvUmkvKzJ5dnV3K3UyK3NndVU3OTJkM0xUNmZ1YmFXTjM3czN6MW92djJ5ZXViYWFXeWZ1L1Buamk5ZTN6bDJVTDRQTytEVDNuNjYvYzdyRHp1VWJOZDUyZnFGOGRINXF1NHFDME03RnZYd1UycXJLVkUxMVM1Vk42WWVDRVA4NUkwZW0rVXdMVmZZRk9TeFExQVEvYWhzYVZTdnJGVXhabHYwbzV2SkNuSmhjUm1uN1dPTDJ2b0I0MkkwTElYTThscFF6Q0xKVTcxY0x3U1ZSVU5SVHBrN2lyM2pRT0FjcnF5cEJicDZNQlMwM1p1VHlKS1dWYVgxVlUxMGhiRVRadE50Q1BDVG03MWlFRytjWGJzZUNNbWx1QXRxa0xibkV4cy8yZUdnMCtkM1ErQzg4azdBMzZRTUFBQT09In0= -->
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["breed_new"],"name":[1],"type":["chr"],"align":["left"]},{"label":["n"],"name":[2],"type":["int"],"align":["right"]},{"label":["freq"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Domestic Shorthair","2":"8942","3":"33.48"},{"1":"uncommon","2":"6435","3":"24.09"},{"1":"Chihuahua Shorthair","2":"2145","3":"8.03"},{"1":"Pit Bull","2":"2113","3":"7.91"},{"1":"Labrador Retriever","2":"1915","3":"7.17"},{"1":"Domestic Medium Hair","2":"883","3":"3.31"},{"1":"German Shepherd","2":"826","3":"3.09"},{"1":"Domestic Longhair","2":"546","3":"2.04"},{"1":"Australian Cattle Dog","2":"511","3":"1.91"},{"1":"Dachshund","2":"509","3":"1.91"},{"1":"Siamese","2":"426","3":"1.59"},{"1":"Boxer","2":"360","3":"1.35"},{"1":"Border Collie","2":"334","3":"1.25"},{"1":"Miniature Poodle","2":"310","3":"1.16"},{"1":"Australian Shepherd","2":"229","3":"0.86"},{"1":"Yorkshire Terrier","2":"226","3":"0.85"}],"options":{"columns":{"min":{},"max":[10],"total":[3]},"rows":{"min":[10],"max":[10],"total":[16]},"pages":{}}}
+  </script>
+</div>
+<!-- rnb-frame-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 </div>
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIkZpbmFsIFByb2plY3QgUiBOb3RlYm9vayINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiNIZWxwZXIgRnVuY3Rpb25zIGZvciBteSBEYXRhIENsZWFudXAgYW5kIEVEQQ0KYGBge3J9DQojSGVscGVyIGZ1bmN0aW9uIHRvIGNvbnZlcnQgdGhlIHZhbHVlcyBpbiB0aGUgQWdldXBvbk91dGNvbWUgY29sdW1uIGZyb20gdGltZSBzdHJpbmdzIChlLmcuIDEgeWVhciwgMiBtb250aHMsIGV0Yy4pIGludG8gdGltZSBpbiBkYXlzDQp0aW1lV2FycCA8LSBmdW5jdGlvbihhZ2UpIHsNCiAgYWdlX2VsZW1lbnRzIDwtIHN0cl9zcGxpdF9maXhlZChhZ2UsIlxccyIsMikNCiAgbm9ybV9hZ2UgPSBhcy5udW1lcmljKGFnZV9lbGVtZW50c1sxXSkNCiAgbm9ybV9hZ2UNCiAgdGltZV91bml0ID0gYWdlX2VsZW1lbnRzWzJdDQogIGlmIChncmVwbCh0aW1lX3VuaXQsICJ3ZWVrIikgfCBncmVwbCh0aW1lX3VuaXQsICJ3ZWVrcyIpKSB7DQogICAgbm9ybV9hZ2UgPSBub3JtX2FnZSo3DQogIH0gZWxzZSBpZiAoZ3JlcGwodGltZV91bml0LCAibW9udGgiKSB8IGdyZXBsKHRpbWVfdW5pdCwgIm1vbnRocyIpKSB7DQogICAgbm9ybV9hZ2UgPSBub3JtX2FnZSozMCANCiAgfSBlbHNlIGlmIChncmVwbCh0aW1lX3VuaXQsICJ5ZWFyIikgfCBncmVwbCh0aW1lX3VuaXQsICJ5ZWFycyIpKSB7DQogICAgbm9ybV9hZ2UgPSBub3JtX2FnZSAqIDM2NQ0KICB9DQogIHJldHVybihub3JtX2FnZSkNCn0NCmBgYA0KDQoNCiNFeHBsb3JhdG9yeSBEYXRhIEFuYWx5c2lzIG9mIERhdGEgd2UgZ290IGZyb20gS2FnZ2xlIENvbXBldGl0aW9uDQpgYGB7cn0NCiNMb2FkIExpYnJhcmllcyBJIG5lZWQNCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShnZ3Bsb3QyKQ0KbGlicmFyeShEYXRhRXhwbG9yZXIpDQpsaWJyYXJ5KGNhcmV0KQ0KbGlicmFyeShncmlkRXh0cmEpDQpsaWJyYXJ5KHJlc2hhcGUpDQoNCiNMb2FkIGluIGRhdGEgYW5kIHN0YXJ0IHRyYW5zZm9ybWluZyBpdA0KYW5pbWFsX2RhdGEgPC0gcmVhZF9jc3YoZ3pmaWxlKCJkYXRhL3RyYWluLmNzdi5neiIpKSAlPiUgDQogICAgICAgICAgICAgICBzZWxlY3QoLUFuaW1hbElEKSAlPiUgDQogICAgICAgICAgICAgICB0cmFuc2Zvcm0oU2V4dXBvbk91dGNvbWUgPSBjb2xzcGxpdChTZXh1cG9uT3V0Y29tZSwgc3BsaXQgPSAiXFxzKyIsIG5hbWVzID0gYygnU2V4dWFsX09yZ2FuX1N0YXR1cycsICdTZXgnKSkpDQoNCmFuaW1hbF9kYXRhJEFnZXVwb25PdXRjb21lIDwtIHZhcHBseShhbmltYWxfZGF0YSRBZ2V1cG9uT3V0Y29tZSwgRlVOID0gdGltZVdhcnAsIEZVTi5WQUxVRSA9IGRvdWJsZSgxKSkgDQoNCiNDb252ZXJ0IE5hbWUgY29sdW1uIGludG8gZmFjdG9yIHNvIHdlIGNhbiBzZWUgaWYgdGhlIGZhY3QgdGhhdCB0aGUgcGV0IGhhZCBhIG5hbWUgZG9jdW1lbnRlZCBhZmZlY3RlZCBpdCdzIG91dGNvbWUuIDE9SGFkIE5hbWUsIDA9TmFtZSBVbmtub3duDQphbmltYWxfZGF0YSRTZXh1YWxfT3JnYW5fU3RhdHVzIDwtIGFuaW1hbF9kYXRhJFNleHVwb25PdXRjb21lJFNleHVhbF9Pcmdhbl9TdGF0dXMNCmFuaW1hbF9kYXRhJFNleCA8LSBhbmltYWxfZGF0YSRTZXh1cG9uT3V0Y29tZSRTZXgNCg0KYW5pbWFsX2RhdGEkTmFtZVshaXMubmEoYW5pbWFsX2RhdGEkTmFtZSldIDwtIDENCmFuaW1hbF9kYXRhJE5hbWVbaXMubmEoYW5pbWFsX2RhdGEkTmFtZSldIDwtIDANCmFuaW1hbF9kYXRhJE5hbWUgPC0gYXMuZmFjdG9yKGFuaW1hbF9kYXRhJE5hbWUpDQoNCmFuaW1hbF9kYXRhJE91dGNvbWVTdWJ0eXBlW2lzLm5hKGFuaW1hbF9kYXRhJE91dGNvbWVTdWJ0eXBlKV0gPC0gIk5vbmUiDQoNCiNGaW5hbCBzdGVwcyBvZiBjbGVhbmluZyB1cCBteSBkYXRhDQpjbGVhbl9hbmltYWxfZGF0YSA8LSBhbmltYWxfZGF0YSAlPiUgDQogICAgICAgICAgICAgICAgICAgICBzZWxlY3QoLVNleHVwb25PdXRjb21lKSAlPiUgDQogICAgICAgICAgICAgICAgICAgICBuYS5vbWl0KCkNCmBgYA0KDQpgYGB7cn0NClZpZXcoY2xlYW5fYW5pbWFsX2RhdGEpDQppbnRyb2R1Y2UoY2xlYW5fYW5pbWFsX2RhdGEpDQpgYGANCg0KDQoNCg0KDQoNCg==</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIkZpbmFsIFByb2plY3QgUiBOb3RlYm9vayINCm91dHB1dDogaHRtbF9ub3RlYm9vaw0KLS0tDQoNCiMgI0hlbHBlciBGdW5jdGlvbnMgZm9yIERhdGEgQ2xlYW51cCBhbmQgRURBDQpgYGB7cn0NCiNIZWxwZXIgZnVuY3Rpb24gdG8gY29udmVydCB0aGUgdmFsdWVzIGluIHRoZSBBZ2V1cG9uT3V0Y29tZSBjb2x1bW4gZnJvbSB0aW1lIHN0cmluZ3MgKGUuZy4gMSB5ZWFyLCAyIG1vbnRocywgZXRjLikgaW50byB0aW1lIGluIGRheXMNCnRpbWVXYXJwIDwtIGZ1bmN0aW9uKGFnZSkgew0KICBhZ2VfZWxlbWVudHMgPC0gc3RyX3NwbGl0X2ZpeGVkKGFnZSwiXFxzIiwyKQ0KICBub3JtX2FnZSA9IGFzLm51bWVyaWMoYWdlX2VsZW1lbnRzWzFdKQ0KICBub3JtX2FnZQ0KICB0aW1lX3VuaXQgPSBhZ2VfZWxlbWVudHNbMl0NCiAgaWYgKGdyZXBsKHRpbWVfdW5pdCwgIndlZWsiKSB8IGdyZXBsKHRpbWVfdW5pdCwgIndlZWtzIikpIHsNCiAgICBub3JtX2FnZSA9IG5vcm1fYWdlKjcNCiAgfSBlbHNlIGlmIChncmVwbCh0aW1lX3VuaXQsICJtb250aCIpIHwgZ3JlcGwodGltZV91bml0LCAibW9udGhzIikpIHsNCiAgICBub3JtX2FnZSA9IG5vcm1fYWdlKjMwIA0KICB9IGVsc2UgaWYgKGdyZXBsKHRpbWVfdW5pdCwgInllYXIiKSB8IGdyZXBsKHRpbWVfdW5pdCwgInllYXJzIikpIHsNCiAgICBub3JtX2FnZSA9IG5vcm1fYWdlICogMzY1DQogIH0NCiAgcmV0dXJuKG5vcm1fYWdlKQ0KfQ0KYGBgDQoNCg0KIyMgRXhwbG9yYXRvcnkgRGF0YSBBbmFseXNpcyBvZiBEYXRhDQpgYGB7cn0NCiNMb2FkIExpYnJhcmllcyBJIG5lZWQNCmxpYnJhcnkodGlkeXZlcnNlKQ0KbGlicmFyeShnZ3Bsb3QyKQ0KbGlicmFyeShEYXRhRXhwbG9yZXIpDQpsaWJyYXJ5KGNhcmV0KQ0KbGlicmFyeShncmlkRXh0cmEpDQpsaWJyYXJ5KHJlc2hhcGUpDQpsaWJyYXJ5KHB1cnIpDQoNCiNMb2FkIGluIGRhdGEgYW5kIHN0YXJ0IHRyYW5zZm9ybWluZyBpdA0KYW5pbWFsX2RhdGEgPC0gcmVhZF9jc3YoZ3pmaWxlKCJkYXRhL3RyYWluLmNzdi5neiIpKSAlPiUgDQogICAgICAgICAgICAgICBzZWxlY3QoLUFuaW1hbElEKSAlPiUgDQogICAgICAgICAgICAgICB0cmFuc2Zvcm0oU2V4dXBvbk91dGNvbWUgPSBjb2xzcGxpdChTZXh1cG9uT3V0Y29tZSwgc3BsaXQgPSAiXFxzKyIsIG5hbWVzID0gYygnU2V4dWFsX09yZ2FuX1N0YXR1cycsICdTZXgnKSkpDQoNCmFuaW1hbF9kYXRhJEFnZXVwb25PdXRjb21lIDwtIHZhcHBseShhbmltYWxfZGF0YSRBZ2V1cG9uT3V0Y29tZSwgRlVOID0gdGltZVdhcnAsIEZVTi5WQUxVRSA9IGRvdWJsZSgxKSkgDQoNCiNDb252ZXJ0IE5hbWUgY29sdW1uIGludG8gZmFjdG9yIHNvIHdlIGNhbiBzZWUgaWYgdGhlIGZhY3QgdGhhdCB0aGUgcGV0IGhhZCBhIG5hbWUgZG9jdW1lbnRlZCBhZmZlY3RlZCBpdCdzIG91dGNvbWUuIDE9SGFkIE5hbWUsIDA9TmFtZSBVbmtub3duDQphbmltYWxfZGF0YSRTZXh1YWxfT3JnYW5fU3RhdHVzIDwtIGFuaW1hbF9kYXRhJFNleHVwb25PdXRjb21lJFNleHVhbF9Pcmdhbl9TdGF0dXMNCmFuaW1hbF9kYXRhJFNleCA8LSBhbmltYWxfZGF0YSRTZXh1cG9uT3V0Y29tZSRTZXgNCg0KYW5pbWFsX2RhdGEkTmFtZVshaXMubmEoYW5pbWFsX2RhdGEkTmFtZSldIDwtIDENCmFuaW1hbF9kYXRhJE5hbWVbaXMubmEoYW5pbWFsX2RhdGEkTmFtZSldIDwtIDANCmFuaW1hbF9kYXRhJE5hbWUgPC0gYXMuZmFjdG9yKGFuaW1hbF9kYXRhJE5hbWUpDQoNCmFuaW1hbF9kYXRhJE91dGNvbWVTdWJ0eXBlW2lzLm5hKGFuaW1hbF9kYXRhJE91dGNvbWVTdWJ0eXBlKV0gPC0gIk5vbmUiDQoNCiNGaW5hbCBzdGVwcyBvZiBjbGVhbmluZyB1cCBteSBkYXRhDQpjbGVhbl9hbmltYWxfZGF0YSA8LSBhbmltYWxfZGF0YSAlPiUgDQogICAgICAgICAgICAgICAgICAgICBzZWxlY3QoLVNleHVwb25PdXRjb21lKSAlPiUgDQogICAgICAgICAgICAgICAgICAgICBuYS5vbWl0KCkNCmBgYA0KDQpgYGB7cn0NClZpZXcoY2xlYW5fYW5pbWFsX2RhdGEpDQppbnRyb2R1Y2UoY2xlYW5fYW5pbWFsX2RhdGEpDQpgYGANClRoZXJlIGFyZSAxMzgwIHVuaXF1ZSBicmVlZHMgaW4gdGhlIGRhdGFzZXQuIFRoaXMgaXMgZmFyIHRvbyBtYW55DQpgYGB7cn0NCmxlbmd0aCh1bmlxdWUoY2xlYW5fYW5pbWFsX2RhdGEkQnJlZWQpKQ0KYGBgDQojIyBGZWF0dXJlIEVuZ2luZWVyaW5nDQpGaXJzdCB3ZSBuZWVkIHRvIGNsZWFuIHRoZSBkYXRhc2V0IHRvIG1vdmUgIm1peCIgaW50byBpdHMgb3duIGZlYXR1cmUgYW5kIGtlZXAgb25seSB0aGUgZmlyc3QgYnJlZWQgbWVudGlvbmVkIGZvciB0aGUgYnJlZWQgbWl4ZXMNCmBgYHtyIEJyZWVkX0ZlYXR1cmVzfQ0KY2xlYW5fYW5pbWFsX2RhdGEgPC0gY2xlYW5fYW5pbWFsX2RhdGEgJT4lDQogIG11dGF0ZShtaXggPSBpZmVsc2UoZ3JlcGwoIm1peCIsIEJyZWVkLCBpZ25vcmUuY2FzZSA9IFQpLCAxLCAwKSwNCiAgICAgICAgIGJyZWVkX25ldyA9IGdzdWIoIiBNaXgiLCAiIiwgQnJlZWQpLA0KICAgICAgICAgYnJlZWRfbmV3ID0gc3Ryc3BsaXQoeCA9IGJyZWVkX25ldywgc3BsaXQgPSAiLyIpLA0KICAgICAgICAgYnJlZWRfbmV3ID0gbWFwX2NocihicmVlZF9uZXcsIGZ1bmN0aW9uKHgpe3VubGlzdCh4WzFdKX0pKQ0KYGBgDQoNCkl0IGRvZXMgbG9vayBsaWtlIHRoZXJlIGFyZSBhIG51bWJlciBvZiBwb3B1bGFyIGJyZWVkcyB0aGF0IHRha2UgdXAgbW9yZSB0aGFuIDc1JSBvZiB0aGUgZGF0YXNldDogDQpgYGB7cn0NCmNsZWFuX2FuaW1hbF9kYXRhICU+JQ0KICBjb3VudChicmVlZF9uZXcsIHNvcnQgPSBUUlVFKSAlPiUNCiAgbXV0YXRlKGZyZXEgPSByb3VuZCgxMDAgKiBuIC8gc3VtKG4pLDIpKSAlPiUNCiAgaGVhZCgxNikNCmBgYA0KYGBge3J9DQpjb3VudChjbGVhbl9hbmltYWxfZGF0YSwgYnJlZWRfbmV3KSAlPiUNCiAgICBhcnJhbmdlKGRlc2MobikpICU+JQ0KICAgIGZpbHRlcihuID4gMjIyKSAtPiBjb21tb24NCg0KY2xlYW5fYW5pbWFsX2RhdGEgPC0gY2xlYW5fYW5pbWFsX2RhdGEgJT4lDQogIG11dGF0ZShicmVlZF9uZXcgPSByZXBsYWNlKGJyZWVkX25ldywgIShicmVlZF9uZXcgJWluJSBjb21tb24kYnJlZWRfbmV3KSwgIlVuY29tbW9uIikpDQpgYGANCldlJ3ZlIG5vdyBncm91cGVkIHRoZSAxMzY1IHNwYXJzZSBjbGFzcyBicmVlZHMgaW50byBvbmUgIlVuY29tbW9uIiBncm91cC4gDQpgYGB7cn0NCmNsZWFuX2FuaW1hbF9kYXRhICU+JQ0KICBjb3VudChicmVlZF9uZXcsIHNvcnQgPSBUUlVFKSAlPiUNCiAgbXV0YXRlKGZyZXEgPSByb3VuZCgxMDAgKiBuIC8gc3VtKG4pLDIpKSANCmBgYA0KDQoNCg==</div>
 
 
 

@@ -3,7 +3,7 @@ title: "Final Project R Notebook"
 output: html_notebook
 ---
 
-#Helper Functions for my Data Cleanup and EDA
+# #Helper Functions for Data Cleanup and EDA
 ```{r}
 #Helper function to convert the values in the AgeuponOutcome column from time strings (e.g. 1 year, 2 months, etc.) into time in days
 timeWarp <- function(age) {
@@ -23,7 +23,7 @@ timeWarp <- function(age) {
 ```
 
 
-#Exploratory Data Analysis of Data we got from Kaggle Competition
+## Exploratory Data Analysis of Data
 ```{r}
 #Load Libraries I need
 library(tidyverse)
@@ -32,6 +32,7 @@ library(DataExplorer)
 library(caret)
 library(gridExtra)
 library(reshape)
+library(purr)
 
 #Load in data and start transforming it
 animal_data <- read_csv(gzfile("data/train.csv.gz")) %>% 
@@ -60,9 +61,40 @@ clean_animal_data <- animal_data %>%
 View(clean_animal_data)
 introduce(clean_animal_data)
 ```
+There are 1380 unique breeds in the dataset. This is far too many
+```{r}
+length(unique(clean_animal_data$Breed))
+```
+## Feature Engineering
+First we need to clean the dataset to move "mix" into its own feature and keep only the first breed mentioned for the breed mixes
+```{r Breed_Features}
+clean_animal_data <- clean_animal_data %>%
+  mutate(mix = ifelse(grepl("mix", Breed, ignore.case = T), 1, 0),
+         breed_new = gsub(" Mix", "", Breed),
+         breed_new = strsplit(x = breed_new, split = "/"),
+         breed_new = map_chr(breed_new, function(x){unlist(x[1])}))
+```
 
+It does look like there are a number of popular breeds that take up more than 75% of the dataset: 
+```{r}
+clean_animal_data %>%
+  count(breed_new, sort = TRUE) %>%
+  mutate(freq = round(100 * n / sum(n),2)) %>%
+  head(16)
+```
+```{r}
+count(clean_animal_data, breed_new) %>%
+    arrange(desc(n)) %>%
+    filter(n > 222) -> common
 
-
-
+clean_animal_data <- clean_animal_data %>%
+  mutate(breed_new = replace(breed_new, !(breed_new %in% common$breed_new), "Uncommon"))
+```
+We've now grouped the 1365 sparse class breeds into one "Uncommon" group. 
+```{r}
+clean_animal_data %>%
+  count(breed_new, sort = TRUE) %>%
+  mutate(freq = round(100 * n / sum(n),2)) 
+```
 
 
