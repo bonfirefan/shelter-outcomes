@@ -46,43 +46,45 @@ library(DataExplorer)
 library(caret)
 library(gridExtra)
 library(reshape)
-library(purr)
+library(purrr)
 
 #Load in data and start transforming it
-animal_data <- read_csv(gzfile("data/train.csv.gz")) %>% 
-               select(-AnimalID) %>% 
+animal_out <- read_csv(gzfile("data/train.csv.gz")) %>% 
+               select(-DateTime) %>% 
                transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('Sexual_Organ_Status', 'Sex')))
 
-animal_data$AgeuponOutcome <- vapply(animal_data$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
+animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv")
+
+animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
 
 #Convert Name column into factor so we can see if the fact that the pet had a name documented affected it's outcome. 1=Had Name, 0=Name Unknown
-animal_data$Sexual_Organ_Status <- animal_data$SexuponOutcome$Sexual_Organ_Status
-animal_data$Sex <- animal_data$SexuponOutcome$Sex
+animal_out$Sexual_Organ_Status <- animal_out$SexuponOutcome$Sexual_Organ_Status
+animal_out$Sex <- animal_out$SexuponOutcome$Sex
 
-animal_data$Name[!is.na(animal_data$Name)] <- 1
-animal_data$Name[is.na(animal_data$Name)] <- 0
-animal_data$Name <- as.factor(animal_data$Name)
+animal_out$Name[!is.na(animal_out$Name)] <- 1
+animal_out$Name[is.na(animal_out$Name)] <- 0
+animal_out$Name <- as.factor(animal_out$Name)
 
-animal_data$OutcomeSubtype[is.na(animal_data$OutcomeSubtype)] <- "None"
+animal_out$OutcomeSubtype[is.na(animal_out$OutcomeSubtype)] <- "None"
 
 #Final steps of cleaning up my data
-clean_animal_data <- animal_data %>% 
-                     select(-SexuponOutcome) %>% 
-                     na.omit()
+cad <- animal_out %>% 
+       select(-SexuponOutcome) %>% 
+       na.omit()
 ```
 
 ```{r Initial view of data}
-View(clean_animal_data)
-introduce(clean_animal_data)
+View(cad)
+introduce(cad)
 ```
 There are 1380 unique breeds in the dataset. This is far too many
 ```{r}
-length(unique(clean_animal_data$Breed))
+length(unique(cad$Breed))
 ```
 ## Feature Engineering
 First we need to clean the dataset to move "mix" into its own feature and keep only the first breed mentioned for the breed mixes
 ```{r Breed_Features}
-clean_animal_data <- clean_animal_data %>%
+cad <- cad %>%
   mutate(mix = ifelse(grepl("mix", Breed, ignore.case = T), 1, 0),
          breed_new = gsub(" Mix", "", Breed),
          breed_new = strsplit(x = breed_new, split = "/"),
@@ -91,22 +93,22 @@ clean_animal_data <- clean_animal_data %>%
 
 It does look like there are a number of popular breeds that take up more than 75% of the dataset: 
 ```{r}
-clean_animal_data %>%
+cad %>%
   count(breed_new, sort = TRUE) %>%
   mutate(freq = round(100 * n / sum(n),2)) %>%
   head(16)
 ```
 ```{r}
-count(clean_animal_data, breed_new) %>%
+count(cad, breed_new) %>%
     arrange(desc(n)) %>%
     filter(n > 222) -> common
 
-clean_animal_data <- clean_animal_data %>%
+cad <- cad %>%
   mutate(breed_new = replace(breed_new, !(breed_new %in% common$breed_new), "Uncommon"))
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group. 
 ```{r}
-clean_animal_data %>%
+cad %>%
   count(breed_new, sort = TRUE) %>%
   mutate(freq = round(100 * n / sum(n),2)) 
 ```
