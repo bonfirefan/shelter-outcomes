@@ -3,6 +3,15 @@ title: "Final Project R Notebook"
 output: html_notebook
 ---
 
+#Introduction to Data Set
+For our final project, our group decided to tackle the Shelter Animal Outcomes Kaggle competition (found here: https://www.kaggle.com/c/shelter-animal-outcomes/data). This data comes from the Austin Animal Center from October 1st, 2013 to March, 2016. Fun fact is that one of our group members actually worked at this animal center back in Austin!
+
+This dataset contains information about cats and dogs that were sheltered at the Austin Animal Center. It contains general info about the animals like: type of animal, breed, color, age on outcome, etc.; where the outcome of interest in this competition represent the status of animals as they leave the Animal Center. Some of the data columns required cleanup or transformation to be of more use to us (e.g. splitting the Sex column into the animals Sex as well as the status of their sexual organs - neutered/intact/etc.), while others were of no value when it comes to trying to apply our models. All animals receive a unique Animal ID during intake. 
+
+Our goal is to predict the outcome of animals as they leave the animal center. The outcomes can be one of the following: Adoption, Died, Euthanasia, Return to owner, and Transfer. 
+
+The train and test data were randomly split for us already.  
+
 # #Helper Functions for Data Cleanup and EDA
 ```{r}
 #Helper function to convert the values in the AgeuponOutcome column from time strings (e.g. 1 year, 2 months, etc.) into time in days
@@ -11,6 +20,7 @@ timeWarp <- function(age) {
   norm_age = as.numeric(age_elements[1])
   norm_age
   time_unit = age_elements[2]
+  #Based on unit of time, appropriately scale up age variable
   if (grepl(time_unit, "week") | grepl(time_unit, "weeks")) {
     norm_age = norm_age*7
   } else if (grepl(time_unit, "month") | grepl(time_unit, "months")) {
@@ -57,7 +67,7 @@ clean_animal_data <- animal_data %>%
                      na.omit()
 ```
 
-```{r}
+```{r Initial view of data}
 View(clean_animal_data)
 introduce(clean_animal_data)
 ```
