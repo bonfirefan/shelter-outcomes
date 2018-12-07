@@ -54,7 +54,6 @@ timeWarp <- function(age) {
 Read in the data.
 ```{r}
 #Load in data and start transforming it
-<<<<<<< HEAD
 animal_out <- read_csv(gzfile("data/train.csv.gz")) %>% 
               select(-DateTime, -OutcomeSubtype) %>% 
               transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('S_Organ_Status_Out', 'Sex_drop')))
@@ -65,18 +64,10 @@ animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>%
 
 animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
 animal_in$AgeuponIntake <- vapply(animal_in$Age.upon.Intake, FUN = timeWarp, FUN.VALUE = double(1)) 
-=======
-animal_out <- read_csv(gzfile("data/train.csv.gz")) %>%
-              select(-DateTime, -OutcomeSubtype) %>%
-              transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('Sexual_Organ_Status', 'Sex')))
-
-animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>%
-             select(-Name, -Breed, -Color)  
 ```
 Clean the data
 ```{r}
 animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1))
->>>>>>> df4cd18eeb59fd5565e8b84202936401d2d84248
 
 #Convert Name column into factor so we can see if the fact that the pet had a name documented affected it's outcome. 1=Had Name, 0=Name Unknown
 animal_out$S_Organ_Status_Out <- animal_out$SexuponOutcome$S_Organ_Status_Out
@@ -91,11 +82,7 @@ animal_out$Name <- as.factor(animal_out$Name)
 
 #Final steps of cleaning up my data
 cad <- animal_out %>% #cad standing for Cleaned_Animal_Data
-<<<<<<< HEAD
        select(-SexuponOutcome, -Sex_drop) %>% 
-=======
-       select(-SexuponOutcome) %>%
->>>>>>> df4cd18eeb59fd5565e8b84202936401d2d84248
        na.omit()
 
 animal_in <- animal_in %>% 
