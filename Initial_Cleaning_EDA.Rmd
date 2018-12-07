@@ -1,9 +1,10 @@
 ---
 title: "Final Project R Notebook"
 output: html_notebook
+author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou"
 ---
 
-#Introduction to Data Set
+## Introduction to Data Set
 For our final project, our group decided to tackle the Shelter Animal Outcomes Kaggle competition (found here: https://www.kaggle.com/c/shelter-animal-outcomes/data). This data comes from the Austin Animal Center from October 1st, 2013 to March, 2016. Fun fact is that one of our group members actually worked at this animal center back in Austin!
 
 This dataset contains information about cats and dogs that were sheltered at the Austin Animal Center. It contains general info about the animals like: type of animal, breed, color, age on outcome, etc.; where the outcome of interest in this competition represent the status of animals as they leave the Animal Center. Some of the data columns required cleanup or transformation to be of more use to us (e.g. splitting the Sex column into the animals Sex as well as the status of their sexual organs - neutered/intact/etc.), while others were of no value when it comes to trying to apply our models. All animals receive a unique Animal ID during intake. 
@@ -16,8 +17,20 @@ It is our belief that producing an accurate and detailed model to help predict o
 - Help the animal center better predict the outcome of a new animal that comes into the shelter. And depending on that predicted outcome, take proactive measures to steer "assist" the animal in receiving a better outcome based on what our model tells us makes for a pet that is more likely to be adopted.
 - Help the animal center better predict allocation of resources based on what actions might need to be taken for each pet in order to maximize the number of positive outcomes for the shelter animals.
 
-# #Helper Functions for Data Cleanup and EDA
+## Project setup
 ```{r}
+#Load Libraries 
+library(tidyverse)
+library(ggplot2)
+library(DataExplorer)
+library(caret)
+library(gridExtra)
+library(reshape)
+library(purrr)
+```
+
+# #Helper Functions for Data Cleanup and EDA
+```{r helper functions}
 #Helper function to convert the values in the AgeuponOutcome column from time strings (e.g. 1 year, 2 months, etc.) into time in days
 timeWarp <- function(age) {
   age_elements <- str_split_fixed(age,"\\s",2)
@@ -38,23 +51,18 @@ timeWarp <- function(age) {
 
 
 ## Exploratory Data Analysis of Data
+Read in the data.
 ```{r}
-#Load Libraries I need
-library(tidyverse)
-library(ggplot2)
-library(DataExplorer)
-library(caret)
-library(gridExtra)
-library(reshape)
-library(purrr)
-
 #Load in data and start transforming it
 animal_out <- read_csv(gzfile("data/train.csv.gz")) %>% 
                select(-DateTime) %>% 
                transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('Sexual_Organ_Status', 'Sex')))
 
 animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv")
+```
 
+Clean the data
+```{r}
 animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
 
 #Convert Name column into factor so we can see if the fact that the pet had a name documented affected it's outcome. 1=Had Name, 0=Name Unknown
@@ -104,13 +112,14 @@ count(cad, breed_new) %>%
     filter(n > 222) -> common
 
 cad <- cad %>%
-  mutate(breed_new = replace(breed_new, !(breed_new %in% common$breed_new), "Uncommon"))
+  mutate(breed_common = ifelse(breed_new %in% common$breed_new, 1, 0))
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group. 
 ```{r}
-cad %>%
-  count(breed_new, sort = TRUE) %>%
-  mutate(freq = round(100 * n / sum(n),2)) 
+breeds <- c('Blue Lacy','Queensland Heeler','Rhod Ridgeback','Retriever','Chinese Sharpei','Black Mouth Cur','Catahoula','Staffordshire','Affenpinscher','Afghan Hound','Airedale Terrier','Akita','Australian Kelpie','Alaskan Malamute','English Bulldog','American Bulldog','American English Coonhound','American Eskimo Dog (Miniature)','American Eskimo Dog (Standard)','American Eskimo Dog (Toy)','American Foxhound','American Hairless Terrier','American Staffordshire Terrier','American Water Spaniel','Anatolian Shepherd Dog','Australian Cattle Dog','Australian Shepherd','Australian Terrier','Basenji','Basset Hound','Beagle','Bearded Collie','Beauceron','Bedlington Terrier','Belgian Malinois','Belgian Sheepdog','Belgian Tervuren','Bergamasco','Berger Picard','Bernese Mountain Dog','Bichon Fris_','Black and Tan Coonhound','Black Russian Terrier','Bloodhound','Bluetick Coonhound','Boerboel','Border Collie','Border Terrier','Borzoi','Boston Terrier','Bouvier des Flandres','Boxer','Boykin Spaniel','Briard','Brittany','Brussels Griffon','Bull Terrier','Bull Terrier (Miniature)','Bulldog','Bullmastiff','Cairn Terrier','Canaan Dog','Cane Corso','Cardigan Welsh Corgi','Cavalier King Charles Spaniel','Cesky Terrier','Chesapeake Bay Retriever','Chihuahua','Chinese Crested Dog','Chinese Shar Pei','Chinook','Chow Chow',"Cirneco dell'Etna",'Clumber Spaniel','Cocker Spaniel','Collie','Coton de Tulear','Curly-Coated Retriever','Dachshund','Dalmatian','Dandie Dinmont Terrier','Doberman Pinsch','Doberman Pinscher','Dogue De Bordeaux','English Cocker Spaniel','English Foxhound','English Setter','English Springer Spaniel','English Toy Spaniel','Entlebucher Mountain Dog','Field Spaniel','Finnish Lapphund','Finnish Spitz','Flat-Coated Retriever','French Bulldog','German Pinscher','German Shepherd','German Shorthaired Pointer','German Wirehaired Pointer','Giant Schnauzer','Glen of Imaal Terrier','Golden Retriever','Gordon Setter','Great Dane','Great Pyrenees','Greater Swiss Mountain Dog','Greyhound','Harrier','Havanese','Ibizan Hound','Icelandic Sheepdog','Irish Red and White Setter','Irish Setter','Irish Terrier','Irish Water Spaniel','Irish Wolfhound','Italian Greyhound','Japanese Chin','Keeshond','Kerry Blue Terrier','Komondor','Kuvasz','Labrador Retriever','Lagotto Romagnolo','Lakeland Terrier','Leonberger','Lhasa Apso','L_wchen','Maltese','Manchester Terrier','Mastiff','Miniature American Shepherd','Miniature Bull Terrier','Miniature Pinscher','Miniature Schnauzer','Neapolitan Mastiff','Newfoundland','Norfolk Terrier','Norwegian Buhund','Norwegian Elkhound','Norwegian Lundehund','Norwich Terrier','Nova Scotia Duck Tolling Retriever','Old English Sheepdog','Otterhound','Papillon','Parson Russell Terrier','Pekingese','Pembroke Welsh Corgi','Petit Basset Griffon Vend_en','Pharaoh Hound','Plott','Pointer','Polish Lowland Sheepdog','Pomeranian','Standard Poodle','Miniature Poodle','Toy Poodle','Portuguese Podengo Pequeno','Portuguese Water Dog','Pug','Puli','Pyrenean Shepherd','Rat Terrier','Redbone Coonhound','Rhodesian Ridgeback','Rottweiler','Russell Terrier','St. Bernard','Saluki','Samoyed','Schipperke','Scottish Deerhound','Scottish Terrier','Sealyham Terrier','Shetland Sheepdog','Shiba Inu','Shih Tzu','Siberian Husky','Silky Terrier','Skye Terrier','Sloughi','Smooth Fox Terrier','Soft-Coated Wheaten Terrier','Spanish Water Dog','Spinone Italiano','Staffordshire Bull Terrier','Standard Schnauzer','Sussex Spaniel','Swedish Vallhund','Tibetan Mastiff','Tibetan Spaniel','Tibetan Terrier','Toy Fox Terrier','Treeing Walker Coonhound','Vizsla','Weimaraner','Welsh Springer Spaniel','Welsh Terrier','West Highland White Terrier','Whippet','Wire Fox Terrier','Wirehaired Pointing Griffon','Wirehaired Vizsla','Xoloitzcuintli','Yorkshire Terrier', 'Pit Bull', 'American Pit Bull Terrier', 'Angora', 'Siamese', 'Russian Blue', 'Dogo Argentino', 'English Pointer', 'Chesa Bay Retr', 'Manx', 'Maine Coon', 'Burmese', 'Bruss Griffon', 'Bengal', 'Bichon Frise', 'Old English Bulldog', 'Carolina Dog', 'German Pointer', 'Himalayan', 'Ragdoll', 'Boykin Span', 'Schnauzer Giant', 'Alaskan Husky', 'American Eskimo', 'Landseer', 'Bombay', 'Persian', 'Cavalier Span', 'Podengo Pequeno', 'Cornish Rex', 'Balinese', 'English Coonhound', 'Jindo', 'Javanese', 'Picardy Sheepdog', 'Patterdale Terr', 'Germaned Pointer', 'Treeing Tennesse Brindle', 'Japanese Bobtail', 'Pbgv', 'Glen Of Imaal', 'Pixiebob', 'Presa Canario', 'Chinese Crested', 'Bedlington Terr', 'Feist', 'Tonkinese', 'Entlebucher', 'Sphynx', 'Ocicat', 'Abyssinian', 'Munchkin', 'Turkish Van', 'Hovawart', 'Norwegian Forest Cat', 'Cymric', 'Port Water Dog', 'Treeing Cur', 'Spanish Mastiff', 'Lowchen', 'Havana Brown', 'Scottish Fold', 'Coton De Tulear', 'Dachshund Stan', 'Dandie Dinmont', 'Chartreux', 'Eng Toy Spaniel', 'Turkish Angora')
+
+groups <- c('Herding','Herding','Hound','Sporting','Non-Sporting','Herding','Herding','Terrier','Toy','Hound','Terrier','Working','Working','Working','Non-Sporting','Non-Sporting','Hound','Non-Sporting','Non-Sporting','Toy','Hound','Terrier','Terrier','Sporting','Working','Herding','Herding','Terrier','Hound','Hound','Hound','Herding','Herding','Terrier','Herding','Herding','Herding','Herding','Herding','Working','Non-Sporting','Hound','Working','Hound','Hound','Working','Herding','Terrier','Hound','Non-Sporting','Herding','Working','Sporting','Herding','Sporting','Toy','Terrier','Terrier','Non-Sporting','Working','Terrier','Working','Working','Herding','Toy','Terrier','Sporting','Toy','Toy','Non-Sporting','Working','Non-Sporting','Hound','Sporting','Sporting','Herding','Non-Sporting','Sporting','Hound','Non-Sporting','Terrier','Working','Working','Working','Sporting','Hound','Sporting','Sporting','Toy','Herding','Sporting','Herding','Non-Sporting','Sporting','Non-Sporting','Working','Herding','Sporting','Sporting','Working','Terrier','Sporting','Sporting','Working','Working','Working','Hound','Hound','Toy','Hound','Herding','Sporting','Sporting','Terrier','Sporting','Hound','Toy','Toy','Non-Sporting','Terrier','Working','Working','Sporting','Sporting','Terrier','Working','Non-Sporting','Non-Sporting','Toy','Terrier','Working','Herding','Terrier','Toy','Terrier','Working','Working','Terrier','Herding','Hound','Non-Sporting','Terrier','Sporting','Herding','Hound','Toy','Terrier','Toy','Herding','Hound','Hound','Hound','Sporting','Herding','Toy','Non-Sporting','Non-Sporting','Toy','Hound','Working','Toy','Herding','Herding','Terrier','Hound','Hound','Working','Terrier','Working','Hound','Working','Non-Sporting','Hound','Terrier','Terrier','Herding','Non-Sporting','Toy','Working','Toy','Terrier','Hound','Terrier','Terrier','Herding','Sporting','Terrier','Working','Sporting','Herding','Working','Non-Sporting','Non-Sporting','Toy','Hound','Sporting','Sporting','Sporting','Terrier','Terrier','Hound','Terrier','Sporting','Sporting','Non-Sporting','Toy', 'Pit Bull', 'Pit Bull', 'Exotic','Siamese', 'Exotic', 'Hound', 'Sporting', 'Sporting', 'Exotic', 'Exotic', 'Siamese', 'Toy', 'Exotic', 'Toy', 'Hound', 'Non-Sporting', 'Herding', 'Exotic', 'Exotic', 'Sporting', 'Herding', 'Sporting', 'Non-Sporting', 'Non-Sporting', 'Exotic', 'Exotic', 'Sporting', 'Toy', 'Exotic', 'Exotic', 'Hound', 'Sporting', 'Exotic', 'Herding', 'Terrier', 'Sporting', 'Hound', 'Exotic', 'Hound', 'Terrier', 'Exotic', 'Herding', 'Toy', 'Terrier', 'Sporting', 'Exotic', 'Herding', 'Exotic', 'Exotic', 'Exotic', 'Exotic', 'Exotic', 'Working', 'Exotic', 'Exotic', 'Working', 'Working', 'Hound', 'Non-Sporting', 'Exotic', 'Exotic', 'Toy', 'Non-Sporting', 'Terrier', 'Exotic', 'Toy', 'Exotic')
+
 ```
 
 
