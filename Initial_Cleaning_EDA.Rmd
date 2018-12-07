@@ -12,6 +12,10 @@ Our goal is to predict the outcome of animals as they leave the animal center. T
 
 The train and test data were randomly split for us already.  
 
+It is our belief that producing an accurate and detailed model to help predict outcomes for these shelter animals could help the Austin Animal Center and the animals themselves in a couple ways:
+- Help the animal center better predict the outcome of a new animal that comes into the shelter. And depending on that predicted outcome, take proactive measures to steer "assist" the animal in receiving a better outcome based on what our model tells us makes for a pet that is more likely to be adopted.
+- Help the animal center better predict allocation of resources based on what actions might need to be taken for each pet in order to maximize the number of positive outcomes for the shelter animals.
+
 # #Helper Functions for Data Cleanup and EDA
 ```{r}
 #Helper function to convert the values in the AgeuponOutcome column from time strings (e.g. 1 year, 2 months, etc.) into time in days
