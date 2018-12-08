@@ -27,6 +27,7 @@ library(caret)
 library(gridExtra)
 library(reshape)
 library(purrr)
+library(lubridate)
 ```
 
 # #Helper Functions for Data Cleanup and EDA
@@ -54,18 +55,16 @@ timeWarp <- function(age) {
 Read in the data.
 ```{r}
 #Load in data and start transforming it
-animal_out <- read_csv(gzfile("data/train.csv.gz")) %>% 
-              #select(-DateTime, -OutcomeSubtype) %>% 
+animal_out <- read_csv(gzfile("data/train.csv.gz")) %>%
+              #select(-DateTime, -OutcomeSubtype) %>%
               transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('S_Organ_Status_Out', 'Sex_drop')))
 
-animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>% 
-             #select(-Name, -Breed, -Color) %>% 
+animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>%
+             select(-Name, -Breed, -Color, -`Animal Type`) %>%
              transform(`Sex upon Intake` = colsplit(`Sex upon Intake`, split = "\\s+", names = c('S_Organ_Status_In', 'Sex')))
 ```
 Clean the data
 ```{r}
-animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
-animal_in$AgeuponIntake <- vapply(animal_in$Age.upon.Intake, FUN = timeWarp, FUN.VALUE = double(1)) 
 #Convert Name column into factor so we can see if the fact that the pet had a name documented affected it's outcome. 1=Had Name, 0=Name Unknown
 animal_out$S_Organ_Status_Out <- animal_out$SexuponOutcome$S_Organ_Status_Out
 animal_out$Sex_drop <- animal_out$SexuponOutcome$Sex_drop
@@ -79,19 +78,26 @@ animal_out$Name <- as.factor(animal_out$Name)
 
 #Final steps of cleaning up my data
 cad <- animal_out %>% #cad standing for Cleaned_Animal_Data
-       select(-SexuponOutcome, -Sex_drop) %>% 
+       select(-SexuponOutcome, -Sex_drop) %>%
        na.omit()
 
-animal_in <- animal_in %>% 
+animal_in <- animal_in %>%
              select(-Sex.upon.Intake, -Age.upon.Intake)
 
-animal_combined <- inner_join(cad, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE)
+animal_combined <- inner_join(cad, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>%
+                   filter(AgeuponIntake <= AgeuponOutcome)
 
 cad <- animal_combined %>%
-       select(-AnimalID)
+       select(-AnimalID) %>%
+       dummify(maxcat = 5L)
 ```
 
-###### We may need to drop the age on outcome column since it is being joined incorrectly and leading to situations where the age on outcome is less than the age on intake.
+Handle Dummified Columns
+```{r}
+cad <- cad %>%
+       select(-Name_0, -AnimalType_Cat)
+```
+
 
 ```{r Initial view of data}
 View(cad)
@@ -128,7 +134,7 @@ cad <- cad %>%
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
-We will conver the following reference breeds and groupings as well as colors to shades into dataframes, then csvs that we read in and reference. 
+We will conver the following reference breeds and groupings as well as colors to shades into dataframes, then csvs that we read in and reference.
 ```{r}
 breeds <- c('Blue Lacy','Queensland Heeler','Rhod Ridgeback','Retriever','Chinese Sharpei','Black Mouth Cur','Catahoula','Staffordshire','Affenpinscher','Afghan Hound','Airedale Terrier','Akita','Australian Kelpie','Alaskan Malamute','English Bulldog','American Bulldog','American English Coonhound','American Eskimo Dog (Miniature)','American Eskimo Dog (Standard)','American Eskimo Dog (Toy)','American Foxhound','American Hairless Terrier','American Staffordshire Terrier','American Water Spaniel','Anatolian Shepherd Dog','Australian Cattle Dog','Australian Shepherd','Australian Terrier','Basenji','Basset Hound','Beagle','Bearded Collie','Beauceron','Bedlington Terrier','Belgian Malinois','Belgian Sheepdog','Belgian Tervuren','Bergamasco','Berger Picard','Bernese Mountain Dog','Bichon Fris_','Black and Tan Coonhound','Black Russian Terrier','Bloodhound','Bluetick Coonhound','Boerboel','Border Collie','Border Terrier','Borzoi','Boston Terrier','Bouvier des Flandres','Boxer','Boykin Spaniel','Briard','Brittany','Brussels Griffon','Bull Terrier','Bull Terrier (Miniature)','Bulldog','Bullmastiff','Cairn Terrier','Canaan Dog','Cane Corso','Cardigan Welsh Corgi','Cavalier King Charles Spaniel','Cesky Terrier','Chesapeake Bay Retriever','Chihuahua','Chinese Crested Dog','Chinese Shar Pei','Chinook','Chow Chow',"Cirneco dell'Etna",'Clumber Spaniel','Cocker Spaniel','Collie','Coton de Tulear','Curly-Coated Retriever','Dachshund','Dalmatian','Dandie Dinmont Terrier','Doberman Pinsch','Doberman Pinscher','Dogue De Bordeaux','English Cocker Spaniel','English Foxhound','English Setter','English Springer Spaniel','English Toy Spaniel','Entlebucher Mountain Dog','Field Spaniel','Finnish Lapphund','Finnish Spitz','Flat-Coated Retriever','French Bulldog','German Pinscher','German Shepherd','German Shorthaired Pointer','German Wirehaired Pointer','Giant Schnauzer','Glen of Imaal Terrier','Golden Retriever','Gordon Setter','Great Dane','Great Pyrenees','Greater Swiss Mountain Dog','Greyhound','Harrier','Havanese','Ibizan Hound','Icelandic Sheepdog','Irish Red and White Setter','Irish Setter','Irish Terrier','Irish Water Spaniel','Irish Wolfhound','Italian Greyhound','Japanese Chin','Keeshond','Kerry Blue Terrier','Komondor','Kuvasz','Labrador Retriever','Lagotto Romagnolo','Lakeland Terrier','Leonberger','Lhasa Apso','L_wchen','Maltese','Manchester Terrier','Mastiff','Miniature American Shepherd','Miniature Bull Terrier','Miniature Pinscher','Miniature Schnauzer','Neapolitan Mastiff','Newfoundland','Norfolk Terrier','Norwegian Buhund','Norwegian Elkhound','Norwegian Lundehund','Norwich Terrier','Nova Scotia Duck Tolling Retriever','Old English Sheepdog','Otterhound','Papillon','Parson Russell Terrier','Pekingese','Pembroke Welsh Corgi','Petit Basset Griffon Vend_en','Pharaoh Hound','Plott','Pointer','Polish Lowland Sheepdog','Pomeranian','Standard Poodle','Miniature Poodle','Toy Poodle','Portuguese Podengo Pequeno','Portuguese Water Dog','Pug','Puli','Pyrenean Shepherd','Rat Terrier','Redbone Coonhound','Rhodesian Ridgeback','Rottweiler','Russell Terrier','St. Bernard','Saluki','Samoyed','Schipperke','Scottish Deerhound','Scottish Terrier','Sealyham Terrier','Shetland Sheepdog','Shiba Inu','Shih Tzu','Siberian Husky','Silky Terrier','Skye Terrier','Sloughi','Smooth Fox Terrier','Soft-Coated Wheaten Terrier','Spanish Water Dog','Spinone Italiano','Staffordshire Bull Terrier','Standard Schnauzer','Sussex Spaniel','Swedish Vallhund','Tibetan Mastiff','Tibetan Spaniel','Tibetan Terrier','Toy Fox Terrier','Treeing Walker Coonhound','Vizsla','Weimaraner','Welsh Springer Spaniel','Welsh Terrier','West Highland White Terrier','Whippet','Wire Fox Terrier','Wirehaired Pointing Griffon','Wirehaired Vizsla','Xoloitzcuintli','Yorkshire Terrier', 'Pit Bull', 'American Pit Bull Terrier', 'Angora', 'Siamese', 'Russian Blue', 'Dogo Argentino', 'English Pointer', 'Chesa Bay Retr', 'Manx', 'Maine Coon', 'Burmese', 'Bruss Griffon', 'Bengal', 'Bichon Frise', 'Old English Bulldog', 'Carolina Dog', 'German Pointer', 'Himalayan', 'Ragdoll', 'Boykin Span', 'Schnauzer Giant', 'Alaskan Husky', 'American Eskimo', 'Landseer', 'Bombay', 'Persian', 'Cavalier Span', 'Podengo Pequeno', 'Cornish Rex', 'Balinese', 'English Coonhound', 'Jindo', 'Javanese', 'Picardy Sheepdog', 'Patterdale Terr', 'Germaned Pointer', 'Treeing Tennesse Brindle', 'Japanese Bobtail', 'Pbgv', 'Glen Of Imaal', 'Pixiebob', 'Presa Canario', 'Chinese Crested', 'Bedlington Terr', 'Feist', 'Tonkinese', 'Entlebucher', 'Sphynx', 'Ocicat', 'Abyssinian', 'Munchkin', 'Turkish Van', 'Hovawart', 'Norwegian Forest Cat', 'Cymric', 'Port Water Dog', 'Treeing Cur', 'Spanish Mastiff', 'Lowchen', 'Havana Brown', 'Scottish Fold', 'Coton De Tulear', 'Dachshund Stan', 'Dandie Dinmont', 'Chartreux', 'Eng Toy Spaniel', 'Turkish Angora')
 
@@ -137,21 +143,21 @@ groups <- c('Herding','Herding','Hound','Sporting','Non-Sporting','Herding','Her
 ```
 
 ```{r}
-colors = c('Apricot', 'Black', 'Black Brindle', 'Black Smoke', 'Black Tiger', 'Blue', 'Blue Cream', 
-                         'Blue Merle', 'Blue Smoke', 'Blue Tick', 'Blue Tiger', 'Brown', 'Brown Brindle', 'Brown Merle', 
-                         'Brown Tabby', 'Brown Tiger', 'Buff', 'Chocolate', 'Cream', 'Fawn', 'Gold', 'Gray', 'Liver', 
-                         'Liver Tick', 'Orange', 'Pink', 'Red', 'Red Merle', 'Red Tick', 'Ruddy', 'Sable', 'Silver', 
+colors = c('Apricot', 'Black', 'Black Brindle', 'Black Smoke', 'Black Tiger', 'Blue', 'Blue Cream',
+                         'Blue Merle', 'Blue Smoke', 'Blue Tick', 'Blue Tiger', 'Brown', 'Brown Brindle', 'Brown Merle',
+                         'Brown Tabby', 'Brown Tiger', 'Buff', 'Chocolate', 'Cream', 'Fawn', 'Gold', 'Gray', 'Liver',
+                         'Liver Tick', 'Orange', 'Pink', 'Red', 'Red Merle', 'Red Tick', 'Ruddy', 'Sable', 'Silver',
                          'Tan', 'Tricolor', 'White', 'Yellow', 'Yellow Brindle','Gray Tiger',
-                         'Agouti', 'Apricot', 'Black', 'Black Smoke', 'Black Tabby', 'Black Tiger', 'Blue', 
-                         'Blue Cream', 'Blue Point', 'Blue Smoke', 'Blue Tabby', 'Brown', 'Brown Tabby', 'Brown Tiger', 
-                         'Buff', 'Calico', 'Calico Point', 'Chocolate', 'Chocolate Point', 'Cream', 'Cream Tabby', 
-                         'Flame Point', 'Gray', 'Gray Tabby', 'Lilac Point', 'Lynx Point', 'Orange', 'Orange Tabby', 
-                         'Orange Tiger', 'Pink', 'Seal Point', 'Silver', 'Silver Lynx Point', 'Silver Tabby', 'Tan', 
-                         'Torbie', 'Tortie', 'Tortie Point', 'Tricolor', 'White', 'Yellow', 'Red', 
+                         'Agouti', 'Apricot', 'Black', 'Black Smoke', 'Black Tabby', 'Black Tiger', 'Blue',
+                         'Blue Cream', 'Blue Point', 'Blue Smoke', 'Blue Tabby', 'Brown', 'Brown Tabby', 'Brown Tiger',
+                         'Buff', 'Calico', 'Calico Point', 'Chocolate', 'Chocolate Point', 'Cream', 'Cream Tabby',
+                         'Flame Point', 'Gray', 'Gray Tabby', 'Lilac Point', 'Lynx Point', 'Orange', 'Orange Tabby',
+                         'Orange Tiger', 'Pink', 'Seal Point', 'Silver', 'Silver Lynx Point', 'Silver Tabby', 'Tan',
+                         'Torbie', 'Tortie', 'Tortie Point', 'Tricolor', 'White', 'Yellow', 'Red',
                          'Black Brindle','Fawn')
 
-color_groups = c('Light','Dark','Dark/Medium','Dark','Dark/Medium','Medium','Medium/Light', 
-                 'Light/Medium', 'Medium', 'Medium', 'Medium', 'Medium','Medium', 'Light/Medium', 
+color_groups = c('Light','Dark','Dark/Medium','Dark','Dark/Medium','Medium','Medium/Light',
+                 'Light/Medium', 'Medium', 'Medium', 'Medium', 'Medium','Medium', 'Light/Medium',
                  'Medium', 'Medium','Light','Dark','Light','Light/Dark','Medium','Medium','Medium',
                  'Light/Medium','Medium','Medium','Medium','Light/Medium','Light/Medium','Medium','Medium/Dark','Medium',
                  'Medium','Light/Medium/Dark','Light','Light','Light/Medium','Medium/Dark',
@@ -163,4 +169,3 @@ color_groups = c('Light','Dark','Dark/Medium','Dark','Dark/Medium','Medium','Med
                  'Medium/Dark','Dark/Medium','Light/Dark','Light/Medium/Dark','Light','Light', 'Medium',
                  'Dark/Medium','Light')
 ```
-
