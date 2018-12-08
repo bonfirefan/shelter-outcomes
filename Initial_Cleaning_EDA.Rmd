@@ -46,7 +46,7 @@ timeWarp <- function(age) {
   } else if (grepl(time_unit, "(year)s?")) {
     norm_age = norm_age * 365
   }
-  return(norm_age)
+  return(norm_age / 30)
 }
 ```
 
@@ -89,6 +89,9 @@ animal_in <- animal_in %>%
 
 animal_combined <- inner_join(cad, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>% 
                    filter(AgeuponIntake <= AgeuponOutcome)
+
+plot_data <- animal_combined %>%
+             select(-AnimalID)
 
 cad <- animal_combined %>%
        select(-AnimalID) %>% 
@@ -139,4 +142,11 @@ cad <- cad %>%
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
+Because there are so many separate breeds and colors, it would be difficult to includee them in our model. For this reason, we'll categorize them for analysis.
+```{r}
+breed_groups <- read.csv("breedGroups.csv")
+color_groups <- read.csv("colorGroups.csv")
 
+cad <- inner_join(cad, breed_groups, by = c("breed_new" = "breeds"))
+cad <- inner_join(cad, color_groups, by = c("Color" = "colors"))
+```
