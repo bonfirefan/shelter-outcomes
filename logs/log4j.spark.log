@@ -1,0 +1,862 @@
+18/12/07 11:34:05 INFO SparkContext: Running Spark version 2.1.0
+18/12/07 11:34:05 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/12/07 11:34:06 INFO SecurityManager: Changing view acls to: shayankhan
+18/12/07 11:34:06 INFO SecurityManager: Changing modify acls to: shayankhan
+18/12/07 11:34:06 INFO SecurityManager: Changing view acls groups to: 
+18/12/07 11:34:06 INFO SecurityManager: Changing modify acls groups to: 
+18/12/07 11:34:06 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(shayankhan); groups with view permissions: Set(); users  with modify permissions: Set(shayankhan); groups with modify permissions: Set()
+18/12/07 11:34:06 INFO Utils: Successfully started service 'sparkDriver' on port 62884.
+18/12/07 11:34:06 INFO SparkEnv: Registering MapOutputTracker
+18/12/07 11:34:06 INFO SparkEnv: Registering BlockManagerMaster
+18/12/07 11:34:06 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/12/07 11:34:06 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/12/07 11:34:06 INFO DiskBlockManager: Created local directory at /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/blockmgr-e8162e01-4728-4f15-ae88-08775f2e7ea0
+18/12/07 11:34:06 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+18/12/07 11:34:06 INFO SparkEnv: Registering OutputCommitCoordinator
+18/12/07 11:34:06 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+18/12/07 11:34:06 INFO SparkUI: Bound SparkUI to 127.0.0.1, and started at http://127.0.0.1:4040
+18/12/07 11:34:06 INFO SparkContext: Added JAR file:/Library/Frameworks/R.framework/Versions/3.5/Resources/library/sparklyr/java/sparklyr-2.1-2.11.jar at spark://127.0.0.1:62884/jars/sparklyr-2.1-2.11.jar with timestamp 1544200446403
+18/12/07 11:34:06 INFO Executor: Starting executor ID driver on host localhost
+18/12/07 11:34:06 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 62886.
+18/12/07 11:34:06 INFO NettyBlockTransferService: Server created on 127.0.0.1:62886
+18/12/07 11:34:06 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/12/07 11:34:06 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 62886, None)
+18/12/07 11:34:06 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:62886 with 434.4 MB RAM, BlockManagerId(driver, 127.0.0.1, 62886, None)
+18/12/07 11:34:06 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 62886, None)
+18/12/07 11:34:06 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 62886, None)
+18/12/07 11:34:06 WARN SparkContext: Using an existing SparkContext; some configuration may not take effect.
+18/12/07 11:34:06 INFO SharedState: Warehouse path is 'file:/Users/shayankhan/Documents/R%20for%20Data%20Science/Final%20Project/spark-warehouse'.
+18/12/07 11:34:06 INFO HiveUtils: Initializing HiveMetastoreConnection version 1.2.1 using Spark classes.
+18/12/07 11:35:58 INFO SparkContext: Running Spark version 2.1.0
+18/12/07 11:35:58 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/12/07 11:35:58 INFO SecurityManager: Changing view acls to: shayankhan
+18/12/07 11:35:58 INFO SecurityManager: Changing modify acls to: shayankhan
+18/12/07 11:35:58 INFO SecurityManager: Changing view acls groups to: 
+18/12/07 11:35:58 INFO SecurityManager: Changing modify acls groups to: 
+18/12/07 11:35:58 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(shayankhan); groups with view permissions: Set(); users  with modify permissions: Set(shayankhan); groups with modify permissions: Set()
+18/12/07 11:35:58 INFO Utils: Successfully started service 'sparkDriver' on port 62931.
+18/12/07 11:35:58 INFO SparkEnv: Registering MapOutputTracker
+18/12/07 11:35:58 INFO SparkEnv: Registering BlockManagerMaster
+18/12/07 11:35:58 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/12/07 11:35:58 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/12/07 11:35:58 INFO DiskBlockManager: Created local directory at /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/blockmgr-f83b9e87-e3ec-4320-b280-e41edfc580a8
+18/12/07 11:35:58 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+18/12/07 11:35:59 INFO SparkEnv: Registering OutputCommitCoordinator
+18/12/07 11:35:59 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+18/12/07 11:35:59 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+18/12/07 11:35:59 INFO SparkUI: Bound SparkUI to 127.0.0.1, and started at http://127.0.0.1:4041
+18/12/07 11:35:59 INFO SparkContext: Added JAR file:/Library/Frameworks/R.framework/Versions/3.5/Resources/library/sparklyr/java/sparklyr-2.1-2.11.jar at spark://127.0.0.1:62931/jars/sparklyr-2.1-2.11.jar with timestamp 1544200559196
+18/12/07 11:35:59 INFO Executor: Starting executor ID driver on host localhost
+18/12/07 11:35:59 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 62932.
+18/12/07 11:35:59 INFO NettyBlockTransferService: Server created on 127.0.0.1:62932
+18/12/07 11:35:59 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/12/07 11:35:59 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 62932, None)
+18/12/07 11:35:59 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:62932 with 434.4 MB RAM, BlockManagerId(driver, 127.0.0.1, 62932, None)
+18/12/07 11:35:59 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 62932, None)
+18/12/07 11:35:59 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 62932, None)
+18/12/07 11:35:59 WARN SparkContext: Using an existing SparkContext; some configuration may not take effect.
+18/12/07 11:35:59 INFO SharedState: Warehouse path is 'file:/Users/shayankhan/Documents/R%20for%20Data%20Science/Final%20Project/spark-warehouse'.
+18/12/07 11:35:59 INFO HiveUtils: Initializing HiveMetastoreConnection version 1.2.1 using Spark classes.
+18/12/07 12:18:23 INFO SparkContext: Invoking stop() from shutdown hook
+18/12/07 12:18:23 INFO SparkUI: Stopped Spark web UI at http://127.0.0.1:4041
+18/12/07 12:18:23 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+18/12/07 12:18:23 INFO MemoryStore: MemoryStore cleared
+18/12/07 12:18:23 INFO BlockManager: BlockManager stopped
+18/12/07 12:18:23 INFO BlockManagerMaster: BlockManagerMaster stopped
+18/12/07 12:18:23 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+18/12/07 12:18:23 INFO SparkContext: Successfully stopped SparkContext
+18/12/07 12:18:23 INFO ShutdownHookManager: Shutdown hook called
+18/12/07 12:18:23 INFO ShutdownHookManager: Deleting directory /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/spark-7a91cee3-d6cb-41b8-b6bc-7f962cfc7673
+18/12/07 12:18:23 INFO SparkContext: Invoking stop() from shutdown hook
+18/12/07 12:18:23 INFO SparkUI: Stopped Spark web UI at http://127.0.0.1:4040
+18/12/07 12:18:24 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+18/12/07 12:18:24 INFO MemoryStore: MemoryStore cleared
+18/12/07 12:18:24 INFO BlockManager: BlockManager stopped
+18/12/07 12:18:24 INFO BlockManagerMaster: BlockManagerMaster stopped
+18/12/07 12:18:24 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+18/12/07 12:18:24 INFO SparkContext: Successfully stopped SparkContext
+18/12/07 12:18:24 INFO ShutdownHookManager: Shutdown hook called
+18/12/07 12:18:24 INFO ShutdownHookManager: Deleting directory /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/spark-fea3fbe5-61d8-49ef-ba05-9570c6557f6c
+18/12/07 12:22:21 INFO SparkContext: Running Spark version 2.1.0
+18/12/07 12:22:21 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/12/07 12:22:21 INFO SecurityManager: Changing view acls to: shayankhan
+18/12/07 12:22:21 INFO SecurityManager: Changing modify acls to: shayankhan
+18/12/07 12:22:21 INFO SecurityManager: Changing view acls groups to: 
+18/12/07 12:22:21 INFO SecurityManager: Changing modify acls groups to: 
+18/12/07 12:22:21 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(shayankhan); groups with view permissions: Set(); users  with modify permissions: Set(shayankhan); groups with modify permissions: Set()
+18/12/07 12:22:21 INFO Utils: Successfully started service 'sparkDriver' on port 64060.
+18/12/07 12:22:21 INFO SparkEnv: Registering MapOutputTracker
+18/12/07 12:22:21 INFO SparkEnv: Registering BlockManagerMaster
+18/12/07 12:22:21 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/12/07 12:22:21 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/12/07 12:22:21 INFO DiskBlockManager: Created local directory at /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/blockmgr-1bd551b3-547a-49c3-accf-9f3b188aca6e
+18/12/07 12:22:21 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+18/12/07 12:22:21 INFO SparkEnv: Registering OutputCommitCoordinator
+18/12/07 12:22:22 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+18/12/07 12:22:22 INFO SparkUI: Bound SparkUI to 127.0.0.1, and started at http://127.0.0.1:4040
+18/12/07 12:22:22 INFO SparkContext: Added JAR file:/Library/Frameworks/R.framework/Versions/3.5/Resources/library/sparklyr/java/sparklyr-2.1-2.11.jar at spark://127.0.0.1:64060/jars/sparklyr-2.1-2.11.jar with timestamp 1544203342066
+18/12/07 12:22:22 INFO Executor: Starting executor ID driver on host localhost
+18/12/07 12:22:22 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 64062.
+18/12/07 12:22:22 INFO NettyBlockTransferService: Server created on 127.0.0.1:64062
+18/12/07 12:22:22 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/12/07 12:22:22 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:22:22 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:64062 with 434.4 MB RAM, BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:22:22 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:22:22 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:22:22 WARN SparkContext: Using an existing SparkContext; some configuration may not take effect.
+18/12/07 12:22:22 INFO SharedState: Warehouse path is 'file:/Users/shayankhan/Documents/R%20for%20Data%20Science/Final%20Project/spark-warehouse'.
+18/12/07 12:22:22 INFO HiveUtils: Initializing HiveMetastoreConnection version 1.2.1 using Spark classes.
+18/12/07 12:25:53 INFO SparkContext: Running Spark version 2.1.0
+18/12/07 12:25:53 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/12/07 12:25:53 INFO SecurityManager: Changing view acls to: shayankhan
+18/12/07 12:25:53 INFO SecurityManager: Changing modify acls to: shayankhan
+18/12/07 12:25:53 INFO SecurityManager: Changing view acls groups to: 
+18/12/07 12:25:53 INFO SecurityManager: Changing modify acls groups to: 
+18/12/07 12:25:53 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(shayankhan); groups with view permissions: Set(); users  with modify permissions: Set(shayankhan); groups with modify permissions: Set()
+18/12/07 12:25:53 INFO Utils: Successfully started service 'sparkDriver' on port 64226.
+18/12/07 12:25:53 INFO SparkEnv: Registering MapOutputTracker
+18/12/07 12:25:53 INFO SparkEnv: Registering BlockManagerMaster
+18/12/07 12:25:53 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/12/07 12:25:53 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/12/07 12:25:53 INFO DiskBlockManager: Created local directory at /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/blockmgr-3d9f0e86-18e0-4b2b-b320-0e810e96e5b7
+18/12/07 12:25:53 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+18/12/07 12:25:53 INFO SparkEnv: Registering OutputCommitCoordinator
+18/12/07 12:25:53 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+18/12/07 12:25:53 INFO Utils: Successfully started service 'SparkUI' on port 4041.
+18/12/07 12:25:53 INFO SparkUI: Bound SparkUI to 127.0.0.1, and started at http://127.0.0.1:4041
+18/12/07 12:25:53 INFO SparkContext: Added JAR file:/Library/Frameworks/R.framework/Versions/3.5/Resources/library/sparklyr/java/sparklyr-2.1-2.11.jar at spark://127.0.0.1:64226/jars/sparklyr-2.1-2.11.jar with timestamp 1544203553998
+18/12/07 12:25:54 INFO Executor: Starting executor ID driver on host localhost
+18/12/07 12:25:54 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 64227.
+18/12/07 12:25:54 INFO NettyBlockTransferService: Server created on 127.0.0.1:64227
+18/12/07 12:25:54 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/12/07 12:25:54 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64227, None)
+18/12/07 12:25:54 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:64227 with 434.4 MB RAM, BlockManagerId(driver, 127.0.0.1, 64227, None)
+18/12/07 12:25:54 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64227, None)
+18/12/07 12:25:54 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 64227, None)
+18/12/07 12:25:54 WARN SparkContext: Using an existing SparkContext; some configuration may not take effect.
+18/12/07 12:25:54 INFO SharedState: Warehouse path is 'file:/Users/shayankhan/Documents/R%20for%20Data%20Science/Final%20Project/spark-warehouse'.
+18/12/07 12:25:54 INFO HiveUtils: Initializing HiveMetastoreConnection version 1.2.1 using Spark classes.
+18/12/07 12:30:59 INFO SparkContext: Running Spark version 2.1.0
+18/12/07 12:31:00 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+18/12/07 12:31:00 INFO SecurityManager: Changing view acls to: shayankhan
+18/12/07 12:31:00 INFO SecurityManager: Changing modify acls to: shayankhan
+18/12/07 12:31:00 INFO SecurityManager: Changing view acls groups to: 
+18/12/07 12:31:00 INFO SecurityManager: Changing modify acls groups to: 
+18/12/07 12:31:00 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users  with view permissions: Set(shayankhan); groups with view permissions: Set(); users  with modify permissions: Set(shayankhan); groups with modify permissions: Set()
+18/12/07 12:31:00 INFO Utils: Successfully started service 'sparkDriver' on port 64297.
+18/12/07 12:31:00 INFO SparkEnv: Registering MapOutputTracker
+18/12/07 12:31:00 INFO SparkEnv: Registering BlockManagerMaster
+18/12/07 12:31:00 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+18/12/07 12:31:00 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+18/12/07 12:31:00 INFO DiskBlockManager: Created local directory at /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/blockmgr-15119b84-bcfc-4bb7-a129-326c8fa9b94d
+18/12/07 12:31:00 INFO MemoryStore: MemoryStore started with capacity 434.4 MB
+18/12/07 12:31:00 INFO SparkEnv: Registering OutputCommitCoordinator
+18/12/07 12:31:00 WARN Utils: Service 'SparkUI' could not bind on port 4040. Attempting port 4041.
+18/12/07 12:31:00 WARN Utils: Service 'SparkUI' could not bind on port 4041. Attempting port 4042.
+18/12/07 12:31:00 INFO Utils: Successfully started service 'SparkUI' on port 4042.
+18/12/07 12:31:00 INFO SparkUI: Bound SparkUI to 127.0.0.1, and started at http://127.0.0.1:4042
+18/12/07 12:31:00 INFO SparkContext: Added JAR file:/Library/Frameworks/R.framework/Versions/3.5/Resources/library/sparklyr/java/sparklyr-2.1-2.11.jar at spark://127.0.0.1:64297/jars/sparklyr-2.1-2.11.jar with timestamp 1544203860864
+18/12/07 12:31:00 INFO Executor: Starting executor ID driver on host localhost
+18/12/07 12:31:00 INFO Utils: Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 64298.
+18/12/07 12:31:00 INFO NettyBlockTransferService: Server created on 127.0.0.1:64298
+18/12/07 12:31:00 INFO BlockManager: Using org.apache.spark.storage.RandomBlockReplicationPolicy for block replication policy
+18/12/07 12:31:00 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64298, None)
+18/12/07 12:31:00 INFO BlockManagerMasterEndpoint: Registering block manager 127.0.0.1:64298 with 434.4 MB RAM, BlockManagerId(driver, 127.0.0.1, 64298, None)
+18/12/07 12:31:00 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64298, None)
+18/12/07 12:31:00 INFO BlockManager: Initialized BlockManager: BlockManagerId(driver, 127.0.0.1, 64298, None)
+18/12/07 12:31:01 WARN SparkContext: Using an existing SparkContext; some configuration may not take effect.
+18/12/07 12:31:01 INFO SharedState: Warehouse path is 'file:/Users/shayankhan/Documents/R%20for%20Data%20Science/Final%20Project/spark-warehouse'.
+18/12/07 12:31:01 INFO HiveUtils: Initializing HiveMetastoreConnection version 1.2.1 using Spark classes.
+18/12/07 12:53:45 WARN HeartbeatReceiver: Removing executor driver with no recent heartbeats: 390826 ms exceeds timeout 120000 ms
+18/12/07 12:53:45 ERROR TaskSchedulerImpl: Lost an executor driver (already removed): Executor heartbeat timed out after 390826 ms
+18/12/07 12:53:45 WARN SparkContext: Killing executors is only supported in coarse-grained mode
+18/12/07 12:53:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:53:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:53:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:53:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:53:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:53:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:53:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:53:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:53:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:53:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:54:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:54:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:54:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:54:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:54:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:54:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:54:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:54:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:54:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:54:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:54:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:54:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:54:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:54:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:54:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:54:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:54:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:54:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:54:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:55:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:55:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:55:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:55:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:55:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:55:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:55:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:55:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:55:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:55:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:55:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:55:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:55:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:55:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:55:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:55:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:55:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:55:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:55:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:56:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:56:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:56:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:56:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:56:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:56:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:56:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:56:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:56:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:56:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:56:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:56:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:56:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:56:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:56:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:56:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:56:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:56:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:56:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:57:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:57:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:57:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:57:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:57:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:57:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:57:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:57:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:57:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:57:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:57:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:57:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:57:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:57:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:57:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:57:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:57:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:57:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:57:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:58:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:58:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:58:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:58:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:58:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:58:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:58:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:58:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:58:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:58:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:58:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:58:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:58:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:58:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:58:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:58:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:58:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:58:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:58:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:59:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:59:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:59:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:59:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:59:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:59:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:59:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:59:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:59:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:59:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:59:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:59:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:59:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:59:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:59:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 12:59:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 12:59:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 12:59:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 12:59:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:00:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:00:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:00:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:00:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:00:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:00:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:00:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:00:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:00:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:00:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:00:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:00:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:00:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:00:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:00:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:00:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:00:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:00:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:00:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:01:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:01:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:01:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:01:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:01:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:01:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:01:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:01:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:01:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:01:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:01:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:01:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:01:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:01:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:01:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:01:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:01:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:01:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:01:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:02:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:02:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:02:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:02:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:02:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:02:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:02:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:02:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:02:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:02:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:02:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:02:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:02:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:02:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:02:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:02:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:02:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:02:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:02:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:03:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:03:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:03:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:03:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:03:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:03:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:03:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:03:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:03:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:03:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:03:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:03:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:03:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:03:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:03:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:03:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:03:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:03:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:03:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:04:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:04:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:04:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:04:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:04:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:04:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:04:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:04:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:04:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:04:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:04:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:04:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:04:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:04:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:04:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:04:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:04:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:04:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:04:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:05:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:05:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:05:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:05:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:05:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:05:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:05:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:05:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:05:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:05:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:05:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:05:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:05:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:05:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:05:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:05:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:05:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:05:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:05:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:06:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:06:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:06:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:06:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:06:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:06:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:06:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:06:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:06:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:06:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:06:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:06:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:06:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:06:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:06:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:06:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:06:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:06:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:06:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:07:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:07:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:07:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:07:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:07:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:07:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:07:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:07:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:07:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:07:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:07:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:07:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:07:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:07:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:07:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:07:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:07:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:07:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:07:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:08:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:08:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:08:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:08:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:08:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:08:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:08:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:08:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:08:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:08:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:08:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:08:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:08:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:08:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:08:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:08:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:08:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:08:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:08:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:09:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:09:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:09:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:09:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:09:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:09:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:09:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:09:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:09:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:09:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:09:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:09:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:09:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:09:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:09:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:09:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:09:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:09:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:09:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:10:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:10:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:10:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:10:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:10:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:10:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:10:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:10:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:10:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:10:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:10:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:10:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:10:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:10:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:10:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:10:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:10:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:10:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:10:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:11:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:11:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:11:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:11:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:11:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:11:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:11:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:11:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:11:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:11:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:11:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:11:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:11:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:11:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:11:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:15:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:15:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:15:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:15:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:15:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:15:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:15:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:15:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:15:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:15:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:15:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:15:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:15:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:15:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:15:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:16:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:16:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:16:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:16:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:16:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:16:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:16:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:16:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:16:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:16:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:16:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:16:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:16:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:16:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:16:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:16:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:16:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:16:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:16:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:17:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:17:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:17:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:17:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:17:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:17:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:17:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:17:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:17:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:17:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:17:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:17:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:17:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:17:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:17:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:17:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:17:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:17:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:17:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:18:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:18:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:18:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:18:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:18:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:18:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:18:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:18:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:18:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:18:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:18:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:18:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:18:48 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:18:48 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:18:48 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:48 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:48 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:18:58 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:18:58 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:18:58 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:58 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:18:58 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:19:08 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:19:08 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:19:08 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:08 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:08 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:19:18 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:19:18 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:19:18 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:18 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:18 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:19:28 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:19:28 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:19:28 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:28 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:28 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:19:38 INFO Executor: Told to re-register on heartbeat
+18/12/07 13:19:38 INFO BlockManager: BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None) re-registering with master
+18/12/07 13:19:38 INFO BlockManagerMaster: Registering BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:38 INFO BlockManagerMaster: Registered BlockManager BlockManagerId(driver, 127.0.0.1, 64062, None)
+18/12/07 13:19:38 INFO BlockManager: Reporting 0 blocks to the master.
+18/12/07 13:19:47 INFO SparkContext: Invoking stop() from shutdown hook
+18/12/07 13:19:47 INFO SparkUI: Stopped Spark web UI at http://127.0.0.1:4042
+18/12/07 13:19:47 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+18/12/07 13:19:47 INFO MemoryStore: MemoryStore cleared
+18/12/07 13:19:47 INFO BlockManager: BlockManager stopped
+18/12/07 13:19:47 INFO BlockManagerMaster: BlockManagerMaster stopped
+18/12/07 13:19:47 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+18/12/07 13:19:47 INFO SparkContext: Successfully stopped SparkContext
+18/12/07 13:19:47 INFO ShutdownHookManager: Shutdown hook called
+18/12/07 13:19:47 INFO ShutdownHookManager: Deleting directory /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/spark-edc2048f-ff3a-41a0-afda-3feac4a9b075
+18/12/07 13:19:47 INFO SparkContext: Invoking stop() from shutdown hook
+18/12/07 13:19:47 INFO SparkUI: Stopped Spark web UI at http://127.0.0.1:4041
+18/12/07 13:19:47 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+18/12/07 13:19:47 INFO MemoryStore: MemoryStore cleared
+18/12/07 13:19:47 INFO BlockManager: BlockManager stopped
+18/12/07 13:19:47 INFO BlockManagerMaster: BlockManagerMaster stopped
+18/12/07 13:19:47 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+18/12/07 13:19:47 INFO SparkContext: Successfully stopped SparkContext
+18/12/07 13:19:47 INFO ShutdownHookManager: Shutdown hook called
+18/12/07 13:19:47 INFO ShutdownHookManager: Deleting directory /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/spark-407fb402-a72c-45c8-8639-2a1054d92678
+18/12/07 13:19:47 INFO SparkContext: Invoking stop() from shutdown hook
+18/12/07 13:19:47 INFO SparkUI: Stopped Spark web UI at http://127.0.0.1:4040
+18/12/07 13:19:47 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+18/12/07 13:19:47 INFO MemoryStore: MemoryStore cleared
+18/12/07 13:19:47 INFO BlockManager: BlockManager stopped
+18/12/07 13:19:47 INFO BlockManagerMaster: BlockManagerMaster stopped
+18/12/07 13:19:47 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+18/12/07 13:19:47 INFO SparkContext: Successfully stopped SparkContext
+18/12/07 13:19:47 INFO ShutdownHookManager: Shutdown hook called
+18/12/07 13:19:47 INFO ShutdownHookManager: Deleting directory /private/var/folders/35/jftb2fss7_3ftn7fzlxrmctc0000gn/T/spark-ef2e37d6-d6f1-4bc4-8321-fea21d3b23b4
