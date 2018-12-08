@@ -39,12 +39,12 @@ timeWarp <- function(age) {
   norm_age
   time_unit = age_elements[2]
   #Based on unit of time, appropriately scale up age variable
-  if (grepl(time_unit, "week") | grepl(time_unit, "weeks")) {
+  if (grepl(time_unit, "(week)s?")) {
     norm_age = norm_age*7
-  } else if (grepl(time_unit, "month") | grepl(time_unit, "months")) {
+  } else if (grepl(time_unit, "(months)s?")) {
     norm_age = norm_age*30
-  } else if (grepl(time_unit, "year") | grepl(time_unit, "years")) {
-    norm_age = norm_age*365
+  } else if (grepl(time_unit, "(year)s?")) {
+    norm_age = norm_age * 365
   }
   return(norm_age)
 }
