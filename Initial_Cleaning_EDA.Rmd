@@ -55,13 +55,16 @@ timeWarp <- function(age) {
 Read in the data.
 ```{r}
 #Load in data and start transforming it
-animal_out <- read_csv(gzfile("data/train.csv.gz")) %>%
-              #select(-DateTime, -OutcomeSubtype) %>%
+animal_out <- read_csv(gzfile("data/train.csv.gz")) %>% 
+              select(-DateTime, -OutcomeSubtype) %>% 
               transform(SexuponOutcome = colsplit(SexuponOutcome, split = "\\s+", names = c('S_Organ_Status_Out', 'Sex_drop')))
 
-animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>%
-             select(-Name, -Breed, -Color, -`Animal Type`) %>%
+animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>% 
+             select(-Name, -Breed, -Color, -`Animal Type`) %>% 
              transform(`Sex upon Intake` = colsplit(`Sex upon Intake`, split = "\\s+", names = c('S_Organ_Status_In', 'Sex')))
+
+animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
+animal_in$AgeuponIntake <- vapply(animal_in$Age.upon.Intake, FUN = timeWarp, FUN.VALUE = double(1)) 
 ```
 ##Clean the data
 ```{r}
@@ -78,25 +81,25 @@ animal_out$Name <- as.factor(animal_out$Name)
 
 #Final steps of cleaning up my data
 cad <- animal_out %>% #cad standing for Cleaned_Animal_Data
-       select(-SexuponOutcome, -Sex_drop) %>%
+       select(-SexuponOutcome, -Sex_drop) %>% 
        na.omit()
 
-animal_in <- animal_in %>%
+animal_in <- animal_in %>% 
              select(-Sex.upon.Intake, -Age.upon.Intake)
 
-animal_combined <- inner_join(cad, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>%
+animal_combined <- inner_join(cad, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>% 
                    filter(AgeuponIntake <= AgeuponOutcome)
 
 cad <- animal_combined %>%
-       select(-AnimalID) %>%
+       select(-AnimalID) %>% 
        dummify(maxcat = 5L)
 ```
 
 ##Handle Dummified Columns
 ```{r}
-cad <- cad %>%
-       select(-Name_0, -AnimalType_Cat, -Found.Location) %>%
-       dplyr::rename(Is_Dog = AnimalType_Dog) %>%
+cad <- cad %>% 
+       select(-Name_0, -AnimalType_Cat, -Found.Location) %>% 
+       dplyr::rename(Is_Dog = AnimalType_Dog) %>% 
        dplyr::rename(Has_Name = Name_1)
 ```
 
@@ -135,3 +138,5 @@ cad <- cad %>%
   mutate(breed_common = ifelse(breed_new %in% common$breed_new, 1, 0))
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
+
+
