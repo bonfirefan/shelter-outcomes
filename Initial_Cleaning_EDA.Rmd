@@ -98,7 +98,9 @@ cad <- animal_combined %>%
 Handle Dummified Columns
 ```{r}
 cad <- cad %>% 
-       select(-Name_0, -AnimalType_Cat)
+       select(-Name_0, -AnimalType_Cat, -Found.Location) %>% 
+       dplyr::rename(Is_Dog = AnimalType_Dog) %>% 
+       dplyr::rename(Has_Name = Name_1)
 ```
 
 
