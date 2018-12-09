@@ -150,3 +150,61 @@ color_groups <- read.csv("colorGroups.csv")
 cad <- inner_join(cad, breed_groups, by = c("breed_new" = "breeds"))
 cad <- inner_join(cad, color_groups, by = c("Color" = "colors"))
 ```
+```{r}
+library(ggplot2)
+cad %>%
+    plot_bar(title = "bar plots of cleaned data")
+```
+
+
+
+
+```{r}
+glimpse(cad)
+```
+
+```{r}
+g <- ggplot(data=cad, aes(x=breed_new, fill= OutcomeType_Adoption )) 
+g + geom_bar(stat="count", position=position_dodge()) +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
+    facet_grid(~ OutcomeType_Adoption)
+```
+
+```{r}
+g <- ggplot(data=cad, aes(x=Is_Dog, fill= OutcomeType_Adoption )) 
+g + geom_bar(stat="count", position=position_dodge()) +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
+    facet_grid(~ OutcomeType_Adoption)
+```
+
+```{r}
+g <- ggplot(data=cad, aes(x=Has_Name, fill= OutcomeType_Adoption )) 
+g + geom_bar(stat="count", position=position_dodge()) +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
+    facet_grid(~ OutcomeType_Adoption)
+```
+
+```{r}
+g <- ggplot(data=cad, aes(x=S_Organ_Status_Out_Intact, fill= OutcomeType_Adoption )) 
+g + geom_bar(stat="count", position=position_dodge()) +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
+    facet_grid(~ OutcomeType_Adoption)
+```
+```{r}
+g <- ggplot(data=cad, aes(x=AgeuponIntake, fill= OutcomeType_Adoption )) 
+g + geom_bar(stat="bin", position=position_dodge()) +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
+    facet_grid(~ OutcomeType_Adoption)
+```
+
+
+
+
+
+
+
