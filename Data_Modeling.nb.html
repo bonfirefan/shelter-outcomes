@@ -178,21 +178,22 @@ $(document).ready(function () {
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VlZCA8LSAzMzNcbmluVHJhaW5pbmcgPC0gY3JlYXRlRGF0YVBhcnRpdGlvbih0aXRhbmljX2RhdGEkU3Vydml2ZWQsIHA9MC42LCBsaXN0PUZBTFNFKVxudHJhaW5pbmcuc2V0IDwtIHRpdGFuaWNfZGF0YVtpblRyYWluaW5nLF1cblRvdGFsdmFsaWRhdGlvbi5zZXQgPC0gdGl0YW5pY19kYXRhWy1pblRyYWluaW5nLF1cblxuIyBUaGlzIHdpbGwgY3JlYXRlIGFub3RoZXIgcGFydGl0aW9uIG9mIHRoZSA0MCUgb2YgdGhlIGRhdGEsIHNvIDIwJS10ZXN0aW5nIGFuZCAyMCUtdmFsaWRhdGlvblxuXG5pblZhbGlkYXRpb24gPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihUb3RhbHZhbGlkYXRpb24uc2V0JFN1cnZpdmVkLCBwPTAuNSwgbGlzdD1GQUxTRSlcbnRlc3Rpbmcuc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbaW5WYWxpZGF0aW9uLF1cbnZhbGlkYXRpb24uc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbLWluVmFsaWRhdGlvbixdXG5gYGAifQ== -->
-<pre class="r"><code>seed &lt;- 333
-inTraining &lt;- createDataPartition(titanic_data$Survived, p=0.6, list=FALSE)
-training.set &lt;- titanic_data[inTraining,]
-Totalvalidation.set &lt;- titanic_data[-inTraining,]
-
-# This will create another partition of the 40% of the data, so 20%-testing and 20%-validation
-
-inValidation &lt;- createDataPartition(Totalvalidation.set$Survived, p=0.5, list=FALSE)
-testing.set &lt;- Totalvalidation.set[inValidation,]
-validation.set &lt;- Totalvalidation.set[-inValidation,]</code></pre>
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<p>We will be modeling on OutcomeType variable</p>
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuYGBgclxuc2VlZCA8LSAzMzNcbmluVHJhaW5pbmcgPC0gY3JlYXRlRGF0YVBhcnRpdGlvbih0aXRhbmljX2RhdGEkU3Vydml2ZWQsIHA9MC42LCBsaXN0PUZBTFNFKVxudHJhaW5pbmcuc2V0IDwtIHRpdGFuaWNfZGF0YVtpblRyYWluaW5nLF1cblRvdGFsdmFsaWRhdGlvbi5zZXQgPC0gdGl0YW5pY19kYXRhWy1pblRyYWluaW5nLF1cblxuIyBUaGlzIHdpbGwgY3JlYXRlIGFub3RoZXIgcGFydGl0aW9uIG9mIHRoZSA0MCUgb2YgdGhlIGRhdGEsIHNvIDIwJS10ZXN0aW5nIGFuZCAyMCUtdmFsaWRhdGlvblxuXG5pblZhbGlkYXRpb24gPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihUb3RhbHZhbGlkYXRpb24uc2V0JFN1cnZpdmVkLCBwPTAuNSwgbGlzdD1GQUxTRSlcbnRlc3Rpbmcuc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbaW5WYWxpZGF0aW9uLF1cbnZhbGlkYXRpb24uc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbLWluVmFsaWRhdGlvbixdXG5gYGBcbmBgYCJ9 -->
+<p><code>r</code>r seed &lt;- 333 inTraining &lt;- createDataPartition(titanic_data$Survived, p=0.6, list=FALSE) training.set &lt;- titanic_data[inTraining,] Totalvalidation.set &lt;- titanic_data[-inTraining,]</p>
+<div id="this-will-create-another-partition-of-the-40-of-the-data-so-20-testing-and-20-validation" class="section level1">
+<h1>This will create another partition of the 40% of the data, so 20%-testing and 20%-validation</h1>
+<p>inValidation &lt;- createDataPartition(Totalvalidation.set$Survived, p=0.5, list=FALSE) testing.set &lt;- Totalvalidation.set[inValidation,] validation.set &lt;- Totalvalidation.set[-inValidation,]</p>
+<pre><code></code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
+</div>
 
-<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1vZGVsaW5nIGZvciBBbmltYWwgU2hlbHRlciBEYXRhIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3IgZGF0YV9zcGxpdH0NCnNlZWQgPC0gMzMzDQppblRyYWluaW5nIDwtIGNyZWF0ZURhdGFQYXJ0aXRpb24odGl0YW5pY19kYXRhJFN1cnZpdmVkLCBwPTAuNiwgbGlzdD1GQUxTRSkNCnRyYWluaW5nLnNldCA8LSB0aXRhbmljX2RhdGFbaW5UcmFpbmluZyxdDQpUb3RhbHZhbGlkYXRpb24uc2V0IDwtIHRpdGFuaWNfZGF0YVstaW5UcmFpbmluZyxdDQoNCiMgVGhpcyB3aWxsIGNyZWF0ZSBhbm90aGVyIHBhcnRpdGlvbiBvZiB0aGUgNDAlIG9mIHRoZSBkYXRhLCBzbyAyMCUtdGVzdGluZyBhbmQgMjAlLXZhbGlkYXRpb24NCg0KaW5WYWxpZGF0aW9uIDwtIGNyZWF0ZURhdGFQYXJ0aXRpb24oVG90YWx2YWxpZGF0aW9uLnNldCRTdXJ2aXZlZCwgcD0wLjUsIGxpc3Q9RkFMU0UpDQp0ZXN0aW5nLnNldCA8LSBUb3RhbHZhbGlkYXRpb24uc2V0W2luVmFsaWRhdGlvbixdDQp2YWxpZGF0aW9uLnNldCA8LSBUb3RhbHZhbGlkYXRpb24uc2V0Wy1pblZhbGlkYXRpb24sXQ0KYGBgDQo=</div>
+<div id="rmd-source-code">LS0tDQp0aXRsZTogIk1vZGVsaW5nIGZvciBBbmltYWwgU2hlbHRlciBEYXRhIg0Kb3V0cHV0OiBodG1sX25vdGVib29rDQotLS0NCg0KYGBge3J9DQpjYWRfbW9kZWwgPC0gcmVhZC5jc3YoIkRhdGEvQ2xlYW5lZF9EYXRhX0ZyYW1lLmNzdiIpDQpgYGANCg0KV2Ugd2lsbCBiZSBtb2RlbGluZyBvbiBPdXRjb21lVHlwZSB2YXJpYWJsZQ0KYGBge3IgZGF0YV9zcGxpdH0NCnNlZWQgPC0gMzMzDQppblRyYWluaW5nIDwtIGNyZWF0ZURhdGFQYXJ0aXRpb24odGl0YW5pY19kYXRhJFN1cnZpdmVkLCBwPTAuNiwgbGlzdD1GQUxTRSkNCnRyYWluaW5nLnNldCA8LSB0aXRhbmljX2RhdGFbaW5UcmFpbmluZyxdDQpUb3RhbHZhbGlkYXRpb24uc2V0IDwtIHRpdGFuaWNfZGF0YVstaW5UcmFpbmluZyxdDQoNCiMgVGhpcyB3aWxsIGNyZWF0ZSBhbm90aGVyIHBhcnRpdGlvbiBvZiB0aGUgNDAlIG9mIHRoZSBkYXRhLCBzbyAyMCUtdGVzdGluZyBhbmQgMjAlLXZhbGlkYXRpb24NCg0KaW5WYWxpZGF0aW9uIDwtIGNyZWF0ZURhdGFQYXJ0aXRpb24oVG90YWx2YWxpZGF0aW9uLnNldCRTdXJ2aXZlZCwgcD0wLjUsIGxpc3Q9RkFMU0UpDQp0ZXN0aW5nLnNldCA8LSBUb3RhbHZhbGlkYXRpb24uc2V0W2luVmFsaWRhdGlvbixdDQp2YWxpZGF0aW9uLnNldCA8LSBUb3RhbHZhbGlkYXRpb24uc2V0Wy1pblZhbGlkYXRpb24sXQ0KYGBgDQo=</div>
 
 
 
