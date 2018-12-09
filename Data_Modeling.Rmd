@@ -1,0 +1,17 @@
+---
+title: "Modeling for Animal Shelter Data"
+output: html_notebook
+---
+
+```{r data_split}
+seed <- 333
+inTraining <- createDataPartition(titanic_data$Survived, p=0.6, list=FALSE)
+training.set <- titanic_data[inTraining,]
+Totalvalidation.set <- titanic_data[-inTraining,]
+
+# This will create another partition of the 40% of the data, so 20%-testing and 20%-validation
+
+inValidation <- createDataPartition(Totalvalidation.set$Survived, p=0.5, list=FALSE)
+testing.set <- Totalvalidation.set[inValidation,]
+validation.set <- Totalvalidation.set[-inValidation,]
+```
