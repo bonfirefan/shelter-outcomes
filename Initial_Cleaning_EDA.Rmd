@@ -158,24 +158,21 @@ color_groups <- read.csv("colorGroups.csv")
 cad <- inner_join(cad, breed_groups, by = c("breed_new" = "breeds"))
 cad <- inner_join(cad, color_groups, by = c("Color" = "colors"))
 ```
-```{r}
-library(ggplot2)
+```{r fig.width=10, fig.height=10}
 cad %>%
-    plot_bar(title = "bar plots of cleaned data")
+    plot_bar(title = "Bar plots of cleaned data")
 ```
-
-
 
 
 ```{r}
 glimpse(plot_data)
 ```
 
-```{r}
+```{r fig.width=10, fig.height=10}
 g <- ggplot(data=plot_data, aes(x=Breed, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    ggtitle("Gender distribution on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
 ```
 
@@ -210,8 +207,13 @@ g + geom_bar(stat="bin", position=position_dodge()) +
     facet_grid(~ OutcomeType)
 ```
 
+#Save off data frame for use at later points
+```{r}
+
+```
 
 
+***Ending blurb about data cleaning and EDA
 
 
 
