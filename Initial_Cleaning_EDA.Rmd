@@ -155,17 +155,15 @@ Because there are so many separate breeds and colors, it would be difficult to i
 breed_groups <- read.csv("breedGroups.csv")
 color_groups <- read.csv("colorGroups.csv")
 
-cad <- inner_join(cad, breed_groups, by = c("breed_new" = "breeds"))
-cad <- inner_join(cad, color_groups, by = c("Color" = "colors"))
+cad <- inner_join(cad, breed_groups, "breed_new")
+cad <- inner_join(cad, color_groups, "Color") %>% dplyr::distinct()
 ```
+
 ```{r}
 library(ggplot2)
 cad %>%
     plot_bar(title = "bar plots of cleaned data")
 ```
-
-
-
 
 ```{r}
 glimpse(plot_data)
