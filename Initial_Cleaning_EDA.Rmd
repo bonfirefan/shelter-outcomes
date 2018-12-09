@@ -100,7 +100,7 @@ plot_data <- animal_combined %>%
 
 cad <- animal_combined %>%
        select(-AnimalID) %>% 
-       dummify(maxcat = 5L)
+       dummify(maxcat = 8L, select = c("S_Organ_Status_In", "Sex", "Name", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition"))
 ```
 
 ##Handle Dummified Columns
@@ -209,7 +209,7 @@ g + geom_bar(stat="bin", position=position_dodge()) +
 
 #Save off data frame for use at later points
 ```{r}
-
+write.csv(cad, file="Data/Cleaned_Data_Frame.csv")
 ```
 
 
