@@ -26,9 +26,8 @@ cad_model <- cad_model %>%
 After having dummified the columns, we rename and remove certain columns that would be duplicative or are confusingly named.
 ```{r}
 cad_model <- cad_model %>%
-       select(-Name_0, -AnimalType_Cat) %>%
-       dplyr::rename(Is_Dog = AnimalType_Dog) %>% 
-       dplyr::rename(Has_Name = Name_1)
+       select(-AnimalType_Cat) %>%
+       dplyr::rename(Is_Dog = AnimalType_Dog)
 ```
 
 
