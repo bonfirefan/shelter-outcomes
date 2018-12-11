@@ -133,36 +133,68 @@ cad <- cad %>%
          breed_new = map_chr(breed_new, function(x){unlist(x[1])}))
 ```
 
+Because there are so many separate breeds and colors, it would be difficult to includee them in our model. For this reason, we'll categorize them for analysis.
+
 It does look like there are a number of popular breeds that take up more than 75% of the dataset:
 ```{r}
-cad %>%
+popular <- cad %>%
+  count(breed_new, sort = TRUE) %>%
+  mutate(freq = round(100 * n / sum(n),2)) %>%
+  mutate(cumfreq = cumsum(freq)) %>%
+  mutate(is_pop = ifelse(cumfreq < 75, 1, 0))
+
+popular %>%
+  head(20)
+```
+For dogs, the most common breeds are Pit Bulls, Chihuahuas, and Labs.
+```{r}
+dog_popular <- cad %>%
+  filter(Is_Dog == 1) %>%
   count(breed_new, sort = TRUE) %>%
   mutate(freq = round(100 * n / sum(n),2)) %>%
   head(16)
+
+print(dog_popular)
 ```
+80% of Cat breeds appear to be Domestic Shorthair.
 ```{r}
-count(cad, breed_new) %>%
-    arrange(desc(n)) %>%
-    filter(n > 222) -> common
+cat_popular <- cad %>%
+  filter(Is_Dog == 0) %>%
+  count(breed_new, sort = TRUE) %>%
+  mutate(freq = round(100 * n / sum(n),2)) %>%
+  head(16)
+
+print(cat_popular)
+```
+
+```{r}
+popular %>%
+  filter(is_pop == 1) %>%
+  select(breed_new) -> common
 
 cad <- cad %>%
   mutate(breed_common = ifelse(breed_new %in% common$breed_new, 1, 0))
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
-Because there are so many separate breeds and colors, it would be difficult to includee them in our model. For this reason, we'll categorize them for analysis.
 ```{r}
+breed_reference <- as.data.frame(unique(cad$breed_new))
+names(breed_reference) <- "breed_new"
+breed_reference <- left_join(breed_reference, 
+                             breed_groups, by = c("breed_new" = "breeds"))
+write.csv(breed_reference, 'breed_reference.csv')
+
 breed_groups <- read.csv("breedGroups.csv")
 color_groups <- read.csv("colorGroups.csv")
 
-cad <- inner_join(cad, breed_groups, by = c("breed_new" = "breeds"))
-cad <- inner_join(cad, color_groups, by = c("Color" = "colors"))
+cad <- left_join(cad, breed_groups, by = c("breed_new" = "breeds"))
+cad <- left_join(cad, color_groups, by = c("Color" = "colors"))
 ```
+
 ```{r fig.width=10, fig.height=10}
 cad %>%
     plot_bar(title = "Bar plots of cleaned data")
 ```
-
 
 ```{r}
 glimpse(plot_data)
