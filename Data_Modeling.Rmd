@@ -7,6 +7,7 @@ output: html_notebook
 library(tidyverse)
 library(ggplot2)
 library(lubridate)
+library(DataExplorer)
 library(randomForest)
 library(caret)
 ```
@@ -17,12 +18,23 @@ cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>%
              select(-X)
 ```
 
+
 Prep the data for modeling
 ```{r}
 cad_model <- cad_model %>%
-       select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color) %>% 
+       select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color)
+```
+```{r}
+glimpse(cad_model)
+```
+```{r}
+cad_model <- cad_model  %>% 
        dummify(maxcat = 11L, select = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition", "breed_group"))
 ```
+```{r}
+glimpse(cad_model)
+```
+
 ##Handle Dummified Columns
 After having dummified the columns, we rename and remove certain columns that would be duplicative or are confusingly named.
 ```{r}
@@ -44,6 +56,23 @@ Totalvalidation.set <- cad_model[-inTraining,]
 inValidation <- createDataPartition(Totalvalidation.set$OutcomeType, p=0.5, list=FALSE)
 testing.set <- Totalvalidation.set[inValidation,]
 validation.set <- Totalvalidation.set[-inValidation,]
+```
+```{r}
+library("foreign")
+library("nnet")
+test <- multinom(OutcomeType ~ ., data = training.set)
+```
+```{r}
+summary(test)
+```
+```{r}
+predict(test, testing.set, type = "prob")
+```
+```{r}
+error_rate <- table(predict(test, testing.set), testing.set$OutcomeType)
+```
+```{r}
+print(error_rate)
 ```
 
 #Random Forest Model
@@ -91,4 +120,3 @@ results <- resamples(modellist)
 summary(results)
 dotplot(results)
 ```
-
