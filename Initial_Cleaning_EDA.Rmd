@@ -23,7 +23,6 @@ It is our belief that producing an accurate and detailed model to help predict o
 library(tidyverse)
 library(ggplot2)
 library(DataExplorer)
-library(caret)
 library(gridExtra)
 library(reshape)
 library(purrr)
@@ -62,14 +61,13 @@ animal_out <- read_csv(gzfile("data/train.csv.gz")) %>%
 animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>% 
              select(-Name, -Breed, -Color, -`Animal Type`) %>% 
              transform(`Sex upon Intake` = colsplit(`Sex upon Intake`, split = "\\s+", names = c('S_Organ_Status_In', 'Sex')))
-
-animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
-animal_in$AgeuponIntake <- vapply(animal_in$Age.upon.Intake, FUN = timeWarp, FUN.VALUE = double(1)) 
 ```
 
 ##Clean the data
 Clean up and split a variety of columns to produce more usable features that can then be used in our models.
 ```{r}
+animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
+animal_in$AgeuponIntake <- vapply(animal_in$Age.upon.Intake, FUN = timeWarp, FUN.VALUE = double(1)) 
 #Split the SexuponOutcome/Intake columns in order to get access to the pets sex as well as the status of their sexual organs (neutered, intact, etc.)
 animal_out$S_Organ_Status_Out <- animal_out$SexuponOutcome$S_Organ_Status_Out
 animal_out$Sex_drop <- animal_out$SexuponOutcome$Sex_drop
@@ -83,7 +81,7 @@ animal_out$Name[is.na(animal_out$Name)] <- 0
 animal_out$Name <- as.factor(animal_out$Name)
 
 #Final steps of cleaning up my data and then merging it together.
-cad <- animal_out %>% #cad standing for Cleaned_Animal_Data
+animal_out <- animal_out %>% #cad standing for Cleaned_Animal_Data
        select(-SexuponOutcome, -Sex_drop) %>% 
        na.omit()
 
@@ -91,79 +89,97 @@ animal_in <- animal_in %>%
              select(-Sex.upon.Intake, -Age.upon.Intake)
 
 #Inner join to combine data from the intake and outcome data frames and merge each row based on the unique Animal ID.
-animal_combined <- inner_join(cad, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>% 
+a_merged <- inner_join(animal_out, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>% 
                    filter(AgeuponIntake <= AgeuponOutcome)
 
 #Save off a non-dummified column for use in EDA
-plot_data <- animal_combined %>%
+plot_data <- a_merged %>%
              select(-AnimalID)
-
-cad <- animal_combined %>%
-       select(-AnimalID) %>% 
-       dummify(maxcat = 8L, select = c("S_Organ_Status_In", "Sex", "Name", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition"))
 ```
-
-##Handle Dummified Columns
-After having dummified the columns, we rename and remove certain columns that would be duplicative or are confusingly named.
-```{r}
-cad <- cad %>% 
-       select(-Name_0, -AnimalType_Cat, -Found.Location) %>% 
-       dplyr::rename(Is_Dog = AnimalType_Dog) %>% 
-       dplyr::rename(Has_Name = Name_1)
-```
-
 
 ```{r Initial view of data}
-View(cad)
-introduce(cad)
+glimpse(a_merged)
 ```
 
 There are 1380 unique breeds in the dataset. This is far too many
 ```{r}
-length(unique(cad$Breed))
+length(unique(a_merged$Breed))
 ```
 
 ## Feature Engineering
 First we need to clean the dataset to move "mix" into its own feature and keep only the first breed mentioned for the breed mixes
 ```{r Breed_Features}
-cad <- cad %>%
+a_merged <- a_merged %>%
   mutate(mix = ifelse(grepl("mix", Breed, ignore.case = T), 1, 0),
          breed_new = gsub(" Mix", "", Breed),
          breed_new = strsplit(x = breed_new, split = "/"),
          breed_new = map_chr(breed_new, function(x){unlist(x[1])}))
 ```
 
+Because there are so many separate breeds and colors, it would be difficult to includee them in our model. For this reason, we'll categorize them for analysis.
+
 It does look like there are a number of popular breeds that take up more than 75% of the dataset:
 ```{r}
-cad %>%
+popular <- a_merged %>%
+  count(breed_new, sort = TRUE) %>%
+  mutate(freq = round(100 * n / sum(n),2)) %>%
+  mutate(cumfreq = cumsum(freq)) %>%
+  mutate(is_pop = ifelse(cumfreq < 75, 1, 0))
+
+popular %>%
+  head(20)
+```
+For dogs, the most common breeds are Pit Bulls, Chihuahuas, and Labs.
+```{r}
+dog_popular <- a_merged %>%
+  filter(AnimalType == 'Dog') %>%
   count(breed_new, sort = TRUE) %>%
   mutate(freq = round(100 * n / sum(n),2)) %>%
   head(16)
-```
-```{r}
-count(cad, breed_new) %>%
-    arrange(desc(n)) %>%
-    filter(n > 222) -> common
 
-cad <- cad %>%
+print(dog_popular)
+```
+80% of Cat breeds appear to be Domestic Shorthair.
+```{r}
+cat_popular <- a_merged %>%
+  filter(AnimalType == 'Cat') %>%
+  count(breed_new, sort = TRUE) %>%
+  mutate(freq = round(100 * n / sum(n),2)) %>%
+  head(16)
+
+print(cat_popular)
+```
+
+```{r}
+popular %>%
+  filter(is_pop == 1) %>%
+  select(breed_new) -> common
+
+a_merged <- a_merged %>%
   mutate(breed_common = ifelse(breed_new %in% common$breed_new, 1, 0))
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
-Because there are so many separate breeds and colors, it would be difficult to includee them in our model. For this reason, we'll categorize them for analysis.
 ```{r}
-breed_groups <- read.csv("breedGroups.csv")
 
-count(breed_groups)
 
-cad <- left_join(cad, breed_groups, by = "breed_new")
+breed_groups <- read.csv("breedGroups.csv") %>%
+                select(-X)
+#color_groups <- read.csv("colorGroups.csv", row.names = NULL)
+
+a_merged <- inner_join(a_merged, breed_groups, by = "breed_new")
+#a_merged <- left_join(a_merged, color_groups, by = c("Color" = "colors"))
+```
+
+#Save off data frame for use at later points
+```{r}
+write.csv(a_merged, file="Data/Cleaned_Data_Frame.csv")
 ```
 
 ```{r fig.width=10, fig.height=10}
-cad %>%
+a_merged %>%
     plot_bar(title = "Bar plots of cleaned data")
 ```
-
 
 ```{r}
 glimpse(plot_data)
@@ -172,45 +188,41 @@ glimpse(plot_data)
 ```{r fig.width=10, fig.height=10}
 g <- ggplot(data=plot_data, aes(x=Breed, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Breed") +
-    ggtitle("Distribution of breed on different OutcomeType") +
+    xlab("Whether a cat is over average heart weight") +
+    ylim(0, 800) + 
+    ggtitle("Gender distribution on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
 ```
 
 ```{r}
 g <- ggplot(data=plot_data, aes(x=AnimalType, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Animal type") +
-    ggtitle("Distribution of animal type on different OutcomeType") +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
 ```
 
 ```{r}
 g <- ggplot(data=plot_data, aes(x=Name, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Whether an animal has a name") +
-    ggtitle("Distribution of whether an animal has a name on different OutcomeType") +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
 ```
 
 ```{r}
 g <- ggplot(data=plot_data, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Sexual organ status") +
-    ggtitle("Distribution of Sexual organ status on different OutcomeType") +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
 ```
 ```{r}
 g <- ggplot(data=plot_data, aes(x=AgeuponOutcome, fill= OutcomeType )) 
 g + geom_bar(stat="bin", position=position_dodge()) +
-    xlab("Age upon outcome") +
-    ggtitle("Distribution of AgeuponOutcom on different OutcomeType") +
+    xlab("Whether a cat is over average heart weight") +
+    ggtitle("Gender distributin on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
-```
-
-#Save off data frame for use at later points
-```{r}
-write.csv(cad, file="Data/Cleaned_Data_Frame.csv")
 ```
 
 

@@ -12,9 +12,24 @@ library(randomForest)
 
 
 ```{r}
-cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>% 
-             select(-DateTime, -MonthYear)
+cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>%
+             select(-X)
 ```
+
+Prep the data for modeling
+```{r}
+cad_model <- cad_model %>%
+       select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color) %>% 
+       dummify(maxcat = 8L, select = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition", "groups"))
+```
+##Handle Dummified Columns
+After having dummified the columns, we rename and remove certain columns that would be duplicative or are confusingly named.
+```{r}
+cad_model <- cad_model %>%
+       select(-AnimalType_Cat) %>%
+       dplyr::rename(Is_Dog = AnimalType_Dog)
+```
+
 
 We will be modeling on OutcomeType variable
 ```{r data_split}
