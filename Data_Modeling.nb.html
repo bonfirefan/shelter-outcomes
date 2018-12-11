@@ -192,9 +192,19 @@ library(caret)</code></pre>
 <!-- rnb-source-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FkX21vZGVsIDwtIHJlYWQuY3N2KFwiRGF0YS9DbGVhbmVkX0RhdGFfRnJhbWUuY3N2XCIpXG5gYGAifQ== -->
-<pre class="r"><code>cad_model &lt;- read.csv(&quot;Data/Cleaned_Data_Frame.csv&quot;)</code></pre>
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FkX21vZGVsIDwtIHJlYWQuY3N2KFwiRGF0YS9DbGVhbmVkX0RhdGFfRnJhbWUuY3N2XCIpXG5jYWRfbW9kZWwgPC0gY2FkX21vZGVsICU+JVxuICAgICAgICAgICAgc2VsZWN0KC1EYXRlVGltZSwgLU1vbnRoWWVhcikgICU+JSBcbiAgICAgICBkdW1taWZ5KG1heGNhdCA9IDhMLCBzZWxlY3QgPSBjKFwiU19Pcmdhbl9TdGF0dXNfSW5cIiwgXCJTZXhcIiwgXCJOYW1lXCIsIFwiU19Pcmdhbl9TdGF0dXNfT3V0XCIsIFwiQW5pbWFsVHlwZVwiLCBcIkludGFrZS5UeXBlXCIsIFwiSW50YWtlLkNvbmRpdGlvblwiKSlcbmBgYCJ9 -->
+<pre class="r"><code>cad_model &lt;- read.csv(&quot;Data/Cleaned_Data_Frame.csv&quot;)
+cad_model &lt;- cad_model %&gt;%
+            select(-DateTime, -MonthYear)  %&gt;% 
+       dummify(maxcat = 8L, select = c(&quot;S_Organ_Status_In&quot;, &quot;Sex&quot;, &quot;Name&quot;, &quot;S_Organ_Status_Out&quot;, &quot;AnimalType&quot;, &quot;Intake.Type&quot;, &quot;Intake.Condition&quot;))</code></pre>
 <!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiMiBmZWF0dXJlcyB3aXRoIG1vcmUgdGhhbiA4IGNhdGVnb3JpZXMgaWdub3JlZCFcbkJyZWVkOiAxMzY3IGNhdGVnb3JpZXNcbkNvbG9yOiAzNjMgY2F0ZWdvcmllc1xuXG5FcnJvciBpbiBnZXQoeCkgOiBvYmplY3QgJ1NfT3JnYW5fU3RhdHVzX0luJyBub3QgZm91bmRcbiJ9 -->
+<pre><code>2 features with more than 8 categories ignored!
+Breed: 1367 categories
+Color: 363 categories
+
+Error in get(x) : object 'S_Organ_Status_In' not found</code></pre>
+<!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-chunk-begin -->
 <!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuZ2xpbXBzZShjYWRfbW9kZWwpXG5gYGAifQ== -->
@@ -239,15 +249,32 @@ $ Intake.Condition_Sick          &lt;int&gt; 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0,
 <!-- rnb-output-end -->
 <!-- rnb-chunk-end -->
 <!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY2FkX21vZGVsJE91dGNvbWVUeXBlW2NhZF9tb2RlbCRPdXRjb21lVHlwZSAhPSBcIkFkb3B0aW9uXCJdIDwtIFwiTm8gQWRvcHRpb25cIlxuYGBgIn0= -->
+<pre class="r"><code>cad_model$OutcomeType[cad_model$OutcomeType != &quot;Adoption&quot;] &lt;- &quot;No Adoption&quot;</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-output-begin eyJkYXRhIjoiaW52YWxpZCBmYWN0b3IgbGV2ZWwsIE5BIGdlbmVyYXRlZFxuIn0= -->
+<pre><code>invalid factor level, NA generated</code></pre>
+<!-- rnb-output-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-chunk-begin -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuI2dsaW1wc2UoY2FkX21vZGVsKVxuYGBgIn0= -->
+<pre class="r"><code>#glimpse(cad_model)</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
 <p>We will be modeling on OutcomeType variable</p>
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VlZCA8LSAzMzNcbmluVHJhaW5pbmcgPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihjYWRfbW9kZWwkT3V0Y29tZVR5cGUsIHA9MC42LCBsaXN0PUZBTFNFKVxudHJhaW5pbmcuc2V0IDwtIGNhZF9tb2RlbFtpblRyYWluaW5nLF1cblRvdGFsdmFsaWRhdGlvbi5zZXQgPC0gY2FkX21vZGVsWy1pblRyYWluaW5nLF1cbiMgVGhpcyB3aWxsIGNyZWF0ZSBhbm90aGVyIHBhcnRpdGlvbiBvZiB0aGUgNDAlIG9mIHRoZSBkYXRhLCBzbyAyMCUtdGVzdGluZyBhbmQgMjAlLXZhbGlkYXRpb25cbmluVmFsaWRhdGlvbiA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKFRvdGFsdmFsaWRhdGlvbi5zZXQkT3V0Y29tZVR5cGUsIHA9MC41LCBsaXN0PUZBTFNFKVxudGVzdGluZy5zZXQgPC0gVG90YWx2YWxpZGF0aW9uLnNldFtpblZhbGlkYXRpb24sXVxudmFsaWRhdGlvbi5zZXQgPC0gVG90YWx2YWxpZGF0aW9uLnNldFstaW5WYWxpZGF0aW9uLF1cbmBgYCJ9 -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuc2VlZCA8LSAzMzNcbmluVHJhaW5pbmcgPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihjYWRfbW9kZWwkT3V0Y29tZVR5cGUsIHA9MC42LCBsaXN0PUZBTFNFKVxudHJhaW5pbmcuc2V0IDwtIGNhZF9tb2RlbFtpblRyYWluaW5nLF1cblRvdGFsdmFsaWRhdGlvbi5zZXQgPC0gY2FkX21vZGVsWy1pblRyYWluaW5nLF1cblxuIyBUaGlzIHdpbGwgY3JlYXRlIGFub3RoZXIgcGFydGl0aW9uIG9mIHRoZSA0MCUgb2YgdGhlIGRhdGEsIHNvIDIwJS10ZXN0aW5nIGFuZCAyMCUtdmFsaWRhdGlvblxuXG5pblZhbGlkYXRpb24gPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihUb3RhbHZhbGlkYXRpb24uc2V0JE91dGNvbWVUeXBlLCBwPTAuNSwgbGlzdD1GQUxTRSlcbnRlc3Rpbmcuc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbaW5WYWxpZGF0aW9uLF1cbnZhbGlkYXRpb24uc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbLWluVmFsaWRhdGlvbixdXG5gYGAifQ== -->
 <pre class="r"><code>seed &lt;- 333
 inTraining &lt;- createDataPartition(cad_model$OutcomeType, p=0.6, list=FALSE)
 training.set &lt;- cad_model[inTraining,]
 Totalvalidation.set &lt;- cad_model[-inTraining,]
+
 # This will create another partition of the 40% of the data, so 20%-testing and 20%-validation
+
 inValidation &lt;- createDataPartition(Totalvalidation.set$OutcomeType, p=0.5, list=FALSE)
 testing.set &lt;- Totalvalidation.set[inValidation,]
 validation.set &lt;- Totalvalidation.set[-inValidation,]</code></pre>
@@ -256,22 +283,22 @@ validation.set &lt;- Totalvalidation.set[-inValidation,]</code></pre>
 <!-- rnb-text-begin -->
 <!-- rnb-text-end -->
 <!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9kX2ZpdF9sb2dpc3RpYyA8LSB0cmFpbihPdXRjb21lVHlwZSB+IC4sICBcbiAgICAgICAgICAgICAgICAgZGF0YT10cmFpbmluZy5zZXQsXG4gICAgICAgICAgICAgICAgIG1ldGhvZD1cImdsbVwiLCBcbiAgICAgICAgICAgICAgICAgZmFtaWx5PVwiYmlub21pYWxcIixcbiAgICAgICAgICAgICAgICAgcHJlUHJvY2VzcyA9IGMoXCJjZW50ZXJcIiwgXCJzY2FsZVwiKSxcbiAgICAgICAgICAgICAgICAgdHVuZUxlbmd0aCA9IDEwKVxuYGBgIn0= -->
+<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxubW9kX2ZpdF9sb2dpc3RpYyA8LSB0cmFpbihPdXRjb21lVHlwZSB+IC4sICBcbiAgICAgICAgICAgICAgICAgZGF0YSA9IHRyYWluaW5nLnNldCwgXG4gICAgICAgICAgICAgICAgIG1ldGhvZCA9IFwiZ2JtXCIsIFxuICAgICAgICAgICAgICAgICBtZXRyaWMgPSBcIkFjY3VyYWN5XCIsXG4gICAgICAgICAgICAgICAgIHByZVByb2Nlc3MgPSBjKFwiY2VudGVyXCIsIFwic2NhbGVcIiksXG4gICAgICAgICAgICAgICAgIHR1bmVMZW5ndGggPSAxMClcblxucHJlZF9sb2dpc3RpYyA8LSBwcmVkaWN0KG1vZF9maXRfbG9naXN0aWMsIG5ld2RhdGE9dGVzdGluZy5zZXQpXG5jb25mdXNpb25NYXRyaXgodGFibGUoZGF0YT1wcmVkX2xvZ2lzdGljLCB0ZXN0aW5nLnNldCRPdXRjb21lVHlwZSkpXG5gYGAifQ== -->
 <pre class="r"><code>mod_fit_logistic &lt;- train(OutcomeType ~ .,  
-                 data=training.set,
-                 method=&quot;glm&quot;, 
-                 family=&quot;binomial&quot;,
+                 data = training.set, 
+                 method = &quot;gbm&quot;, 
+                 metric = &quot;Accuracy&quot;,
                  preProcess = c(&quot;center&quot;, &quot;scale&quot;),
-                 tuneLength = 10)</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
-<!-- rnb-chunk-begin -->
-<!-- rnb-source-begin eyJkYXRhIjoiYGBgclxuY29uZnVzaW9uTWF0cml4KHRhYmxlKGRhdGE9cHJlZF9sb2dpc3RpYywgdGVzdGluZy5zZXQkT3V0Y29tZVR5cGUpKVxuYGBgIn0= -->
-<pre class="r"><code>confusionMatrix(table(data=pred_logistic, testing.set$OutcomeType))</code></pre>
-<!-- rnb-source-end -->
-<!-- rnb-chunk-end -->
+                 tuneLength = 10)
 
-<div id="rmd-source-code">LS0tCnRpdGxlOiAiTW9kZWxpbmcgZm9yIEFuaW1hbCBTaGVsdGVyIERhdGEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KYGBge3J9CiNMb2FkIExpYnJhcmllcwpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShnZ3Bsb3QyKQpsaWJyYXJ5KERhdGFFeHBsb3JlcikKbGlicmFyeShjYXJldCkKbGlicmFyeShncmlkRXh0cmEpCmxpYnJhcnkocmVzaGFwZSkKbGlicmFyeShwdXJycikKbGlicmFyeShsdWJyaWRhdGUpCmxpYnJhcnkoY2FyZXQpCmBgYApgYGB7cn0KY2FkX21vZGVsIDwtIHJlYWQuY3N2KCJEYXRhL0NsZWFuZWRfRGF0YV9GcmFtZS5jc3YiKQpgYGAKYGBge3J9CmdsaW1wc2UoY2FkX21vZGVsKQpgYGAKCldlIHdpbGwgYmUgbW9kZWxpbmcgb24gT3V0Y29tZVR5cGUgdmFyaWFibGUKYGBge3IgZGF0YV9zcGxpdH0Kc2VlZCA8LSAzMzMKaW5UcmFpbmluZyA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKGNhZF9tb2RlbCRPdXRjb21lVHlwZSwgcD0wLjYsIGxpc3Q9RkFMU0UpCnRyYWluaW5nLnNldCA8LSBjYWRfbW9kZWxbaW5UcmFpbmluZyxdClRvdGFsdmFsaWRhdGlvbi5zZXQgPC0gY2FkX21vZGVsWy1pblRyYWluaW5nLF0KCiMgVGhpcyB3aWxsIGNyZWF0ZSBhbm90aGVyIHBhcnRpdGlvbiBvZiB0aGUgNDAlIG9mIHRoZSBkYXRhLCBzbyAyMCUtdGVzdGluZyBhbmQgMjAlLXZhbGlkYXRpb24KCmluVmFsaWRhdGlvbiA8LSBjcmVhdGVEYXRhUGFydGl0aW9uKFRvdGFsdmFsaWRhdGlvbi5zZXQkT3V0Y29tZVR5cGUsIHA9MC41LCBsaXN0PUZBTFNFKQp0ZXN0aW5nLnNldCA8LSBUb3RhbHZhbGlkYXRpb24uc2V0W2luVmFsaWRhdGlvbixdCnZhbGlkYXRpb24uc2V0IDwtIFRvdGFsdmFsaWRhdGlvbi5zZXRbLWluVmFsaWRhdGlvbixdCmBgYAoKCmBgYHtyfQptb2RfZml0X2xvZ2lzdGljIDwtIHRyYWluKE91dGNvbWVUeXBlIH4gLiwgIAogICAgICAgICAgICAgICAgIGRhdGE9dHJhaW5pbmcuc2V0LAogICAgICAgICAgICAgICAgIG1ldGhvZD0iZ2xtIiwgCiAgICAgICAgICAgICAgICAgZmFtaWx5PSJiaW5vbWlhbCIsCiAgICAgICAgICAgICAgICAgdHVuZUxlbmd0aCA9IDEwKQoKcHJlZF9sb2dpc3RpYyA8LSBwcmVkaWN0KG1vZF9maXRfbG9naXN0aWMsIG5ld2RhdGE9dGVzdGluZy5zZXQpCgpgYGAKYGBge3J9CmNvbmZ1c2lvbk1hdHJpeCh0YWJsZShkYXRhPXByZWRfbG9naXN0aWMsIHRlc3Rpbmcuc2V0JE91dGNvbWVUeXBlKSkKYGBgCg==</div>
+pred_logistic &lt;- predict(mod_fit_logistic, newdata=testing.set)
+confusionMatrix(table(data=pred_logistic, testing.set$OutcomeType))</code></pre>
+<!-- rnb-source-end -->
+<!-- rnb-chunk-end -->
+<!-- rnb-text-begin -->
+<!-- rnb-text-end -->
+
+<div id="rmd-source-code">LS0tCnRpdGxlOiAiTW9kZWxpbmcgZm9yIEFuaW1hbCBTaGVsdGVyIERhdGEiCm91dHB1dDogaHRtbF9ub3RlYm9vawotLS0KYGBge3J9CiNMb2FkIExpYnJhcmllcwpsaWJyYXJ5KHRpZHl2ZXJzZSkKbGlicmFyeShnZ3Bsb3QyKQpsaWJyYXJ5KERhdGFFeHBsb3JlcikKbGlicmFyeShjYXJldCkKbGlicmFyeShncmlkRXh0cmEpCmxpYnJhcnkocmVzaGFwZSkKbGlicmFyeShwdXJycikKbGlicmFyeShsdWJyaWRhdGUpCmxpYnJhcnkoY2FyZXQpCmBgYApgYGB7cn0KY2FkX21vZGVsIDwtIHJlYWQuY3N2KCJEYXRhL0NsZWFuZWRfRGF0YV9GcmFtZS5jc3YiKQpjYWRfbW9kZWwgPC0gY2FkX21vZGVsICU+JQogICAgICAgICAgICBzZWxlY3QoLURhdGVUaW1lLCAtTW9udGhZZWFyKSAgJT4lIAogICAgICAgZHVtbWlmeShtYXhjYXQgPSA4TCwgc2VsZWN0ID0gYygiU19Pcmdhbl9TdGF0dXNfSW4iLCAiU2V4IiwgIk5hbWUiLCAiU19Pcmdhbl9TdGF0dXNfT3V0IiwgIkFuaW1hbFR5cGUiLCAiSW50YWtlLlR5cGUiLCAiSW50YWtlLkNvbmRpdGlvbiIpKQpgYGAKYGBge3J9CmdsaW1wc2UoY2FkX21vZGVsKQpgYGAKCmBgYHtyfQojY2FkX21vZGVsIDwtIGNhZF9tb2RlbCAlPiUKIyAgICAgICAgICAgIG11dGF0ZShPdXRjb21lVHlwZSA9IGlmZWxzZShPdXRjb21lVHlwZSA9PSAiQWRvcHRpb24iLCAxLCAwKSkKYGBgCmBgYHtyfQojZ2xpbXBzZShjYWRfbW9kZWwpCmBgYAoKCgpXZSB3aWxsIGJlIG1vZGVsaW5nIG9uIE91dGNvbWVUeXBlIHZhcmlhYmxlCmBgYHtyIGRhdGFfc3BsaXR9CnNlZWQgPC0gMzMzCmluVHJhaW5pbmcgPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihjYWRfbW9kZWwkT3V0Y29tZVR5cGUsIHA9MC42LCBsaXN0PUZBTFNFKQp0cmFpbmluZy5zZXQgPC0gY2FkX21vZGVsW2luVHJhaW5pbmcsXQpUb3RhbHZhbGlkYXRpb24uc2V0IDwtIGNhZF9tb2RlbFstaW5UcmFpbmluZyxdCgojIFRoaXMgd2lsbCBjcmVhdGUgYW5vdGhlciBwYXJ0aXRpb24gb2YgdGhlIDQwJSBvZiB0aGUgZGF0YSwgc28gMjAlLXRlc3RpbmcgYW5kIDIwJS12YWxpZGF0aW9uCgppblZhbGlkYXRpb24gPC0gY3JlYXRlRGF0YVBhcnRpdGlvbihUb3RhbHZhbGlkYXRpb24uc2V0JE91dGNvbWVUeXBlLCBwPTAuNSwgbGlzdD1GQUxTRSkKdGVzdGluZy5zZXQgPC0gVG90YWx2YWxpZGF0aW9uLnNldFtpblZhbGlkYXRpb24sXQp2YWxpZGF0aW9uLnNldCA8LSBUb3RhbHZhbGlkYXRpb24uc2V0Wy1pblZhbGlkYXRpb24sXQpgYGAKCgpgYGB7cn0KbW9kX2ZpdF9sb2dpc3RpYyA8LSB0cmFpbihPdXRjb21lVHlwZSB+IC4sICAKICAgICAgICAgICAgICAgICBkYXRhID0gdHJhaW5pbmcuc2V0LCAKICAgICAgICAgICAgICAgICBtZXRob2QgPSAiZ2JtIiwgCiAgICAgICAgICAgICAgICAgbWV0cmljID0gIkFjY3VyYWN5IiwKICAgICAgICAgICAgICAgICBwcmVQcm9jZXNzID0gYygiY2VudGVyIiwgInNjYWxlIiksCiAgICAgICAgICAgICAgICAgdHVuZUxlbmd0aCA9IDEwKQoKcHJlZF9sb2dpc3RpYyA8LSBwcmVkaWN0KG1vZF9maXRfbG9naXN0aWMsIG5ld2RhdGE9dGVzdGluZy5zZXQpCmNvbmZ1c2lvbk1hdHJpeCh0YWJsZShkYXRhPXByZWRfbG9naXN0aWMsIHRlc3Rpbmcuc2V0JE91dGNvbWVUeXBlKSkKYGBgCgo=</div>
 
 
 
