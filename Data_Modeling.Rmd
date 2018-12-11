@@ -3,6 +3,11 @@ title: "Modeling for Animal Shelter Data"
 output: html_notebook
 ---
 
+```{r}
+cad_model <- read.csv("Data/Cleaned_Data_Frame.csv")
+```
+
+We will be modeling on OutcomeType variable
 ```{r data_split}
 seed <- 333
 inTraining <- createDataPartition(titanic_data$Survived, p=0.6, list=FALSE)
