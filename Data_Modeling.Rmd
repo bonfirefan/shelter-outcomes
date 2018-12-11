@@ -9,6 +9,7 @@ library(ggplot2)
 library(lubridate)
 library(randomForest)
 library(caret)
+library(viridis)
 ```
 
 
@@ -60,15 +61,27 @@ rf_pred <- predict(rf_fit, newdata=testing.set)
 confusionMatrix(data=rf_pred, testing.set$OutcomeType)
 ```
 
+Accuracy after initial run: 0.6922
+
+#                     Class: Adoption Class: Died Class: Euthanasia Class: Return_to_owner Class: Transfer
+Sensitivity                   0.8556   0.0263158           0.32012                 0.6473          0.5997
+Specificity                   0.7213   1.0000000           0.99259                 0.9006          0.9179
+Pos Pred Value                0.6743   1.0000000           0.72414                 0.6122          0.7887
+Neg Pred Value                0.8810   0.9935360           0.96004                 0.9133          0.8178
+Prevalence                    0.4028   0.0066376           0.05729                 0.1951          0.3382
+Detection Rate                0.3446   0.0001747           0.01834                 0.1263          0.2028
+Detection Prevalence          0.5111   0.0001747           0.02533                 0.2063          0.2571
+Balanced Accuracy             0.7884   0.5131579           0.65636                 0.7739          0.7588
+
 ```{r save model parameters}
 save(rf_fit, file="rf_initial_fit.rda")
 ```
 
-
+Find best mtry values
 ```{r}
 #Find the best mtry value to use in my model
 x <- training.set %>%
-    select(-OutcomeType, -Color, -Breed, -DateTime, -MonthYear)
+    select(-OutcomeType)
 y <- training.set %>%
     select(OutcomeType) %>%
     .$OutcomeType
@@ -78,6 +91,7 @@ bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
 print(bestmtry)
 ```
 
+Find optimized number of trees
 ```{r}
 metric <- "Accuracy"
 
@@ -95,5 +109,13 @@ for (ntree in c(1000, 1500, 2000, 2500)) {
 results <- resamples(modellist)
 summary(results)
 dotplot(results)
+```
+
+Find optimized predictor variables
+```{r}
+#Find best predictor variables
+rf_pv <- randomForest(Churn_Yes ~ ., data=telco_data, ntree=1000, keep.forest=FALSE, importance=TRUE)
+importance(rf_pv) # relative importance of predictors (highest <-> most important)
+varImpPlot(rf_pv) # plot results
 ```
 
