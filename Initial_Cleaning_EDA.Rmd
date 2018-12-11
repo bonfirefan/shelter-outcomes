@@ -183,8 +183,12 @@ a_merged %>%
 glimpse(plot_data)
 ```
 
+```{r}
+glimpse(a_merged)
+```
+
 ```{r fig.width=10, fig.height=10}
-g <- ggplot(data=plot_data, aes(x=Breed, fill= OutcomeType )) 
+g <- ggplot(data=a_merged, aes(x=breed_group, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
     ylim(0, 800) + 
