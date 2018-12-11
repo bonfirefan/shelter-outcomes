@@ -203,39 +203,39 @@ glimpse(plot_data)
 ```{r fig.width=10, fig.height=10}
 g <- ggplot(data=plot_data, aes(x=Breed, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distribution on over and below average heart weight group.") +
+    xlab("Breed") +
+    ggtitle("Distribution of breed on different OutcomeType") +
     facet_grid(~ OutcomeType)
 ```
 
 ```{r}
 g <- ggplot(data=plot_data, aes(x=AnimalType, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    xlab("Animal type") +
+    ggtitle("Distribution of animal type on different OutcomeType") +
     facet_grid(~ OutcomeType)
 ```
 
 ```{r}
 g <- ggplot(data=plot_data, aes(x=Name, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    xlab("Whether an animal has a name") +
+    ggtitle("Distribution of whether an animal has a name on different OutcomeType") +
     facet_grid(~ OutcomeType)
 ```
 
 ```{r}
 g <- ggplot(data=plot_data, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    xlab("Sexual organ status") +
+    ggtitle("Distribution of Sexual organ status on different OutcomeType") +
     facet_grid(~ OutcomeType)
 ```
 ```{r}
 g <- ggplot(data=plot_data, aes(x=AgeuponOutcome, fill= OutcomeType )) 
 g + geom_bar(stat="bin", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    xlab("Age upon outcome") +
+    ggtitle("Distribution of AgeuponOutcom on different OutcomeType") +
     facet_grid(~ OutcomeType)
 ```
 
