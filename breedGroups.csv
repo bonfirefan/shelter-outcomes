@@ -1,207 +1,220 @@
-"","breeds","groups"
-"1","Blue Lacy","Herding"
-"2","Queensland Heeler","Herding"
-"3","Rhod Ridgeback","Hound"
-"4","Retriever","Sporting"
-"5","Chinese Sharpei","Non-Sporting"
-"6","Black Mouth Cur","Herding"
-"7","Catahoula","Herding"
-"8","Staffordshire","Terrier"
-"9","Affenpinscher","Toy"
-"10","Afghan Hound","Hound"
-"11","Airedale Terrier","Terrier"
-"12","Akita","Working"
-"13","Australian Kelpie","Working"
-"14","Alaskan Malamute","Working"
-"15","English Bulldog","Non-Sporting"
-"16","American Bulldog","Non-Sporting"
-"17","American English Coonhound","Hound"
-"18","American Eskimo Dog (Miniature)","Non-Sporting"
-"19","American Eskimo Dog (Standard)","Non-Sporting"
-"20","American Eskimo Dog (Toy)","Toy"
-"21","American Foxhound","Hound"
-"22","American Hairless Terrier","Terrier"
-"23","American Staffordshire Terrier","Terrier"
-"24","American Water Spaniel","Sporting"
-"25","Anatolian Shepherd Dog","Working"
-"26","Australian Cattle Dog","Herding"
-"27","Australian Shepherd","Herding"
-"28","Australian Terrier","Terrier"
-"29","Basenji","Hound"
-"30","Basset Hound","Hound"
-"31","Beagle","Hound"
-"32","Bearded Collie","Herding"
-"33","Beauceron","Herding"
-"34","Bedlington Terrier","Terrier"
-"35","Belgian Malinois","Herding"
-"36","Belgian Sheepdog","Herding"
-"37","Belgian Tervuren","Herding"
-"38","Bergamasco","Herding"
-"39","Berger Picard","Herding"
-"40","Bernese Mountain Dog","Working"
-"41","Bichon Fris_","Non-Sporting"
-"42","Black and Tan Coonhound","Hound"
-"43","Black Russian Terrier","Working"
-"44","Bloodhound","Hound"
-"45","Bluetick Coonhound","Hound"
-"46","Boerboel","Working"
-"47","Border Collie","Herding"
-"48","Border Terrier","Terrier"
-"49","Borzoi","Hound"
-"50","Boston Terrier","Non-Sporting"
-"51","Bouvier des Flandres","Herding"
-"52","Boxer","Working"
-"53","Boykin Spaniel","Sporting"
-"54","Briard","Herding"
-"55","Brittany","Sporting"
-"56","Brussels Griffon","Toy"
-"57","Bull Terrier","Terrier"
-"58","Bull Terrier (Miniature)","Terrier"
-"59","Bulldog","Non-Sporting"
-"60","Bullmastiff","Working"
-"61","Cairn Terrier","Terrier"
-"62","Canaan Dog","Working"
-"63","Cane Corso","Working"
-"64","Cardigan Welsh Corgi","Herding"
-"65","Cavalier King Charles Spaniel","Toy"
-"66","Cesky Terrier","Terrier"
-"67","Chesapeake Bay Retriever","Sporting"
-"68","Chihuahua","Toy"
-"69","Chinese Crested Dog","Toy"
-"70","Chinese Shar Pei","Non-Sporting"
-"71","Chinook","Working"
-"72","Chow Chow","Non-Sporting"
-"73","Cirneco dell'Etna","Hound"
-"74","Clumber Spaniel","Sporting"
-"75","Cocker Spaniel","Sporting"
-"76","Collie","Herding"
-"77","Coton de Tulear","Non-Sporting"
-"78","Curly-Coated Retriever","Sporting"
-"79","Dachshund","Hound"
-"80","Dalmatian","Non-Sporting"
-"81","Dandie Dinmont Terrier","Terrier"
-"82","Doberman Pinsch","Working"
-"83","Doberman Pinscher","Working"
-"84","Dogue De Bordeaux","Working"
-"85","English Cocker Spaniel","Sporting"
-"86","English Foxhound","Hound"
-"87","English Setter","Sporting"
-"88","English Springer Spaniel","Sporting"
-"89","English Toy Spaniel","Toy"
-"90","Entlebucher Mountain Dog","Herding"
-"91","Field Spaniel","Sporting"
-"92","Finnish Lapphund","Herding"
-"93","Finnish Spitz","Non-Sporting"
-"94","Flat-Coated Retriever","Sporting"
-"95","French Bulldog","Non-Sporting"
-"96","German Pinscher","Working"
-"97","German Shepherd","Herding"
-"98","German Shorthaired Pointer","Sporting"
-"99","German Wirehaired Pointer","Sporting"
-"100","Giant Schnauzer","Working"
-"101","Glen of Imaal Terrier","Terrier"
-"102","Golden Retriever","Sporting"
-"103","Gordon Setter","Sporting"
-"104","Great Dane","Working"
-"105","Great Pyrenees","Working"
-"106","Greater Swiss Mountain Dog","Working"
-"107","Greyhound","Hound"
-"108","Harrier","Hound"
-"109","Havanese","Toy"
-"110","Ibizan Hound","Hound"
-"111","Icelandic Sheepdog","Herding"
-"112","Irish Red and White Setter","Sporting"
-"113","Irish Setter","Sporting"
-"114","Irish Terrier","Terrier"
-"115","Irish Water Spaniel","Sporting"
-"116","Irish Wolfhound","Hound"
-"117","Italian Greyhound","Toy"
-"118","Japanese Chin","Toy"
-"119","Keeshond","Non-Sporting"
-"120","Kerry Blue Terrier","Terrier"
-"121","Komondor","Working"
-"122","Kuvasz","Working"
-"123","Labrador Retriever","Sporting"
-"124","Lagotto Romagnolo","Sporting"
-"125","Lakeland Terrier","Terrier"
-"126","Leonberger","Working"
-"127","Lhasa Apso","Non-Sporting"
-"128","L_wchen","Non-Sporting"
-"129","Maltese","Toy"
-"130","Manchester Terrier","Terrier"
-"131","Mastiff","Working"
-"132","Miniature American Shepherd","Herding"
-"133","Miniature Bull Terrier","Terrier"
-"134","Miniature Pinscher","Toy"
-"135","Miniature Schnauzer","Terrier"
-"136","Neapolitan Mastiff","Working"
-"137","Newfoundland","Working"
-"138","Norfolk Terrier","Terrier"
-"139","Norwegian Buhund","Herding"
-"140","Norwegian Elkhound","Hound"
-"141","Norwegian Lundehund","Non-Sporting"
-"142","Norwich Terrier","Terrier"
-"143","Nova Scotia Duck Tolling Retriever","Sporting"
-"144","Old English Sheepdog","Herding"
-"145","Otterhound","Hound"
-"146","Papillon","Toy"
-"147","Parson Russell Terrier","Terrier"
-"148","Pekingese","Toy"
-"149","Pembroke Welsh Corgi","Herding"
-"150","Petit Basset Griffon Vend_en","Hound"
-"151","Pharaoh Hound","Hound"
-"152","Plott","Hound"
-"153","Pointer","Sporting"
-"154","Polish Lowland Sheepdog","Herding"
-"155","Pomeranian","Toy"
-"156","Standard Poodle","Non-Sporting"
-"157","Miniature Poodle","Non-Sporting"
-"158","Toy Poodle","Toy"
-"159","Portuguese Podengo Pequeno","Hound"
-"160","Portuguese Water Dog","Working"
-"161","Pug","Toy"
-"162","Puli","Herding"
-"163","Pyrenean Shepherd","Herding"
-"164","Rat Terrier","Terrier"
-"165","Redbone Coonhound","Hound"
-"166","Rhodesian Ridgeback","Hound"
-"167","Rottweiler","Working"
-"168","Russell Terrier","Terrier"
-"169","St. Bernard","Working"
-"170","Saluki","Hound"
-"171","Samoyed","Working"
-"172","Schipperke","Non-Sporting"
-"173","Scottish Deerhound","Hound"
-"174","Scottish Terrier","Terrier"
-"175","Sealyham Terrier","Terrier"
-"176","Shetland Sheepdog","Herding"
-"177","Shiba Inu","Non-Sporting"
-"178","Shih Tzu","Toy"
-"179","Siberian Husky","Working"
-"180","Silky Terrier","Toy"
-"181","Skye Terrier","Terrier"
-"182","Sloughi","Hound"
-"183","Smooth Fox Terrier","Terrier"
-"184","Soft-Coated Wheaten Terrier","Terrier"
-"185","Spanish Water Dog","Herding"
-"186","Spinone Italiano","Sporting"
-"187","Staffordshire Bull Terrier","Terrier"
-"188","Standard Schnauzer","Working"
-"189","Sussex Spaniel","Sporting"
-"190","Swedish Vallhund","Herding"
-"191","Tibetan Mastiff","Working"
-"192","Tibetan Spaniel","Non-Sporting"
-"193","Tibetan Terrier","Non-Sporting"
-"194","Toy Fox Terrier","Toy"
-"195","Treeing Walker Coonhound","Hound"
-"196","Vizsla","Sporting"
-"197","Weimaraner","Sporting"
-"198","Welsh Springer Spaniel","Sporting"
-"199","Welsh Terrier","Terrier"
-"200","West Highland White Terrier","Terrier"
-"201","Whippet","Hound"
-"202","Wire Fox Terrier","Terrier"
-"203","Wirehaired Pointing Griffon","Sporting"
-"204","Wirehaired Vizsla","Sporting"
-"205","Xoloitzcuintli","Non-Sporting"
-"206","Yorkshire Terrier","Toy"
+﻿breed_new,breed_group
+Affenpinscher,Toy
+Afghan Hound,Hound
+Airedale Terrier,Terrier
+Akita,Working
+Alaskan Malamute,Working
+American Bulldog,Non-Sporting
+American Foxhound,Hound
+American Staffordshire Terrier,Terrier
+Australian Cattle Dog,Herding
+Australian Kelpie,Working
+Australian Shepherd,Herding
+Australian Terrier,Terrier
+Basenji,Hound
+Basset Hound,Hound
+Beagle,Hound
+Bearded Collie,Herding
+Beauceron,Herding
+Bedlington Terrier,Terrier
+Belgian Malinois,Herding
+Belgian Sheepdog,Herding
+Belgian Tervuren,Herding
+Bernese Mountain Dog,Working
+Bichon Frise,Non-Sporting
+Black Mouth Cur,Herding
+Bloodhound,Hound
+Blue Lacy,Herding
+Boerboel,Working
+Border Collie,Herding
+Border Terrier,Terrier
+Boston Terrier,Non-Sporting
+Boxer,Working
+Brittany,Sporting
+Bull Terrier,Terrier
+Bulldog,Non-Sporting
+Bullmastiff,Working
+Cairn Terrier,Terrier
+Canaan Dog,Working
+Cane Corso,Working
+Cardigan Welsh Corgi,Herding
+Catahoula,Herding
+Chinese Sharpei,Non-Sporting
+Chow Chow,Non-Sporting
+Cocker Spaniel,Sporting
+Dachshund,Hound
+Dalmatian,Non-Sporting
+Doberman Pinsch,Working
+Dogue De Bordeaux,Working
+English Bulldog,Non-Sporting
+English Cocker Spaniel,Sporting
+English Foxhound,Hound
+English Setter,Sporting
+English Springer Spaniel,Sporting
+Field Spaniel,Sporting
+Finnish Spitz,Non-Sporting
+French Bulldog,Non-Sporting
+German Pinscher,Working
+German Shepherd,Herding
+German Wirehaired Pointer,Sporting
+Golden Retriever,Sporting
+Great Dane,Working
+Great Pyrenees,Working
+Greater Swiss Mountain Dog,Working
+Greyhound,Hound
+Harrier,Hound
+Havanese,Toy
+Ibizan Hound,Hound
+Irish Setter,Sporting
+Irish Terrier,Terrier
+Irish Wolfhound,Hound
+Italian Greyhound,Toy
+Japanese Chin,Toy
+Keeshond,Non-Sporting
+Kuvasz,Working
+Labrador Retriever,Sporting
+Leonberger,Working
+Lhasa Apso,Non-Sporting
+Maltese,Toy
+Manchester Terrier,Terrier
+Mastiff,Working
+Miniature Pinscher,Toy
+Miniature Poodle,Non-Sporting
+Miniature Schnauzer,Terrier
+Neapolitan Mastiff,Working
+Newfoundland,Working
+Norfolk Terrier,Terrier
+Norwegian Elkhound,Hound
+Norwich Terrier,Terrier
+Nova Scotia Duck Tolling Retriever,Sporting
+Old English Sheepdog,Herding
+Otterhound,Hound
+Papillon,Toy
+Parson Russell Terrier,Terrier
+Pekingese,Toy
+Pembroke Welsh Corgi,Herding
+Pharaoh Hound,Hound
+Pointer,Sporting
+Pomeranian,Toy
+Pug,Toy
+Queensland Heeler,Herding
+Rat Terrier,Terrier
+Rhod Ridgeback,Hound
+Rottweiler,Working
+Saluki,Hound
+Samoyed,Working
+Schipperke,Non-Sporting
+Scottish Terrier,Terrier
+Shetland Sheepdog,Herding
+Shiba Inu,Non-Sporting
+Shih Tzu,Toy
+Siberian Husky,Working
+Silky Terrier,Toy
+Skye Terrier,Terrier
+Smooth Fox Terrier,Terrier
+Spinone Italiano,Sporting
+Staffordshire,Terrier
+Standard Poodle,Non-Sporting
+Standard Schnauzer,Working
+Swedish Vallhund,Herding
+Tibetan Spaniel,Non-Sporting
+Tibetan Terrier,Non-Sporting
+Toy Fox Terrier,Toy
+Toy Poodle,Toy
+Treeing Walker Coonhound,Hound
+Vizsla,Sporting
+Weimaraner,Sporting
+Welsh Springer Spaniel,Sporting
+Welsh Terrier,Terrier
+Whippet,Hound
+Wirehaired Pointing Griffon,Sporting
+Yorkshire Terrier,Toy
+Abyssinian,Domestic Short Hair
+Alaskan Husky,Working
+American Eskimo,Non-Sporting
+American Pit Bull Terrier,Pit Bull
+American Shorthair,Domestic Short Hair
+Anatol Shepherd,Working
+Angora,Other Cat
+Balinese,Other Cat
+Bengal,Other Cat
+Black,Domestic Short Hair
+Bluetick Hound,Hound
+Bombay,Domestic Short Hair
+Boykin Span,Sporting
+British Shorthair,Other Cat
+Bruss Griffon,Toy
+Bull Terrier Miniature,Toy
+Burmese,Other Cat
+Carolina Dog,Working
+Cavalier Span,Sporting
+Chesa Bay Retr,Sporting
+Chihuahua Longhair,Toy
+Chihuahua Shorthair,Toy
+Chinese Crested,Toy
+Collie Rough,Herding
+Collie Smooth,Herding
+Cornish Rex,Other Cat
+Cymric,Domestic Short Hair
+Dachshund Longhair,Hound
+Dachshund Wirehair,Hound
+Devon Rex,Other Cat
+Dogo Argentino,Working
+Domestic Longhair,Other Cat
+Domestic Medium Hair,Other Cat
+Domestic Shorthair,Domestic Short Hair
+Dutch Shepherd,Working
+English Coonhound,Hound
+English Pointer,Sporting
+English Shepherd,Herding
+Entlebucher,Herding
+Exotic Shorthair,Other Cat
+Feist,Sporting
+Flat Coat Retriever,Sporting
+German Shorthair Pointer,Sporting
+Glen Of Imaal,Terrier
+Havana Brown,Other Cat
+Himalayan,Other Cat
+Jack Russell Terrier,Terrier
+Japanese Bobtail,Other Cat
+Javanese,Domestic Short Hair
+Jindo,Working
+Landseer,Working
+Lowchen,Non-Sporting
+Maine Coon,Other Cat
+Manx,Other Cat
+Mexican Hairless,Non-Sporting
+Munchkin Longhair,Other Cat
+Norwegian Forest Cat,Other Cat
+Ocicat,Other Cat
+Old English Bulldog,Working
+Patterdale Terr,Terrier
+Pbgv,Hound
+Persian,Other Cat
+Picardy Sheepdog,Working
+Pit Bull,Pit Bull
+Pixiebob Shorthair,Other Cat
+Plott Hound,Hound
+Podengo Pequeno,Hound
+Port Water Dog,Working
+Presa Canario,Working
+Ragdoll,Other Cat
+Redbone Hound,Hound
+Russian Blue,Other Cat
+Schnauzer Giant,Working
+Sealyham Terr,Terrier
+Siamese,Other Cat
+Snowshoe,Other Cat
+Soft Coated Wheaten Terrier,Terrier
+Spanish Mastiff,Working
+Sphynx,Other Cat
+St. Bernard Rough Coat,Working
+St. Bernard Smooth Coat,Working
+Swiss Hound,Hound
+Tonkinese,Other Cat
+Treeing Cur,Sporting
+Treeing Tennesse Brindle,Sporting
+Turkish Van,Other Cat
+Unknown,Unknown
+West Highland,Terrier
+Wire Hair Fox Terrier,Terrier
