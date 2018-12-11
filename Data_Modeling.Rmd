@@ -4,19 +4,75 @@ output: html_notebook
 ---
 
 ```{r}
-cad_model <- read.csv("Data/Cleaned_Data_Frame.csv")
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(randomForest)
+```
+
+
+```{r}
+cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>% 
+             select(-DateTime, -MonthYear)
 ```
 
 We will be modeling on OutcomeType variable
 ```{r data_split}
 seed <- 333
-inTraining <- createDataPartition(titanic_data$Survived, p=0.6, list=FALSE)
-training.set <- titanic_data[inTraining,]
-Totalvalidation.set <- titanic_data[-inTraining,]
+inTraining <- createDataPartition(cad_model$OutcomeType, p=0.6, list=FALSE)
+training.set <- cad_model[inTraining,]
+Totalvalidation.set <- cad_model[-inTraining,]
 
 # This will create another partition of the 40% of the data, so 20%-testing and 20%-validation
 
-inValidation <- createDataPartition(Totalvalidation.set$Survived, p=0.5, list=FALSE)
+inValidation <- createDataPartition(Totalvalidation.set$OutcomeType, p=0.5, list=FALSE)
 testing.set <- Totalvalidation.set[inValidation,]
 validation.set <- Totalvalidation.set[-inValidation,]
 ```
+
+#Random Forest Model
+```{r}
+rf_fit <- train(OutcomeType ~ Is_Dog + Has_Name + Sex_Female + Sex_Male + Sex_Unknown, 
+                data = training.set, 
+                method = "rf", 
+                metric = "Accuracy",
+                preProcess = c("center", "scale"),
+                tuneLength = 10)
+
+rf_pred <- predict(rf_fit, newdata=testing.set)
+
+confusionMatrix(data=rf_pred, testing.set$OutcomeType)
+```
+
+```{r}
+#Find the best mtry value to use in my model
+x <- training.set %>%
+    select(-OutcomeType, -Color, -Breed, -DateTime, -MonthYear)
+y <- training.set %>%
+    select(OutcomeType) %>%
+    .$OutcomeType
+# Algorithm Tune (tuneRF)
+set.seed(seed)
+bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
+print(bestmtry)
+```
+
+```{r}
+metric <- "Accuracy"
+
+#Find the correct number of trees (ntree) to use in my model
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+tunegrid <- expand.grid(.mtry=c(sqrt(ncol(training.set))))
+modellist <- list()
+for (ntree in c(1000, 1500, 2000, 2500)) {
+	set.seed(seed)
+	fit <- train(OutcomeType ~ ., data=training.set, method="rf", metric=metric, tuneGrid=tunegrid, trControl=control, ntree=ntree)
+	key <- toString(ntree)
+	modellist[[key]] <- fit
+}
+# compare results
+results <- resamples(modellist)
+summary(results)
+dotplot(results)
+```
+
