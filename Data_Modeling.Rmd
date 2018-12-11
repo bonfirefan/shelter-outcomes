@@ -12,7 +12,8 @@ library(randomForest)
 
 
 ```{r}
-cad_model <- read.csv("Data/Cleaned_Data_Frame.csv")
+cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>% 
+             select(-DateTime, -MonthYear)
 ```
 
 We will be modeling on OutcomeType variable
