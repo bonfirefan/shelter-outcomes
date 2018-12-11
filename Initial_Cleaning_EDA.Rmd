@@ -161,10 +161,8 @@ a_merged <- a_merged %>%
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
 ```{r}
-
-
-breed_groups <- read.csv("breedGroups.csv") %>%
-                select(-X)
+breed_groups <- read.csv("breedGroups.csv")
+names(breed_groups) <- c("breed_new", "breed_group")
 #color_groups <- read.csv("colorGroups.csv", row.names = NULL)
 
 a_merged <- inner_join(a_merged, breed_groups, by = "breed_new")

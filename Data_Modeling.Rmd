@@ -20,7 +20,7 @@ Prep the data for modeling
 ```{r}
 cad_model <- cad_model %>%
        select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color) %>% 
-       dummify(maxcat = 8L, select = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition", "groups"))
+       dummify(maxcat = 11L, select = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition", "breed_group"))
 ```
 ##Handle Dummified Columns
 After having dummified the columns, we rename and remove certain columns that would be duplicative or are confusingly named.
