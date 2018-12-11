@@ -8,6 +8,7 @@ library(tidyverse)
 library(ggplot2)
 library(lubridate)
 library(randomForest)
+library(caret)
 ```
 
 
@@ -47,7 +48,7 @@ validation.set <- Totalvalidation.set[-inValidation,]
 
 #Random Forest Model
 ```{r}
-rf_fit <- train(OutcomeType ~ Is_Dog + Has_Name + Sex_Female + Sex_Male + Sex_Unknown, 
+rf_fit <- train(OutcomeType ~ ., 
                 data = training.set, 
                 method = "rf", 
                 metric = "Accuracy",
