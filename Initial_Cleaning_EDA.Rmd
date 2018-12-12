@@ -1,7 +1,9 @@
 ---
 title: "Final Project R Notebook"
-output: html_notebook
-author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou"
+author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou, Bonnie Fan"
+output:
+  html_document:
+    df_print: paged
 ---
 
 #Introduction to Data Set
@@ -18,7 +20,7 @@ It is our belief that producing an accurate and detailed model to help predict o
 - Help the animal center better predict allocation of resources based on what actions might need to be taken for each pet in order to maximize the number of positive outcomes for the shelter animals.
 
 ## Project setup
-```{r}
+```{r echo=FALSE}
 #Load Libraries
 libraries <- c("tidyverse", "ggplot2", "DataExplorer", "gridExtra",
                "reshape", "purrr", "lubridate")
@@ -85,10 +87,24 @@ glimpse(animal_in)
 
 ##Clean the data
 Clean up and split a variety of columns to produce more usable features that can then be used in our models.
+We'll first need to clean the data variables
 ```{r}
 animal_out$AgeuponOutcome <- vapply(animal_out$AgeuponOutcome, FUN = timeWarp, FUN.VALUE = double(1)) 
 animal_in$AgeuponIntake <- vapply(animal_in$Age.upon.Intake, FUN = timeWarp, FUN.VALUE = double(1)) 
-#Split the SexuponOutcome/Intake columns in order to get access to the pets sex as well as the status of their sexual organs (neutered, intact, etc.)
+```
+```{r}
+plot_histogram(animal_in, title = "Plot of Animal Age by Frequency")
+```
+```{r}
+ggplot(animal_out, aes(x=AgeuponOutcome, fill=OutcomeType)) +
+  geom_density(alpha=0.3) +
+  theme(legend.position="bottom") + 
+  ggtitle("Outcome by age")
+```
+You can see a definite bump in adoption where puppies and kittens are eligible for adoption (around 1 years old).
+
+Split the SexuponOutcome/Intake columns in order to get access to the pets sex as well as the status of their sexual organs (neutered, intact, etc.)
+```{r}
 animal_out$S_Organ_Status_Out <- animal_out$SexuponOutcome$S_Organ_Status_Out
 animal_out$Sex_drop <- animal_out$SexuponOutcome$Sex_drop
 
@@ -232,15 +248,17 @@ g + geom_bar(stat="count", position=position_dodge()) +
 ```{r}
 g <- ggplot(data=a_merged, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    theme(axis.text.x  = element_text(angle=90)) +
+    xlab("Pet Fixed Status (Spayed or Neutered)") +
+    ggtitle("Pet Fixed Status (Spayed or Neutered) by Outcome") +
     facet_grid(~ OutcomeType)
 ```
 ```{r}
 g <- ggplot(data=a_merged, aes(x=AgeuponOutcome, fill= OutcomeType )) 
 g + geom_bar(stat="bin", position=position_dodge()) +
-    xlab("Whether a cat is over average heart weight") +
-    ggtitle("Gender distributin on over and below average heart weight group.") +
+    xlab("Age of animal") +
+    ggtitle("Distribution of outcome types by age") +
+    theme(legend.position = "bottom") +
     facet_grid(~ OutcomeType)
 ```
 
