@@ -71,8 +71,8 @@ validation.set <- validation.set %>%
 ```{r xgboost-setup}
 
 # Convert classes to integers for xgboost
-outcomes <- bind_cols(OutcomeType=c("Adoption", "Died", "Euthanasia", 
-                                        "Return_to_owner", "Transfer"), 
+outcomes <- bind_cols(OutcomeType=c("Adoption", "Died", "Euthanasia",
+                                        "Return_to_owner", "Transfer"),
                           Outcome=c(0,1,2,3,4))
 # XGBoost requires the classification classes to be encoded as numeric
 trainNumeric <- merge(training.set, outcomes, by="OutcomeType", all.x=TRUE, sort=F) %>%
@@ -101,13 +101,13 @@ params <- list(objective = "multi:softprob", num_class = countClasses, eval_metr
 
 Calculate # of folds for cross-validation (saved to rds file as it takes some time)
 ```{r}
-# xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE, 
-#                 stratified = TRUE, early_stop_round = 30, 
+# xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE,
+#                 stratified = TRUE, early_stop_round = 30,
 #                 maximize = FALSE, prediction = TRUE)
 # save(xgbcv, file="xgb_cv.rda")
 load(file="xgb_cv.rda")
-# Assign class based on max prob 
-xgb_train_preds <- data.frame(xgbcv$pred) %>% 
+# Assign class based on max prob
+xgb_train_preds <- data.frame(xgbcv$pred) %>%
   mutate(max = max.col(., ties.method = "last"), label = trainY + 1)
 outcomes <- outcomes %>%
   mutate(outcome_nonz = Outcome +1)
@@ -122,7 +122,7 @@ confusionMatrix(factor(xgb_train_preds$actOutcome),
                                   factor(xgb_train_preds$predOutcome),
                                   mode = "everything")
 ```
-Looks like there is a fairly high error rate of 32.7% unfortunately. 
+Looks like there is a fairly high error rate of 32.7% unfortunately.
 
 Evaluate number of rounds for xgboost.
 ```{r xgb-nrounds}
@@ -137,10 +137,10 @@ xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 29)
 # Predict for test set
 xgb_test_preds <- predict(xgb_model, newdata = xgb_test)
 
-xgb_test_out <- matrix(xgb_test_preds, nrow = 5, ncol = length(xgb_test_preds) / 5) %>% 
+xgb_test_out <- matrix(xgb_test_preds, nrow = 5, ncol = length(xgb_test_preds) / 5) %>%
                t() %>%
                data.frame() %>%
-               mutate(max = max.col(., ties.method = "last"), label = testY + 1) 
+               mutate(max = max.col(., ties.method = "last"), label = testY + 1)
 xgb_test_out <- left_join(xgb_test_out, outcomes, by=c("max" = "outcome_nonz")) %>%
   rename(predOutcome = OutcomeType) %>%
   select(-Outcome)
@@ -153,21 +153,21 @@ xgb_conf <- confusionMatrix(factor(xgb_test_out$actOutcome),
                                   mode = "everything")
 xgb_conf
 ```
-Looks like overal accuracy hovers at 69.3%. We will note that the other Kaggle teams 
-achieved at maximum 79% accuracy without including the outcome date variable, which 
-qualifies as data leakage. 
+Looks like overal accuracy hovers at 69.3%. We will note that the other Kaggle teams
+achieved at maximum 79% accuracy without including the outcome date variable, which
+qualifies as data leakage.
 
 We can visualize our confusion matrix below
 ```{r}
-qplot(actOutcome, predOutcome, data=xgb_test_out,  colour= actOutcome, 
-      geom = c("boxplot", "jitter"), 
-      main = "XGBoost: predicted vs. observed in test data", 
-      xlab = "Observed Outcome", 
+qplot(actOutcome, predOutcome, data=xgb_test_out,  colour= actOutcome,
+      geom = c("boxplot", "jitter"),
+      main = "XGBoost: predicted vs. observed in test data",
+      xlab = "Observed Outcome",
       ylab = "Predicted Outcome")
 ```
 If we pay attention to the "/" diagonal, we see which classes were easier to correctly predict.
 The good news is that adoption seems most Euthanasia has the highest accuracy of class at 84.5%,
-according to the confusion matrix, which is the most critical category for prediction. 
+according to the confusion matrix, which is the most critical category for prediction.
 We also see that adoptions are not confused for other classes too often, unless it is Return_to_owner.
 Return to Owner and Adoption seem to get cross-classified often, which for the shelter's purposes is
 not a bad error to make. The only concerning category is Transfer. The misclassification as adoption
@@ -185,40 +185,44 @@ xgb.ggplot.importance(xgb_imp)
 
 ```{r}
 multinomModel <- multinom(OutcomeType ~ ., data = training.set)
-confusionMatrix(as.factor(training.set$OutcomeType), 
+confusionMatrix(as.factor(training.set$OutcomeType),
                 as.factor(predict(multinomModel, training.set)), mode = "everything")
 ```
-It looks like the error rate on the multinomial model is also relatively high at 32.2%. However, it looks like the model fails to predict to find any pets that end of dying. 
+It looks like the error rate on the multinomial model is also relatively high at 32.2%. However, it looks like the model fails to predict to find any pets that end of dying.
 
-Confusion matrix on test set results 
+Confusion matrix on test set results
 ```{r multinomial-confusion}
 multiPredProb <- predict(multinomModel, testing.set, type = "prob")
 multiPred <- predict(multinomModel, testing.set)
 multiNomOut_conf <- confusionMatrix(testing.set$OutcomeType, multiPred, mode = "everything")
 multiNomOut_conf
 ```
-The accuracy on this model is also around 68.5%. The "Died" class is not being predicted at all. 
+The accuracy on this model is also around 68.5%. The "Died" class is not being predicted at all.
 ```{r}
-qplot(testing.set$OutcomeType, multiPred, colour=testing.set$OutcomeType, 
-      geom = c("boxplot", "jitter"), 
-      main = "Multinomial Model: predicted vs. observed in test data", 
-      xlab = "Observed Outcome", 
+qplot(testing.set$OutcomeType, multiPred, colour=testing.set$OutcomeType,
+      geom = c("boxplot", "jitter"),
+      main = "Multinomial Model: predicted vs. observed in test data",
+      xlab = "Observed Outcome",
       ylab = "Predicted Outcome")
 ```
-We see that the "Died" class is missing from the predicted outcome y axis in the matrix. 
+We see that the "Died" class is missing from the predicted outcome y axis in the matrix.
 It looks like many of the actual "Died" class were classified as "Transfer".
 
 #SVM Radial Model
 Next, we'll explore a Support Vector Machine (SVM) machine learning model. This is a common algorithm for classification problems.
 ```{r svm, eval=FALSE}
-svm_Radial <- caret::train(OutcomeType ~., 
-                    data = training.set, 
+svm_Radial <- caret::train(OutcomeType ~.,
+                    data = training.set,
                     method = "svmRadial",
                     preProcess = c("center", "scale"),
                     tuneLength = 10)
 
 svmModel <- predict(svm_Radial, newdata=testing.set)
+
+svmConfusion <- confusionMatrix(data=svmModel, testing.set$OutcomeType)
+
 save(svmModel, file = "svmModel.rda")
+save(svmConfusion, file = "svmConfusion.rda")
 ```
 ```{r svm-load}
 load(file = "svmModel.rda")
@@ -238,15 +242,15 @@ Here we can see that we're getting an accuracy of 69 percent. This is still bett
 load(file="rf_initial_fit.rda")
 new_names <- names(training.set)
 prev_names <- c("Name", "OutcomeType","AgeuponOutcome", "AgeuponIntake", "mix",
-                         "breed_common", "S_Organ_Status_In_Intact", "S_Organ_Status_In_Neutered", 
-                         "S_Organ_Status_In_Spayed", "S_Organ_Status_In_Unknown", "Sex_Female", 
+                         "breed_common", "S_Organ_Status_In_Intact", "S_Organ_Status_In_Neutered",
+                         "S_Organ_Status_In_Spayed", "S_Organ_Status_In_Unknown", "Sex_Female",
                          "Sex_Male", "Sex_Unknown", "S_Organ_Status_Out_Intact", "S_Organ_Status_Out_Neutered",
-                         "S_Organ_Status_Out_Spayed", "S_Organ_Status_Out_Unknown", "Is_Dog", 
+                         "S_Organ_Status_Out_Spayed", "S_Organ_Status_Out_Unknown", "Is_Dog",
                          "Intake.Type_Euthanasia.Request", "Intake.Type_Owner.Surrender", "Intake.Type_Public.Assist",
                          "Intake.Type_Stray", "Intake.Condition_Aged", "Intake.Condition_Feral",
-                         "Intake.Condition_Injured", "Intake.Condition_Normal", "Intake.Condition_Nursing", 
+                         "Intake.Condition_Injured", "Intake.Condition_Normal", "Intake.Condition_Nursing",
                          "Intake.Condition_Other", "Intake.Condition_Pregnant", "Intake.Condition_Sick",
-                         "breed_group_Domestic.Short.Hair", "breed_group_Herding", "breed_group_Hound", 
+                         "breed_group_Domestic.Short.Hair", "breed_group_Herding", "breed_group_Hound",
                          "breed_group_Non.Sporting", "breed_group_Other.Cat", "breed_group_Pit.Bull",
                          "breed_group_Sporting", "breed_group_Terrier", "breed_group_Toy",
                          "breed_group_Unknown", "breed_group_Working")
@@ -331,10 +335,10 @@ metric <- "Accuracy"
 
 
 final_fit_rf <- train(OutcomeType ~ .,
-                   data=training.set, 
-                   method="rf", metric=metric, 
-                   tuneGrid=tunegrid, 
-                   trControl=control, 
+                   data=training.set,
+                   method="rf", metric=metric,
+                   tuneGrid=tunegrid,
+                   trControl=control,
                    ntree=1500)
 
 final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
