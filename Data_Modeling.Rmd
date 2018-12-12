@@ -3,9 +3,15 @@ title: "Modeling for Animal Shelter Data"
 output: html_notebook
 ---
 
-```{r echo=FALSE}
-libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
-               "lubridate", "nnet", "mlr", "FSelector", "xgboost")
+```{r}
+library(tidyverse)
+library(ggplot2)
+library(lubridate)
+library(randomForest)
+library(caret)
+library(viridis)
+library(DataExplorer)
+```
 
 for(lb in libraries){
   # cat(paste(lb))
@@ -170,15 +176,27 @@ rf_pred <- predict(rf_fit, newdata=testing.set)
 confusionMatrix(data=rf_pred, testing.set$OutcomeType)
 ```
 
+Accuracy after initial run: 0.6922
+
+#                     Class: Adoption Class: Died Class: Euthanasia Class: Return_to_owner Class: Transfer
+Sensitivity                   0.8556   0.0263158           0.32012                 0.6473          0.5997
+Specificity                   0.7213   1.0000000           0.99259                 0.9006          0.9179
+Pos Pred Value                0.6743   1.0000000           0.72414                 0.6122          0.7887
+Neg Pred Value                0.8810   0.9935360           0.96004                 0.9133          0.8178
+Prevalence                    0.4028   0.0066376           0.05729                 0.1951          0.3382
+Detection Rate                0.3446   0.0001747           0.01834                 0.1263          0.2028
+Detection Prevalence          0.5111   0.0001747           0.02533                 0.2063          0.2571
+Balanced Accuracy             0.7884   0.5131579           0.65636                 0.7739          0.7588
+
 ```{r save model parameters}
 save(rf_fit, file="rf_initial_fit.rda")
 ```
 
-
+Find best mtry values
 ```{r}
 #Find the best mtry value to use in my model
 x <- training.set %>%
-    select(-OutcomeType, -Color, -Breed, -DateTime, -MonthYear)
+    select(-OutcomeType)
 y <- training.set %>%
     select(OutcomeType) %>%
     .$OutcomeType
@@ -187,7 +205,10 @@ set.seed(seed)
 bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
 print(bestmtry)
 ```
+Looks like the best mtry value would be 4.
 
+
+Find optimized number of trees
 ```{r}
 metric <- "Accuracy"
 
@@ -205,4 +226,54 @@ for (ntree in c(1000, 1500, 2000, 2500)) {
 results <- resamples(modellist)
 summary(results)
 dotplot(results)
+```
+
+Optimal number of trees is 1500
+
+Find optimized predictor variables
+```{r fig.width=10, fig.height=10}
+#Find best predictor variables
+rf_pv <- randomForest(OutcomeType ~ ., data=cad_model, ntree=1000, keep.forest=FALSE, importance=TRUE)
+importance(rf_pv) # relative importance of predictors (highest <-> most important)
+varImpPlot(rf_pv) # plot results
+```
+
+
+Now that I have found the optimized parameters, I will run a more targeted RF model
+```{r, fig.height=10, fig.width=10}
+seed <- 333
+
+tunegrid <- expand.grid(.mtry=c(sqrt(ncol(training.set))))
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+#tunegrid <- expand.grid(.mtry=4)
+metric <- "Accuracy"
+
+
+final_fit_rf <- train(OutcomeType ~ .,
+                   data=training.set, 
+                   method="rf", metric=metric, 
+                   tuneGrid=tunegrid, 
+                   trControl=control, 
+                   ntree=1500)
+
+final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
+
+confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
+```
+
+Final model's accuracy was 0.6931
+Statistics by Class:
+
+#                     Class: Adoption Class: Died Class: Euthanasia Class: Return_to_owner Class: Transfer
+Sensitivity                   0.8508   0.0263158           0.32622                 0.6464          0.6074
+Specificity                   0.7394   1.0000000           0.98999                 0.8976          0.9103
+Pos Pred Value                0.6877   1.0000000           0.66460                 0.6047          0.7757
+Neg Pred Value                0.8802   0.9935360           0.96028                 0.9128          0.8194
+Prevalence                    0.4028   0.0066376           0.05729                 0.1951          0.3382
+Detection Rate                0.3427   0.0001747           0.01869                 0.1261          0.2054
+Detection Prevalence          0.4983   0.0001747           0.02812                 0.2086          0.2648
+Balanced Accuracy             0.7951   0.5131579           0.65811                 0.7720          0.7589
+
+```{r save model parameters}
+save(final_fit_rf, file="rf_final_fit.rda")
 ```
