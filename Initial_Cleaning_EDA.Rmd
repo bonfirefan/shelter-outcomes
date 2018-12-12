@@ -248,7 +248,8 @@ g + geom_bar(stat="count", position=position_dodge()) +
 ```{r}
 g <- ggplot(data=a_merged, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
-    theme(axis.text.x  = element_text(angle=90)) +
+    theme(axis.text.x  = element_text(angle=45),
+          legend.position = "bottom") +
     xlab("Pet Fixed Status (Spayed or Neutered)") +
     ggtitle("Pet Fixed Status (Spayed or Neutered) by Outcome") +
     facet_grid(~ OutcomeType)
