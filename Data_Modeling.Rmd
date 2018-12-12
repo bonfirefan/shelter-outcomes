@@ -5,15 +5,9 @@ author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou, Bonnie Fan"
 output: html_notebook
 ---
 
-```{r}
-library(tidyverse)
-library(ggplot2)
-library(lubridate)
-library(randomForest)
-library(caret)
-library(viridis)
-library(DataExplorer)
-```
+```{r echo=FALSE}
+libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
+               "lubridate", "nnet", "mlr", "FSelector", "xgboost")
 
 for(lb in libraries){
   # cat(paste(lb))
@@ -153,17 +147,18 @@ confusionMatrix(factor(xgb_test_out$actOutcome),
 Looks like overal accuracy hovers at 68.6%, with a 33% training error rate. Not fantastic, but better than chance.
 
 #Multivariate Logistic Model
-```{r}
-mod_fit_logistic <- train(OutcomeType ~ .,  
-                 data = training.set,
-                 method = "gbm",
-                 metric = "Accuracy",
-                 preProcess = c("center", "scale"),
-                 tuneLength = 10)
 
-pred_logistic <- predict(mod_fit_logistic, newdata=testing.set)
-confusionMatrix(table(data=pred_logistic, testing.set$OutcomeType))
+```{r}
+test <- multinom(OutcomeType ~ ., data = training.set)
+predict(test, testing.set, type = "prob")
 ```
+```{r}
+error_rate <- table(predict(test, testing.set), testing.set$OutcomeType)
+```
+```{r}
+print(error_rate)
+```
+
 #Random Forest Model
 ```{r}
 rf_fit <- train(OutcomeType ~ .,
