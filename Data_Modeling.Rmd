@@ -1,5 +1,7 @@
 ---
 title: "Modeling for Animal Shelter Data"
+
+author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou, Bonnie Fan"
 output: html_notebook
 ---
 
@@ -66,7 +68,7 @@ validation.set <- validation.set %>%
 ```
 
 #XGBoost
-```{r xgboost-mlr-setup}
+```{r xgboost-setup}
 
 # Convert classes to integers for xgboost
 outcomes <- bind_cols(OutcomeType=c("Adoption", "Died", "Euthanasia", 
@@ -95,11 +97,15 @@ xgb_test <- xgb.DMatrix(data = as.matrix(testNumeric),
                          label=as.matrix(testY), missing=NA)
 
 params <- list(objective = "multi:softprob", num_class = countClasses, eval_metric = "mlogloss")
+```
 
-# Calculate # of folds for cross-validation
-xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE, 
-                stratified = TRUE, early_stop_round = 30, 
-                maximize = FALSE, prediction = TRUE)
+Calculate # of folds for cross-validation (saved to rds file as it takes some time)
+```{r}
+# xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE, 
+#                 stratified = TRUE, early_stop_round = 30, 
+#                 maximize = FALSE, prediction = TRUE)
+# save(xgbcv, file="xgb_cv.rda")
+load(file="xgb_cv.rda")
 
 # Assign class based on max prob 
 xgb_train_preds <- data.frame(xgbcv$pred) %>% 
@@ -116,13 +122,18 @@ xgb_train_preds <- left_join(xgb_train_preds, outcomes, by=c("label" = "outcome_
 confusionMatrix(factor(xgb_train_preds$actOutcome),
                                   factor(xgb_train_preds$predOutcome),
                                   mode = "everything")
-min_logloss <- min(xgb_tune$evaluation_log[, test_mlogloss_mean])
-min_logloss_index = which.min(xgb_tune$evaluation_log[, test_mlogloss_mean])
+```
+Looks like there is a fairly high error rate of 32.7% unfortunately. 
+
+Evaluate number of rounds for xgboost.
+```{r xgb-nrounds}
+min_logloss <- min(xgbcv$evaluation_log[, test_mlogloss_mean])
+min_logloss_index = which.min(xgbcv$evaluation_log[, test_mlogloss_mean])
 print(min_logloss_index)
 ```
-The nrounds for our model should be 28
+The nrounds for our model should be 29
 ```{r xgb-model}
-xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 28)
+xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 29)
 
 # Predict for test set
 xgb_test_preds <- predict(xgb_model, newdata = xgb_test)
@@ -138,24 +149,33 @@ xgb_test_out <- left_join(xgb_test_out, outcomes, by=c("label" = "outcome_nonz")
   rename(actOutcome = OutcomeType) %>%
   select(-Outcome)
 # Confustion Matrix
-confusionMatrix(factor(xgb_test_out$actOutcome),
+xgb_conf <- confusionMatrix(factor(xgb_test_out$actOutcome),
                                   factor(xgb_test_out$predOutcome),
                                   mode = "everything")
+xgb_conf
 ```
 Looks like overal accuracy hovers at 68.6%, with a 33% training error rate. Not fantastic, but better than chance.
 
-#Multivariate Logistic Model
-```{r}
-mod_fit_logistic <- train(OutcomeType ~ .,  
-                 data = training.set,
-                 method = "gbm",
-                 metric = "Accuracy",
-                 preProcess = c("center", "scale"),
-                 tuneLength = 10)
-
-pred_logistic <- predict(mod_fit_logistic, newdata=testing.set)
-confusionMatrix(table(data=pred_logistic, testing.set$OutcomeType))
+### Feature Importance
+We can also get feature importance from xgboost
+```{r model-feat-imp}
+# compute feature importance matrix
+importance_matrix = xgb.importance(feature_names = setdiff("OutcomeType", names(cad_model)), model = bst_model)
 ```
+
+#Multivariate Logistic Model
+
+```{r}
+test <- multinom(OutcomeType ~ ., data = training.set)
+predict(test, testing.set, type = "prob")
+```
+```{r}
+error_rate <- table(predict(test, testing.set), testing.set$OutcomeType)
+```
+```{r}
+print(error_rate)
+```
+
 #Random Forest Model
 ```{r}
 rf_fit <- train(OutcomeType ~ .,
@@ -170,15 +190,27 @@ rf_pred <- predict(rf_fit, newdata=testing.set)
 confusionMatrix(data=rf_pred, testing.set$OutcomeType)
 ```
 
-```{r save model parameters}
+Accuracy after initial run: 0.6922
+
+#                     Class: Adoption Class: Died Class: Euthanasia Class: Return_to_owner Class: Transfer
+Sensitivity                   0.8556   0.0263158           0.32012                 0.6473          0.5997
+Specificity                   0.7213   1.0000000           0.99259                 0.9006          0.9179
+Pos Pred Value                0.6743   1.0000000           0.72414                 0.6122          0.7887
+Neg Pred Value                0.8810   0.9935360           0.96004                 0.9133          0.8178
+Prevalence                    0.4028   0.0066376           0.05729                 0.1951          0.3382
+Detection Rate                0.3446   0.0001747           0.01834                 0.1263          0.2028
+Detection Prevalence          0.5111   0.0001747           0.02533                 0.2063          0.2571
+Balanced Accuracy             0.7884   0.5131579           0.65636                 0.7739          0.7588
+
+```{r save-model-parameters}
 save(rf_fit, file="rf_initial_fit.rda")
 ```
 
-
+Find best mtry values
 ```{r}
 #Find the best mtry value to use in my model
 x <- training.set %>%
-    select(-OutcomeType, -Color, -Breed, -DateTime, -MonthYear)
+    select(-OutcomeType)
 y <- training.set %>%
     select(OutcomeType) %>%
     .$OutcomeType
@@ -187,7 +219,10 @@ set.seed(seed)
 bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
 print(bestmtry)
 ```
+Looks like the best mtry value would be 4.
 
+
+Find optimized number of trees
 ```{r}
 metric <- "Accuracy"
 
@@ -222,3 +257,53 @@ confusionMatrix(data=svmModel, testing.set$OutcomeType)
 save(svmModel, file = "svmModel.rda")
 ```
 
+
+Optimal number of trees is 1500
+
+Find optimized predictor variables
+```{r fig.width=10, fig.height=10}
+#Find best predictor variables
+rf_pv <- randomForest(OutcomeType ~ ., data=cad_model, ntree=1000, keep.forest=FALSE, importance=TRUE)
+importance(rf_pv) # relative importance of predictors (highest <-> most important)
+varImpPlot(rf_pv) # plot results
+```
+
+
+Now that I have found the optimized parameters, I will run a more targeted RF model
+```{r, fig.height=10, fig.width=10}
+seed <- 333
+
+tunegrid <- expand.grid(.mtry=c(sqrt(ncol(training.set))))
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+#tunegrid <- expand.grid(.mtry=4)
+metric <- "Accuracy"
+
+
+final_fit_rf <- train(OutcomeType ~ .,
+                   data=training.set, 
+                   method="rf", metric=metric, 
+                   tuneGrid=tunegrid, 
+                   trControl=control, 
+                   ntree=1500)
+
+final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
+
+confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
+```
+
+Final model's accuracy was 0.6931
+Statistics by Class:
+
+#                     Class: Adoption Class: Died Class: Euthanasia Class: Return_to_owner Class: Transfer
+Sensitivity                   0.8508   0.0263158           0.32622                 0.6464          0.6074
+Specificity                   0.7394   1.0000000           0.98999                 0.8976          0.9103
+Pos Pred Value                0.6877   1.0000000           0.66460                 0.6047          0.7757
+Neg Pred Value                0.8802   0.9935360           0.96028                 0.9128          0.8194
+Prevalence                    0.4028   0.0066376           0.05729                 0.1951          0.3382
+Detection Rate                0.3427   0.0001747           0.01869                 0.1261          0.2054
+Detection Prevalence          0.4983   0.0001747           0.02812                 0.2086          0.2648
+Balanced Accuracy             0.7951   0.5131579           0.65811                 0.7720          0.7589
+
+```{r save model parameters}
+save(final_fit_rf, file="rf_final_fit.rda")
+```
