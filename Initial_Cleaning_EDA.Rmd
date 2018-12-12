@@ -66,6 +66,16 @@ animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>%
              select(-Name, -Breed, -Color, -`Animal Type`) %>% 
              transform(`Sex upon Intake` = colsplit(`Sex upon Intake`, split = "\\s+", names = c('S_Organ_Status_In', 'Sex')))
 ```
+## Initial Data Viz
+Check for anything that needs cleaning
+```{r}
+plot_missing(animal_out)
+```
+
+```{r}
+plot_missing(animal_in)
+```
+It looks like the missing values are solely from animals that don't have names. We'll encode this later to a binary variable.
 
 ##Clean the data
 Clean up and split a variety of columns to produce more usable features that can then be used in our models.
@@ -96,9 +106,6 @@ animal_in <- animal_in %>%
 a_merged <- inner_join(animal_out, animal_in, by = c("AnimalID" = "Animal.ID"), all.x=TRUE) %>% 
                    filter(AgeuponIntake <= AgeuponOutcome)
 
-#Save off a non-dummified column for use in EDA
-plot_data <- a_merged %>%
-             select(-AnimalID)
 ```
 
 ```{r Initial view of data}
@@ -184,7 +191,7 @@ a_merged %>%
 ```
 
 ```{r}
-glimpse(plot_data)
+glimpse(a_merged)
 ```
 
 ```{r}
@@ -201,7 +208,7 @@ g + geom_bar(stat="count", position=position_dodge()) +
 ```
 
 ```{r}
-g <- ggplot(data=plot_data, aes(x=AnimalType, fill= OutcomeType )) 
+g <- ggplot(data=a_merged, aes(x=AnimalType, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
     ggtitle("Gender distributin on over and below average heart weight group.") +
@@ -209,7 +216,7 @@ g + geom_bar(stat="count", position=position_dodge()) +
 ```
 
 ```{r}
-g <- ggplot(data=plot_data, aes(x=Name, fill= OutcomeType )) 
+g <- ggplot(data=a_merged, aes(x=Name, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
     ggtitle("Gender distributin on over and below average heart weight group.") +
@@ -217,14 +224,14 @@ g + geom_bar(stat="count", position=position_dodge()) +
 ```
 
 ```{r}
-g <- ggplot(data=plot_data, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
+g <- ggplot(data=a_merged, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
     ggtitle("Gender distributin on over and below average heart weight group.") +
     facet_grid(~ OutcomeType)
 ```
 ```{r}
-g <- ggplot(data=plot_data, aes(x=AgeuponOutcome, fill= OutcomeType )) 
+g <- ggplot(data=a_merged, aes(x=AgeuponOutcome, fill= OutcomeType )) 
 g + geom_bar(stat="bin", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
     ggtitle("Gender distributin on over and below average heart weight group.") +
