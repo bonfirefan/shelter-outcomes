@@ -206,3 +206,17 @@ results <- resamples(modellist)
 summary(results)
 dotplot(results)
 ```
+
+#SVM Radial Model
+```{r}
+svm_Radial <- caret::train(OutcomeType ~., 
+                    data = training.set, 
+                    method = "svmRadial",
+                    preProcess = c("center", "scale"),
+                    tuneLength = 10)
+
+svmModel <- predict(svm_Radial, newdata=testing.set)
+
+confusionMatrix(data=svmModel, testing.set$OutcomeType)
+```
+
