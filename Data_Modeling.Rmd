@@ -14,24 +14,25 @@ library(purrr)
 library(lubridate)
 library(caret)
 ```
+
 ```{r}
-cad_model <- read.csv("Data/Cleaned_Data_Frame.csv")
+cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>%
+             select(-X)
+```
+
+Prep the data for modeling
+```{r}
 cad_model <- cad_model %>%
-            select(-DateTime, -MonthYear)  %>% 
-       dummify(maxcat = 8L, select = c("S_Organ_Status_In", "Sex", "Name", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition"))
+       select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color) %>%
+       dummify(maxcat = 11L, select = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType", "Intake.Type", "Intake.Condition", "breed_group"))
 ```
+#Handle Dummified Columns
+After having dummified the columns, we rename and remove certain columns that would be duplicative or are confusingly named.
 ```{r}
-glimpse(cad_model)
+cad_model <- cad_model %>%
+       select(-AnimalType_Cat) %>%
+       dplyr::rename(Is_Dog = AnimalType_Dog)
 ```
-
-```{r}
-#cad_model <- cad_model %>%
-#            mutate(OutcomeType = ifelse(OutcomeType == "Adoption", 1, 0))
-```
-```{r}
-#glimpse(cad_model)
-```
-
 
 
 We will be modeling on OutcomeType variable
@@ -48,11 +49,11 @@ testing.set <- Totalvalidation.set[inValidation,]
 validation.set <- Totalvalidation.set[-inValidation,]
 ```
 
-
+#Multivariate Logistic Model
 ```{r}
 mod_fit_logistic <- train(OutcomeType ~ .,  
-                 data = training.set, 
-                 method = "gbm", 
+                 data = training.set,
+                 method = "gbm",
                  metric = "Accuracy",
                  preProcess = c("center", "scale"),
                  tuneLength = 10)
@@ -60,4 +61,53 @@ mod_fit_logistic <- train(OutcomeType ~ .,
 pred_logistic <- predict(mod_fit_logistic, newdata=testing.set)
 confusionMatrix(table(data=pred_logistic, testing.set$OutcomeType))
 ```
+#Random Forest Model
+```{r}
+rf_fit <- train(OutcomeType ~ .,
+                data = training.set,
+                method = "rf",
+                metric = "Accuracy",
+                preProcess = c("center", "scale"),
+                tuneLength = 10)
 
+rf_pred <- predict(rf_fit, newdata=testing.set)
+
+confusionMatrix(data=rf_pred, testing.set$OutcomeType)
+```
+
+```{r save model parameters}
+save(rf_fit, file="rf_initial_fit.rda")
+```
+
+
+```{r}
+#Find the best mtry value to use in my model
+x <- training.set %>%
+    select(-OutcomeType, -Color, -Breed, -DateTime, -MonthYear)
+y <- training.set %>%
+    select(OutcomeType) %>%
+    .$OutcomeType
+# Algorithm Tune (tuneRF)
+set.seed(seed)
+bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
+print(bestmtry)
+```
+
+```{r}
+metric <- "Accuracy"
+
+#Find the correct number of trees (ntree) to use in my model
+control <- trainControl(method="repeatedcv", number=10, repeats=3, search="grid")
+tunegrid <- expand.grid(.mtry=c(sqrt(ncol(training.set))))
+modellist <- list()
+for (ntree in c(1000, 1500, 2000, 2500)) {
+	set.seed(seed)
+	fit <- train(OutcomeType ~ ., data=training.set, method="rf", metric=metric, tuneGrid=tunegrid, trControl=control, ntree=ntree)
+	key <- toString(ntree)
+	modellist[[key]] <- fit
+}
+# compare results
+results <- resamples(modellist)
+summary(results)
+dotplot(results)
+```
