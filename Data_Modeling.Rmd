@@ -68,7 +68,7 @@ validation.set <- validation.set %>%
 ```
 
 #XGBoost
-```{r xgboost-mlr-setup}
+```{r xgboost-setup}
 
 # Convert classes to integers for xgboost
 outcomes <- bind_cols(OutcomeType=c("Adoption", "Died", "Euthanasia", 
