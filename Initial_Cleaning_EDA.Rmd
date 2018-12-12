@@ -20,7 +20,7 @@ It is our belief that producing an accurate and detailed model to help predict o
 - Help the animal center better predict allocation of resources based on what actions might need to be taken for each pet in order to maximize the number of positive outcomes for the shelter animals.
 
 ## Project setup
-```{r echo=FALSE}
+```{r message=FALSE}
 #Load Libraries
 libraries <- c("tidyverse", "ggplot2", "DataExplorer", "gridExtra",
                "reshape", "purrr", "lubridate")
@@ -35,7 +35,7 @@ for(lb in libraries){
 }
 ```
 
-# #Helper Functions for Data Cleanup and EDA
+# Helper Functions for Data Cleanup and EDA
 ```{r helper functions}
 #Helper function to convert values in the AgeuponOutcome/Intake column from time strings (e.g. 1 year, 2 months, etc.) into time in months
 timeWarp <- function(age) {
@@ -68,7 +68,7 @@ animal_in <- read_csv("data/Austin_Animal_Center_Intakes.csv") %>%
              select(-Name, -Breed, -Color, -`Animal Type`) %>% 
              transform(`Sex upon Intake` = colsplit(`Sex upon Intake`, split = "\\s+", names = c('S_Organ_Status_In', 'Sex')))
 ```
-## Initial Data Viz
+## Initial Data Visualization
 Check for anything that needs cleaning
 ```{r}
 plot_missing(animal_out)
@@ -77,6 +77,7 @@ plot_missing(animal_out)
 ```{r}
 plot_missing(animal_in)
 ```
+
 It looks like the missing values are solely from animals that don't have names. We'll encode this later to a binary variable.
 ```{r}
 glimpse(animal_out)
@@ -101,6 +102,7 @@ ggplot(animal_out, aes(x=AgeuponOutcome, fill=OutcomeType)) +
   theme(legend.position="bottom") + 
   ggtitle("Outcome by age")
 ```
+
 You can see a definite bump in adoption where puppies and kittens are eligible for adoption (around 1 years old).
 
 Split the SexuponOutcome/Intake columns in order to get access to the pets sex as well as the status of their sexual organs (neutered, intact, etc.)
@@ -249,7 +251,7 @@ g + geom_bar(stat="count", position=position_dodge()) +
     theme(plot.title = element_text(hjust = 0.5))
 ```
 
-```{r}
+```{r fig.height=7, fig.width=7}
 g <- ggplot(data=a_merged, aes(x=S_Organ_Status_Out, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     theme(axis.text.x  = element_text(angle=45),
@@ -259,7 +261,7 @@ g + geom_bar(stat="count", position=position_dodge()) +
     ggtitle("Pet Fixed Status (Spayed or Neutered) by Outcome") +
     facet_grid(~ OutcomeType) 
 ```
-```{r}
+```{r fig.height=7, fig.width=7}
 g <- ggplot(data=a_merged, aes(x=AgeuponOutcome, fill= OutcomeType )) 
 g + geom_bar(stat="bin", position=position_dodge()) +
     xlab("Age of animal") +
@@ -269,13 +271,14 @@ g + geom_bar(stat="bin", position=position_dodge()) +
     theme(plot.title = element_text(hjust = 0.5))
 ```
 
-#Data Cleaning and EDA Conclusions for our dataset
+#Data Cleaning and EDA Conclusions for our Dataset
 Following our steps to clean, transform, and graph our Animal Shelter dataset, we have found a couple interesting factors in play within our dataset. 
 
 One of the first, and most positive, insights we get from our last graph (Distribution of Outcome Types by Age at Outcome) is that the majority of shelter animals at the Austin Animal Center do not end up dying or getting euthanized. The majority end up being adopted, transferred, or returned to their owner. Which is a comforting thing to know for animal lovers.
 
 Since the ideal outcome for these animals is to end up adopted, we also focused in on factors that led to higher adoption rates for pets. From our data, we identified that these following factors were important determinants for whether a pet was adopted or not:
 - Animals who at time of outcome had been fixed (spayed or neutered) had much higher adoption rates than animals who were not. Of the pets adopted, ~11,000 of the ~11,500 that were adopted had been spayed or neutered.
+- Looking at our density plot for age upon outcome, we can see a disturbing trend of very high levels of deaths and euthansasia for puppies and kittens within their first 6 months of life (deaths for young animals isn't shocking but the high levels of euthanasia is surprising). The other trend we see from the density plot is the spike in adoptions around the 1 year mark, which is the age at which shelter animals can be adopted.
 - Animals who ended up being adopted or returned to owners, thus being able to leave the animal center to a household, for the most part were named. This could very well just be due to data collection or entry errors on the animal centers part, but the time and attention it takes to collect or give an animal a name might be telling to the level of attention and care that pet received from prior owners or the selter itself.
 - The outcome by animal type was not overly infrrmative like we hoped it might be. For the most part this seems to have to do with the fact that the dataset is heavily skewed towards dogs vs cats. ~2/3s of the data set is dogs, thus outcomes by animal type doesn't tell us as much information as we first expected.
 
