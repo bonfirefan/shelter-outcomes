@@ -218,5 +218,7 @@ svm_Radial <- caret::train(OutcomeType ~.,
 svmModel <- predict(svm_Radial, newdata=testing.set)
 
 confusionMatrix(data=svmModel, testing.set$OutcomeType)
+
+save(svmModel, file = "svmModel.rda")
 ```
 
