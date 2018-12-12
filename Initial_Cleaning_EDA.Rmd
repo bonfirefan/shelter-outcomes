@@ -19,6 +19,7 @@ It is our belief that producing an accurate and detailed model to help predict o
 - Help the animal center better predict the outcome of a new animal that comes into the shelter. And depending on that predicted outcome, take proactive measures to steer "assist" the animal in receiving a better outcome based on what our model tells us makes for a pet that is more likely to be adopted.
 - Help the animal center better predict allocation of resources based on what actions might need to be taken for each pet in order to maximize the number of positive outcomes for the shelter animals.
 
+#Exploratory Data Analysis
 ## Project setup
 ```{r message=FALSE}
 #Load Libraries
@@ -35,7 +36,7 @@ for(lb in libraries){
 }
 ```
 
-# Helper Functions for Data Cleanup and EDA
+## Helper Functions for Data Cleanup and EDA
 ```{r helper functions}
 #Helper function to convert values in the AgeuponOutcome/Intake column from time strings (e.g. 1 year, 2 months, etc.) into time in months
 timeWarp <- function(age) {
@@ -151,7 +152,7 @@ a_merged <- a_merged %>%
          breed_new = map_chr(breed_new, function(x){unlist(x[1])}))
 ```
 
-Because there are so many separate breeds and colors, it would be difficult to includee them in our model. For this reason, we'll categorize them for analysis.
+Because there are so many separate breeds and colors, it would be difficult to include them in our model. For this reason, we'll categorize them for analysis.
 
 It does look like there are a number of popular breeds that take up more than 75% of the dataset:
 ```{r}
@@ -195,6 +196,7 @@ a_merged <- a_merged %>%
 ```
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
+For the ~200 most common breeds, we classified them based on categories outlined by the American Kennel Club. These categories include "Working," "Sporting," "Non-sporting" and "Toy" for dogs, and "Domestic Shorthair" and "Other Cat" for cats. We then mapped each of the breeds to their corresponding category, and saved the mapping in a data frame. Finally, we joined the breed grouping data frame with our existing dataset to add the breed category information.
 ```{r}
 breed_groups <- read.csv("breedGroups.csv")
 names(breed_groups) <- c("breed_new", "breed_group")
@@ -204,12 +206,12 @@ a_merged <- inner_join(a_merged, breed_groups, by = "breed_new")
 #a_merged <- left_join(a_merged, color_groups, by = c("Color" = "colors"))
 ```
 
-#Save off data frame for use at later points
+##Save off data frame for use at later points
 ```{r}
 write.csv(a_merged, file="Data/Cleaned_Data_Frame.csv")
 ```
 
-#Graphical Analysis of Dataset for EDA
+##Graphical Analysis of Dataset for EDA
 First we leverage the DataExplorer plot_bar function to get an initial feel for how our variables are distributed.
 ```{r fig.width=10, fig.height=10}
 a_merged %>%
