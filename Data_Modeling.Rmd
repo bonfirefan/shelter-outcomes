@@ -121,6 +121,8 @@ min_logloss_index = which.min(xgb_tune$evaluation_log[, test_mlogloss_mean])
 print(min_logloss_index)
 ```
 The nrounds for our model should be 28
+
+Now let's evaluate the model on our testing set.
 ```{r xgb-model}
 xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 28)
 
