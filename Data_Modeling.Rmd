@@ -10,6 +10,7 @@ library(lubridate)
 library(randomForest)
 library(caret)
 library(viridis)
+library(DataExplorer)
 ```
 
 
@@ -90,6 +91,8 @@ set.seed(seed)
 bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
 print(bestmtry)
 ```
+Looks like the best mtry value would be 4.
+
 
 Find optimized number of trees
 ```{r}
@@ -111,10 +114,12 @@ summary(results)
 dotplot(results)
 ```
 
+Optimal number of trees is 1500
+
 Find optimized predictor variables
-```{r}
+```{r fig.width=10, fig.height=10}
 #Find best predictor variables
-rf_pv <- randomForest(Churn_Yes ~ ., data=telco_data, ntree=1000, keep.forest=FALSE, importance=TRUE)
+rf_pv <- randomForest(OutcomeType ~ ., data=cad_model, ntree=1000, keep.forest=FALSE, importance=TRUE)
 importance(rf_pv) # relative importance of predictors (highest <-> most important)
 varImpPlot(rf_pv) # plot results
 ```
