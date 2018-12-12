@@ -2,5 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+<<<<<<< HEAD
 Initial_Cleaning_EDA.nb.html
 Data_Modeling.nb.html
+=======
+*.nb.html
+>>>>>>> a578bbd473c2f0b95f7919c099ca674c4a65b024

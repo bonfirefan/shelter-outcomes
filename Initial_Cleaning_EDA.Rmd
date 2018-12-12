@@ -20,13 +20,17 @@ It is our belief that producing an accurate and detailed model to help predict o
 ## Project setup
 ```{r}
 #Load Libraries
-library(tidyverse)
-library(ggplot2)
-library(DataExplorer)
-library(gridExtra)
-library(reshape)
-library(purrr)
-library(lubridate)
+libraries <- c("tidyverse", "ggplot2", "DataExplorer", "gridExtra",
+               "reshape", "purrr", "lubridate")
+
+for(lb in libraries){
+  # cat(paste(lb))
+  if(!(require(lb, character.only = TRUE))){
+    install.packages(lb)
+  }
+
+  library(lb, character.only = TRUE)
+}
 ```
 
 # #Helper Functions for Data Cleanup and EDA
@@ -161,10 +165,8 @@ a_merged <- a_merged %>%
 We've now grouped the 1365 sparse class breeds into one "Uncommon" group.
 
 ```{r}
-
-
-breed_groups <- read.csv("breedGroups.csv") %>%
-                select(-X)
+breed_groups <- read.csv("breedGroups.csv")
+names(breed_groups) <- c("breed_new", "breed_group")
 #color_groups <- read.csv("colorGroups.csv", row.names = NULL)
 
 a_merged <- inner_join(a_merged, breed_groups, by = "breed_new")
@@ -185,8 +187,12 @@ a_merged %>%
 glimpse(plot_data)
 ```
 
+```{r}
+glimpse(a_merged)
+```
+
 ```{r fig.width=10, fig.height=10}
-g <- ggplot(data=plot_data, aes(x=Breed, fill= OutcomeType )) 
+g <- ggplot(data=a_merged, aes(x=breed_group, fill= OutcomeType )) 
 g + geom_bar(stat="count", position=position_dodge()) +
     xlab("Whether a cat is over average heart weight") +
     ylim(0, 800) + 
