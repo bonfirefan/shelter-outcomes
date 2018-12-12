@@ -5,7 +5,7 @@ output: html_notebook
 
 ```{r echo=FALSE}
 libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
-               "lubridate", "nnet", "mlr")
+               "lubridate", "nnet", "mlr", "FSelector", "xgboost")
 
 for(lb in libraries){
   # cat(paste(lb))
@@ -25,9 +25,7 @@ cad_model <- read.csv("Data/Cleaned_Data_Frame.csv") %>%
 Prep the data for modeling
 ```{r}
 cad_model <- cad_model %>%
-       select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color, -AgeuponOutcome)
-cad_model <- normalizeFeatures(cad_model, target = "OutcomeType",
-                               cols = c("AgeuponIntake"))
+       select(-DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color, -AgeuponOutcome)
 cad_model <- createDummyFeatures(cad_model,
                                  target = "OutcomeType",
                                  cols = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType",
@@ -41,20 +39,110 @@ cad_model <- cad_model %>%
        dplyr::rename(Is_Dog = AnimalType.Dog)
 ```
 
-
 We will be modeling on OutcomeType variable
 ```{r data_split}
+# Set the number of classes in our classification model
+countClasses <- length(unique(cad_model$OutcomeType))
+# Train and test split
 seed <- 333
 inTraining <- createDataPartition(cad_model$OutcomeType, p=0.6, list=FALSE)
 training.set <- cad_model[inTraining,]
+trainAnimalID <- training.set$AnimalID
+training.set <- training.set %>%
+  select(-AnimalID)
 Totalvalidation.set <- cad_model[-inTraining,]
 
 # This will create another partition of the 40% of the data, so 20%-testing and 20%-validation
 
 inValidation <- createDataPartition(Totalvalidation.set$OutcomeType, p=0.5, list=FALSE)
 testing.set <- Totalvalidation.set[inValidation,]
+testAnimalID <- testing.set$AnimalID
+testing.set <- testing.set %>%
+  select(-AnimalID)
 validation.set <- Totalvalidation.set[-inValidation,]
+validAnimalID <- validation.set$AnimalID
+validation.set <- validation.set %>%
+  select(-AnimalID)
 ```
+
+#XGBoost
+```{r xgboost-mlr-setup}
+
+# Convert classes to integers for xgboost
+outcomes <- bind_cols(OutcomeType=c("Adoption", "Died", "Euthanasia", 
+                                        "Return_to_owner", "Transfer"), 
+                          Outcome=c(0,1,2,3,4))
+# XGBoost requires the classification classes to be encoded as numeric
+trainNumeric <- merge(training.set, outcomes, by="OutcomeType", all.x=TRUE, sort=F) %>%
+  select(-OutcomeType)
+testNumeric <- merge(testing.set, outcomes, by="OutcomeType", all.x=TRUE, sort=F) %>%
+  select(-OutcomeType)
+trainY <- trainNumeric$Outcome
+testY <- testNumeric$Outcome
+trainNumeric <- trainNumeric %>%
+  select(-Outcome)
+testNumeric <- testNumeric %>%
+  select(-Outcome)
+```
+
+## Now to create the xgboost model
+
+```{r xgboost-mlr-learner}
+# xgboost-specific design matrices
+xgb_train <- xgb.DMatrix(data = as.matrix(trainNumeric),
+                         label=as.matrix(trainY), missing=NA)
+xgb_test <- xgb.DMatrix(data = as.matrix(testNumeric),
+                         label=as.matrix(testY), missing=NA)
+
+params <- list(objective = "multi:softprob", num_class = countClasses, eval_metric = "mlogloss")
+
+# Calculate # of folds for cross-validation
+xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE, 
+                stratified = TRUE, early_stop_round = 30, 
+                maximize = FALSE, prediction = TRUE)
+
+# Assign class based on max prob 
+xgb_train_preds <- data.frame(xgbcv$pred) %>% 
+  mutate(max = max.col(., ties.method = "last"), label = trainY + 1)
+outcomes <- outcomes %>%
+  mutate(outcome_nonz = Outcome +1)
+xgb_train_preds <- left_join(xgb_train_preds, outcomes, by=c("max" = "outcome_nonz")) %>%
+  rename(predOutcome = OutcomeType) %>%
+  select(-Outcome)
+xgb_train_preds <- left_join(xgb_train_preds, outcomes, by=c("label" = "outcome_nonz")) %>%
+  rename(actOutcome = OutcomeType) %>%
+  select(-Outcome)
+# Generate confusion matrix
+confusionMatrix(factor(xgb_train_preds$actOutcome),
+                                  factor(xgb_train_preds$predOutcome),
+                                  mode = "everything")
+min_logloss <- min(xgb_tune$evaluation_log[, test_mlogloss_mean])
+min_logloss_index = which.min(xgb_tune$evaluation_log[, test_mlogloss_mean])
+print(min_logloss_index)
+```
+The nrounds for our model should be 28
+```{r xgb-model}
+xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 28)
+
+# Predict for test set
+xgb_test_preds <- predict(xgb_model, newdata = xgb_test)
+
+xgb_test_out <- matrix(xgb_test_preds, nrow = 5, ncol = length(xgb_test_preds) / 5) %>% 
+               t() %>%
+               data.frame() %>%
+               mutate(max = max.col(., ties.method = "last"), label = testY + 1) 
+xgb_test_out <- left_join(xgb_test_out, outcomes, by=c("max" = "outcome_nonz")) %>%
+  rename(predOutcome = OutcomeType) %>%
+  select(-Outcome)
+xgb_test_out <- left_join(xgb_test_out, outcomes, by=c("label" = "outcome_nonz")) %>%
+  rename(actOutcome = OutcomeType) %>%
+  select(-Outcome)
+# Confustion Matrix
+confusionMatrix(factor(xgb_test_out$actOutcome),
+                                  factor(xgb_test_out$predOutcome),
+                                  mode = "everything")
+```
+Looks like overal accuracy hovers at 68.6%, with a 33% training error rate. Not fantastic, but better than chance.
 
 #Multivariate Logistic Model
 ```{r}
