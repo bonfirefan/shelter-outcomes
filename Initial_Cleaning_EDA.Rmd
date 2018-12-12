@@ -76,6 +76,12 @@ plot_missing(animal_out)
 plot_missing(animal_in)
 ```
 It looks like the missing values are solely from animals that don't have names. We'll encode this later to a binary variable.
+```{r}
+glimpse(animal_out)
+```
+```{r}
+glimpse(animal_in)
+```
 
 ##Clean the data
 Clean up and split a variety of columns to produce more usable features that can then be used in our models.
