@@ -187,9 +187,10 @@ svm_Radial <- caret::train(OutcomeType ~.,
 
 svmModel <- predict(svm_Radial, newdata=testing.set)
 
-confusionMatrix(data=svmModel, testing.set$OutcomeType)
+svmConfusion <- confusionMatrix(data=svmModel, testing.set$OutcomeType)
 
 save(svmModel, file = "svmModel.rda")
+save(svmConfusion, file = "svmConfusion.rda")
 ```
 Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
 
