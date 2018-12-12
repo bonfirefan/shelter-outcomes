@@ -176,6 +176,23 @@ error_rate <- table(predict(test, testing.set), testing.set$OutcomeType)
 print(error_rate)
 ```
 
+#SVM Radial Model
+Next, we'll explore a Support Vector Machine (SVM) machine learning model. This is a common algorithm for classification problems.
+```{r}
+svm_Radial <- caret::train(OutcomeType ~., 
+                    data = training.set, 
+                    method = "svmRadial",
+                    preProcess = c("center", "scale"),
+                    tuneLength = 10)
+
+svmModel <- predict(svm_Radial, newdata=testing.set)
+
+confusionMatrix(data=svmModel, testing.set$OutcomeType)
+
+save(svmModel, file = "svmModel.rda")
+```
+Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
+
 #Random Forest Model
 ```{r}
 rf_fit <- train(OutcomeType ~ .,
@@ -241,22 +258,6 @@ results <- resamples(modellist)
 summary(results)
 dotplot(results)
 ```
-
-#SVM Radial Model
-```{r}
-svm_Radial <- caret::train(OutcomeType ~., 
-                    data = training.set, 
-                    method = "svmRadial",
-                    preProcess = c("center", "scale"),
-                    tuneLength = 10)
-
-svmModel <- predict(svm_Radial, newdata=testing.set)
-
-confusionMatrix(data=svmModel, testing.set$OutcomeType)
-
-save(svmModel, file = "svmModel.rda")
-```
-
 
 Optimal number of trees is 1500
 
