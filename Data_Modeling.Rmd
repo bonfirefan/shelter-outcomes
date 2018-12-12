@@ -27,11 +27,11 @@ Prep the data for modeling
 ```{r}
 cad_model <- cad_model %>%
        select(-AnimalID, -DateTime, -MonthYear, -Found.Location, -Breed, -breed_new, -Color, -AgeuponOutcome)
-cad_model <- normalizeFeatures(cad_model, target = "OutcomeType", 
+cad_model <- normalizeFeatures(cad_model, target = "OutcomeType",
                                cols = c("AgeuponIntake"))
-cad_model <- createDummyFeatures(cad_model, 
-                                 target = "OutcomeType", 
-                                 cols = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType", 
+cad_model <- createDummyFeatures(cad_model,
+                                 target = "OutcomeType",
+                                 cols = c("S_Organ_Status_In", "Sex", "S_Organ_Status_Out", "AnimalType",
                                           "Intake.Type", "Intake.Condition", "breed_group"))
 ```
 ##Handle Dummified Columns
@@ -59,9 +59,9 @@ validation.set <- Totalvalidation.set[-inValidation,]
 
 #Random Forest Model
 ```{r}
-rf_fit <- train(OutcomeType ~ Is_Dog + Has_Name + Sex_Female + Sex_Male + Sex_Unknown, 
-                data = training.set, 
-                method = "rf", 
+rf_fit <- train(OutcomeType ~ .,
+                data = training.set,
+                method = "rf",
                 metric = "Accuracy",
                 preProcess = c("center", "scale"),
                 tuneLength = 10)
@@ -70,6 +70,11 @@ rf_pred <- predict(rf_fit, newdata=testing.set)
 
 confusionMatrix(data=rf_pred, testing.set$OutcomeType)
 ```
+
+```{r save model parameters}
+save(rf_fit, file="rf_initial_fit.rda")
+```
+
 
 ```{r}
 #Find the best mtry value to use in my model
@@ -102,4 +107,3 @@ results <- resamples(modellist)
 summary(results)
 dotplot(results)
 ```
-
