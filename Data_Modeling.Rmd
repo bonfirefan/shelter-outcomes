@@ -97,11 +97,15 @@ xgb_test <- xgb.DMatrix(data = as.matrix(testNumeric),
                          label=as.matrix(testY), missing=NA)
 
 params <- list(objective = "multi:softprob", num_class = countClasses, eval_metric = "mlogloss")
+```
 
-# Calculate # of folds for cross-validation
-xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE, 
-                stratified = TRUE, early_stop_round = 30, 
-                maximize = FALSE, prediction = TRUE)
+Calculate # of folds for cross-validation (saved to rds file as it takes some time)
+```{r}
+# xgbcv <- xgb.cv(params = params, data = xgb_train, nrounds = 200, nfold = 5, showsd = TRUE, 
+#                 stratified = TRUE, early_stop_round = 30, 
+#                 maximize = FALSE, prediction = TRUE)
+# save(xgbcv, file="xgb_cv.rda")
+load(file="xgb_cv.rda")
 
 # Assign class based on max prob 
 xgb_train_preds <- data.frame(xgbcv$pred) %>% 
@@ -118,13 +122,18 @@ xgb_train_preds <- left_join(xgb_train_preds, outcomes, by=c("label" = "outcome_
 confusionMatrix(factor(xgb_train_preds$actOutcome),
                                   factor(xgb_train_preds$predOutcome),
                                   mode = "everything")
-min_logloss <- min(xgb_tune$evaluation_log[, test_mlogloss_mean])
-min_logloss_index = which.min(xgb_tune$evaluation_log[, test_mlogloss_mean])
+```
+Looks like there is a fairly high error rate of 32.7% unfortunately. 
+
+Evaluate number of rounds for xgboost.
+```{r xgb-nrounds}
+min_logloss <- min(xgbcv$evaluation_log[, test_mlogloss_mean])
+min_logloss_index = which.min(xgbcv$evaluation_log[, test_mlogloss_mean])
 print(min_logloss_index)
 ```
-The nrounds for our model should be 28
+The nrounds for our model should be 29
 ```{r xgb-model}
-xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 28)
+xgb_model <- xgb.train(params = params, data = xgb_train, nrounds = 29)
 
 # Predict for test set
 xgb_test_preds <- predict(xgb_model, newdata = xgb_test)
@@ -140,11 +149,19 @@ xgb_test_out <- left_join(xgb_test_out, outcomes, by=c("label" = "outcome_nonz")
   rename(actOutcome = OutcomeType) %>%
   select(-Outcome)
 # Confustion Matrix
-confusionMatrix(factor(xgb_test_out$actOutcome),
+xgb_conf <- confusionMatrix(factor(xgb_test_out$actOutcome),
                                   factor(xgb_test_out$predOutcome),
                                   mode = "everything")
+xgb_conf
 ```
 Looks like overal accuracy hovers at 68.6%, with a 33% training error rate. Not fantastic, but better than chance.
+
+### Feature Importance
+We can also get feature importance from xgboost
+```{r model-feat-imp}
+# compute feature importance matrix
+importance_matrix = xgb.importance(feature_names = setdiff("OutcomeType", names(cad_model)), model = bst_model)
+```
 
 #Multivariate Logistic Model
 
@@ -185,7 +202,7 @@ Detection Rate                0.3446   0.0001747           0.01834              
 Detection Prevalence          0.5111   0.0001747           0.02533                 0.2063          0.2571
 Balanced Accuracy             0.7884   0.5131579           0.65636                 0.7739          0.7588
 
-```{r save model parameters}
+```{r save-model-parameters}
 save(rf_fit, file="rf_initial_fit.rda")
 ```
 
