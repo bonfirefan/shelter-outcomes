@@ -20,13 +20,17 @@ It is our belief that producing an accurate and detailed model to help predict o
 ## Project setup
 ```{r}
 #Load Libraries
-library(tidyverse)
-library(ggplot2)
-library(DataExplorer)
-library(gridExtra)
-library(reshape)
-library(purrr)
-library(lubridate)
+libraries <- c("tidyverse", "ggplot2", "DataExplorer", "gridExtra",
+               "reshape", "purrr", "lubridate")
+
+for(lb in libraries){
+  # cat(paste(lb))
+  if(!(require(lb, character.only = TRUE))){
+    install.packages(lb)
+  }
+
+  library(lb, character.only = TRUE)
+}
 ```
 
 # #Helper Functions for Data Cleanup and EDA
