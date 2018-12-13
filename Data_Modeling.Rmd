@@ -218,17 +218,21 @@ svm_Radial <- caret::train(OutcomeType ~.,
                     tuneLength = 10)
 
 svmModel <- predict(svm_Radial, newdata=testing.set)
-
 svmConfusion <- confusionMatrix(data=svmModel, testing.set$OutcomeType)
-
-save(svmModel, file = "svmModel.rda")
-save(svmConfusion, file = "svmConfusion.rda")
+save(svmModel, svmConfusion, file = "svmModel.rda")
 ```
+
 ```{r svm-load}
 load(file = "svmModel.rda")
-confusionMatrix(data=svmModel, testing.set$OutcomeType)
 ```
 Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
+```{r eval=FALSE}
+qplot(svmConfusion, svmModel, data=xgb_test_out,  colour= actOutcome,
+      geom = c("boxplot", "jitter"),
+      main = "XGBoost: predicted vs. observed in test data",
+      xlab = "Observed Outcome",
+      ylab = "Predicted Outcome")
+```
 
 #Random Forest Model
 ```{r}
@@ -258,8 +262,7 @@ names(training.set) <- prev_names
 names(testing.set) <- prev_names
 rf_pred <- predict(rf_fit, newdata=testing.set)
 
-rfConfusion <- confusionMatrix(data=rf_pred, testing.set$OutcomeType)
-rfConfusion
+confusionMatrix(data=rf_pred, testing.set$OutcomeType)
 ```
 
 Accuracy after initial run: 0.6922
@@ -325,7 +328,7 @@ varImpPlot(rf_pv) # plot results
 
 
 Now that we have found the optimized parameters, we will run a more targeted RF model
-```{r, fig.height=10, fig.width=10}
+```{r rf-final, eval=FALSE}
 seed <- 333
 
 tunegrid <- expand.grid(.mtry=c(sqrt(ncol(training.set))))
@@ -341,9 +344,7 @@ final_fit_rf <- train(OutcomeType ~ .,
                    trControl=control,
                    ntree=1500)
 
-final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
-
-confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
+save(final_fit_rf, file="rf_final_fit.rda")
 ```
 
 Final model's accuracy was 0.6931
@@ -359,6 +360,8 @@ Detection Rate                0.3427   0.0001747           0.01869              
 Detection Prevalence          0.4983   0.0001747           0.02812                 0.2086          0.2648
 Balanced Accuracy             0.7951   0.5131579           0.65811                 0.7720          0.7589
 
-```{r save model parameters}
-save(final_fit_rf, file="rf_final_fit.rda")
+```{r rf-model-load, fig.height=10, fig.width=10}
+final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
+rfConfusion <- confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
 ```
+
