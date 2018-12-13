@@ -210,6 +210,9 @@ It looks like many of the actual "Died" class were classified as "Transfer".
 
 #SVM Radial Model
 Next, we'll explore a Support Vector Machine (SVM) machine learning model. This is a common algorithm for classification problems.
+```{r rename, include=FALSE}
+names(testing.set) <- prev_names
+```
 ```{r svm, eval=FALSE}
 svm_Radial <- caret::train(OutcomeType ~.,
                     data = training.set,
@@ -224,25 +227,18 @@ save(svm_Radial, svmModel, svmConfusion, file = "svmModel.rda")
 
 ```{r svm-load}
 load(file = "svmModel.rda")
+svmConfusion
 ```
 Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
-```{r eval=FALSE}
-qplot(svmConfusion, svmModel, data=xgb_test_out,  colour= actOutcome,
+```{r svm-qplot}
+qplot(testing.set$OutcomeType, svmModel,  colour= testing.set$OutcomeTyp,
       geom = c("boxplot", "jitter"),
-      main = "XGBoost: predicted vs. observed in test data",
+      main = "SVM: predicted vs. observed in test data",
       xlab = "Observed Outcome",
       ylab = "Predicted Outcome")
 ```
-#Random Forest Model
-```{r}
-# rf_fit <- train(OutcomeType ~ .,
-#                 data = training.set,
-#                 method = "rf",
-#                 metric = "Accuracy",
-#                 preProcess = c("center", "scale"),
-#                 tuneLength = 10)
-# save(rf_fit, file="rf_initial_fit.rda")
-load(file="rf_initial_fit.rda")
+
+```{r include=FALSE}
 new_names <- names(training.set)
 prev_names <- c("Name", "OutcomeType","AgeuponOutcome", "AgeuponIntake", "mix",
                          "breed_common", "S_Organ_Status_In_Intact", "S_Organ_Status_In_Neutered",
@@ -258,7 +254,20 @@ prev_names <- c("Name", "OutcomeType","AgeuponOutcome", "AgeuponIntake", "mix",
                          "breed_group_Sporting", "breed_group_Terrier", "breed_group_Toy",
                          "breed_group_Unknown", "breed_group_Working")
 names(training.set) <- prev_names
-names(testing.set) <- prev_names
+```
+#Random Forest Model
+```{r eval=FALSE}
+rf_fit <- train(OutcomeType ~ .,
+                data = training.set,
+                method = "rf",
+                metric = "Accuracy",
+                preProcess = c("center", "scale"),
+                tuneLength = 10)
+save(rf_fit, file="rf_initial_fit.rda")
+```
+
+```{r}
+load(file="rf_initial_fit.rda")
 rf_pred <- predict(rf_fit, newdata=testing.set)
 
 confusionMatrix(data=rf_pred, testing.set$OutcomeType)
@@ -290,6 +299,10 @@ set.seed(seed)
 bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
 print(bestmtry)
 ```
+```{r}
+knitr::include_graphics('optimal_number_of_trees.png')
+```
+
 Looks like the best mtry value would be 4.
 
 Find optimized number of trees
@@ -345,29 +358,16 @@ final_fit_rf <- train(OutcomeType ~ .,
 save(final_fit_rf, file="rf_final_fit.rda")
 ```
 
-Final model's accuracy was 0.6931
-Statistics by Class:
-
-#                     Class: Adoption Class: Died Class: Euthanasia Class: Return_to_owner Class: Transfer
-Sensitivity                   0.8508   0.0263158           0.32622                 0.6464          0.6074
-Specificity                   0.7394   1.0000000           0.98999                 0.8976          0.9103
-Pos Pred Value                0.6877   1.0000000           0.66460                 0.6047          0.7757
-Neg Pred Value                0.8802   0.9935360           0.96028                 0.9128          0.8194
-Prevalence                    0.4028   0.0066376           0.05729                 0.1951          0.3382
-Detection Rate                0.3427   0.0001747           0.01869                 0.1261          0.2054
-Detection Prevalence          0.4983   0.0001747           0.02812                 0.2086          0.2648
-Balanced Accuracy             0.7951   0.5131579           0.65811                 0.7720          0.7589
-
 ```{r rf-model-load, fig.height=10, fig.width=10}
 load(file="rf_final_fit.rda")
 final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
 rfConfusion <- confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
 ```
 
-```{r eval=FALSE}
-qplot(testing.set$OutcomeType, final_pred_rf,  colour= testing.set$OutcomeType,
+```{r rf-qplot}
+qplot(testing.set$OutcomeType, final_pred_rf,  colour= testing.set$OutcomeTyp,
       geom = c("boxplot", "jitter"),
-      main = "XGBoost: predicted vs. observed in test data",
+      main = "SVM: predicted vs. observed in test data",
       xlab = "Observed Outcome",
       ylab = "Predicted Outcome")
 ```
@@ -381,7 +381,24 @@ FOr the animal shelter, we determined that the following metrics are more import
  * Higher Balanced Accuracy for Transfer
     * (We care most about correctly idnetifying pets when they are transferred overall)
 ```{r model-eval}
-xgb_conf_class["Class: Adoption","Sensitivity"]
+eval_matrix <- outcomes[,"OutcomeType"]
+eval_matrix[,c("XGBoost", "Multinomial", "SVM", "RandomForest")] <- NA
+
+for (class in eval_matrix$OutcomeType) {
+  if (class %in% c("Adoption", "Return_to_owner")) {
+    evalMetric <- "Sensitivity"
+  } else if (class %in% c("Adoption", "Return_to_owner") {
+    evalMetric <- "Specificity"
+  } else if (class == "Transfer") {
+    evalMetric <- "Balanced Accuracy "
+  }
+  eval_matrix[eval_matrix$OutcomeType==class,"XGBoost"] <- xgb_conf$byClass[paste0("Class: ", class), evalMetric]
+  eval_matrix[eval_matrix$OutcomeType==class,"Multinomial"] <- multiNomOut_conf$byClass[paste0("Class: ", class), evalMetric]
+  eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
+  eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
+}
+
+
 ```
 rfConfusion, 
 xgb_conf,
