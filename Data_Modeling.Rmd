@@ -1,7 +1,9 @@
 ---
 title: "Modeling for Animal Shelter Data"
 author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou, Bonnie Fan"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 In this file we have applied four different models (SVM Radial, Multinomial Regression, XGBoost, and Random Forest) to our dataset to predict animal outcomes for the Austin Animal Center. Below we do additional model related cleanup, apply our models to the dataset, and then detail our conclusions and future recommendations and enhancements we gleaned from doing this project.
@@ -215,7 +217,7 @@ It looks like many of the actual "Died" class were classified as "Transfer".
 #SVM Radial Model
 Next, we'll explore a Support Vector Machine (SVM) machine learning model. This is a common algorithm for classification problems.
 ```{r rename, include=FALSE}
-names(testing.set) <- prev_names
+
 ```
 ```{r svm, eval=FALSE}
 svm_Radial <- caret::train(OutcomeType ~.,
