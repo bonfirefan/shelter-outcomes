@@ -18,7 +18,7 @@ libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
 for(lb in libraries){
   # cat(paste(lb))
   if(!(require(lb, character.only = TRUE))){
-    install.packages(lb)
+    install.packages(lb, repos = "http://cran.us.r-project.org")
   }
 
   library(lb, character.only = TRUE)
@@ -74,6 +74,11 @@ validation.set <- validation.set %>%
 ```
 
 #XGBoost
+We decided to apply the XGBoost model to our data for two main reasons, those are:
+
+* Since XGBoost leverages parallelization, which uses all of our CPU cores during training, this leads to great execution speed. It was running in a quarter to half the time of our Random Forest or SVM Radial mdoels.
+
+* Model performance, XGBoost does a very good job on structured and tabular datasets for classification and regression predictions. Since we cleaned and structured our data in advance, it helps us take full advantage of the XGBoost model.
 ```{r xgboost-setup}
 
 # Convert classes to integers for xgboost
@@ -188,6 +193,9 @@ xgb.ggplot.importance(xgb_imp)
 ```
 
 #Multivariate Logistic Model
+We decided to use multinomial logistic regression for our data to change things up a bit as well as because of one interesting feature it has:
+
+* Like other forms of regression, there is no need for the independent variables to be statistically independent from each other. Since some of the variables in our dataset might be slightly related to another variable, we thought it was worth trying our this model.
 
 ```{r}
 multinomModel <- multinom(OutcomeType ~ ., data = training.set)
@@ -414,6 +422,7 @@ for (class in eval_matrix$OutcomeType) {
   eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
   eval_matrix[eval_matrix$OutcomeType==class,"RandomForest"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
 }
+
 eval_matrix[is.na(eval_matrix)] <- 0
 eval_matrix <- eval_matrix %>%
   mutate(bestModel = max.col(eval_matrix[,-1], ties.method = "last")) %>%
