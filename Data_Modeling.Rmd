@@ -6,7 +6,7 @@ output: html_notebook
 
 In this file we have applied four different models (SVM Radial, Multinomial Regression, XGBoost, and Random Forest) to our dataset to predict animal outcomes for the Austin Animal Center. Below we do additional model related cleanup, apply our models to the dataset, and then detail our conclusions and future recommendations and enhancements we gleaned from doing this project.
 
-**Note that we included certain tags like echo=FALSE and eval=FALSE after we had already trained our models and saved them off to a file. We did this to speed up the file knitting process.
+**Note** that we included certain tags like echo=FALSE and eval=FALSE after we had already trained our models and saved them off to a file. We did this to speed up the file knitting process.
 
 ```{r echo=FALSE}
 libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
