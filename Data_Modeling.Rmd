@@ -402,6 +402,9 @@ FOr the animal shelter, we determined that the following metrics are more import
     * (We care most about correctly identifying pets that were NOT adopted or returned)
  * Higher Balanced Accuracy for Transfer
     * (We care most about correctly idnetifying pets when they are transferred overall)
+```{r save model parameters}
+save(final_fit_rf, file="rf_final_fit.rda")
+```
 ```{r model-eval}
 eval_matrix <- outcomes[,"OutcomeType"]
 eval_matrix[,c("XGBoost", "Multinomial", "SVM", "RandomForest")] <- NA
@@ -409,7 +412,7 @@ eval_matrix[,c("XGBoost", "Multinomial", "SVM", "RandomForest")] <- NA
 for (class in eval_matrix$OutcomeType) {
   if (class %in% c("Adoption", "Return_to_owner")) {
     evalMetric <- "Sensitivity"
-  } else if (class %in% c("Adoption", "Return_to_owner") {
+  } else if (class %in% c("Adoption", "Return_to_owner")) {
     evalMetric <- "Specificity"
   } else if (class == "Transfer") {
     evalMetric <- "Balanced Accuracy "
@@ -420,10 +423,6 @@ for (class in eval_matrix$OutcomeType) {
   eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
 }
 
-
-Save off the final fit for the Random Forest model.
-```{r save model parameters}
-save(final_fit_rf, file="rf_final_fit.rda")
 ```
 
 ##Enhancements and Recommendations for Further Optimizing Animal Shelters Data Models
