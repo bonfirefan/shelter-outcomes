@@ -216,9 +216,7 @@ It looks like many of the actual "Died" class were classified as "Transfer".
 
 #SVM Radial Model
 Next, we'll explore a Support Vector Machine (SVM) machine learning model. This is a common algorithm for classification problems.
-```{r rename, include=FALSE}
 
-```
 ```{r svm, eval=FALSE}
 svm_Radial <- caret::train(OutcomeType ~.,
                     data = training.set,
@@ -254,15 +252,7 @@ The reason we chose Random Forest as one of our models is due to a couple of the
 * It generates an internal unbiased estimate of the generalization error as the forest building progresses.
 
 We initially trained our Random Forest model with default or auto-tune parameters.
-```{r}
-# rf_fit <- train(OutcomeType ~ .,
-#                 data = training.set,
-#                 method = "rf",
-#                 metric = "Accuracy",
-#                 preProcess = c("center", "scale"),
-#                 tuneLength = 10)
-# save(rf_fit, file="rf_initial_fit.rda")
-load(file="rf_initial_fit.rda")
+```{r include=F}
 new_names <- names(training.set)
 prev_names <- c("Name", "OutcomeType","AgeuponOutcome", "AgeuponIntake", "mix",
                          "breed_common", "S_Organ_Status_In_Intact", "S_Organ_Status_In_Neutered",
@@ -278,9 +268,10 @@ prev_names <- c("Name", "OutcomeType","AgeuponOutcome", "AgeuponIntake", "mix",
                          "breed_group_Sporting", "breed_group_Terrier", "breed_group_Toy",
                          "breed_group_Unknown", "breed_group_Working")
 names(training.set) <- prev_names
+names(testing.set) <- prev_names
 ```
-#Random Forest Model
-```{r eval=FALSE}
+
+```{r rf-fit, eval=F}
 rf_fit <- train(OutcomeType ~ .,
                 data = training.set,
                 method = "rf",
