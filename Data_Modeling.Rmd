@@ -395,16 +395,15 @@ qplot(testing.set$OutcomeType, final_pred_rf,  colour= testing.set$OutcomeTyp,
 ```
 # Model Evaluation
 We have been continually evaluating models for each of the 4 models, but here we will compare on metrics that we care most about.
-FOr the animal shelter, we determined that the following metrics are more important:
+For the animal shelter, we determined that the following metrics are more important:
+
  * Higher Sensitivity for Died and Euthanasia
     * (we care most about correctly identifying pets that WERE euthanized or died)
  * Higher Specificity for Adopted, Return_to_Owner
     * (We care most about correctly identifying pets that were NOT adopted or returned)
  * Higher Balanced Accuracy for Transfer
     * (We care most about correctly idnetifying pets when they are transferred overall)
-```{r save model parameters}
-save(final_fit_rf, file="rf_final_fit.rda")
-```
+
 ```{r model-eval}
 eval_matrix <- outcomes[,"OutcomeType"]
 eval_matrix[,c("XGBoost", "Multinomial", "SVM", "RandomForest")] <- NA
@@ -415,15 +414,33 @@ for (class in eval_matrix$OutcomeType) {
   } else if (class %in% c("Adoption", "Return_to_owner")) {
     evalMetric <- "Specificity"
   } else if (class == "Transfer") {
-    evalMetric <- "Balanced Accuracy "
+    evalMetric <- "Balanced Accuracy"
   }
   eval_matrix[eval_matrix$OutcomeType==class,"XGBoost"] <- xgb_conf$byClass[paste0("Class: ", class), evalMetric]
   eval_matrix[eval_matrix$OutcomeType==class,"Multinomial"] <- multiNomOut_conf$byClass[paste0("Class: ", class), evalMetric]
   eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
-  eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
+  eval_matrix[eval_matrix$OutcomeType==class,"RandomForest"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
 }
-
+eval_matrix[is.na(eval_matrix)] <- 0
+eval_matrix <- eval_matrix %>%
+  mutate(bestModel = max.col(eval_matrix[,-1], ties.method = "last")) %>%
+  mutate(bestModel = ifelse(bestModel == 4, "RandomForest",
+                      ifelse(bestModel == 1, "XGBoost",
+                             ifelse(bestModel == 2, "Multinomial",
+                                    ifelse(bestModel == 3, "SVM", "")))))
+print(eval_matrix)
 ```
+
+We can see that according to our evaluation metrics: 
+
+ * Random Forest is the best model to predict positive outcomes (Adoption and Return to Owner)
+    * Again, this measure is showing which model best predicts a Negative for these outcomes
+    * That is, these tell the shelter when an animal is not adopted or returned to owner
+    * RandomFOrest has a very high Non-Adoption prediction rate of 84%
+ * XGBoost is the best model to predict negative outcomes (Died, Euthanasia and Transfer)
+    * For Euthanasia and Death these are true negative outcomes
+    * For Transfer we are looking at overall accuracy
+
 
 ##Enhancements and Recommendations for Further Optimizing Animal Shelters Data Models
 Having completed our EDA and data modeling for the Austin Animal Shelter Kaggle competition, we discussed a group what could be done in order to better assist the Austin Animal Center and our models to be able to make more accurate outcome predictions. We came up with a couple of recommendations for the animal center, as well as some enhancements we could do currently if we had more time, to be able to produce more accurate and useful results to help these animals recieve better outcomes.
