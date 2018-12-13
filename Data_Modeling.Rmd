@@ -224,7 +224,6 @@ save(svm_Radial, svmModel, svmConfusion, file = "svmModel.rda")
 
 ```{r svm-load}
 load(file = "svmModel.rda")
-
 ```
 Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
 ```{r eval=FALSE}
@@ -234,7 +233,6 @@ qplot(svmConfusion, svmModel, data=xgb_test_out,  colour= actOutcome,
       xlab = "Observed Outcome",
       ylab = "Predicted Outcome")
 ```
-
 #Random Forest Model
 ```{r}
 # rf_fit <- train(OutcomeType ~ .,
@@ -293,7 +291,6 @@ bestmtry <- tuneRF(x, y, stepFactor=1.5, improve=1e-5, ntree=500)
 print(bestmtry)
 ```
 Looks like the best mtry value would be 4.
-
 
 Find optimized number of trees
 ```{r rf-ntree, eval=FALSE}
@@ -366,6 +363,14 @@ load(file="rf_final_fit.rda")
 final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
 rfConfusion <- confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
 ```
+
+```{r eval=FALSE}
+qplot(testing.set$OutcomeType, final_pred_rf,  colour= testing.set$OutcomeType,
+      geom = c("boxplot", "jitter"),
+      main = "XGBoost: predicted vs. observed in test data",
+      xlab = "Observed Outcome",
+      ylab = "Predicted Outcome")
+```
 # Model Evaluation
 We have been continually evaluating models for each of the 4 models, but here we will compare on metrics that we care most about. 
 FOr the animal shelter, we determined that the following metrics are more important: 
@@ -378,4 +383,7 @@ FOr the animal shelter, we determined that the following metrics are more import
 ```{r model-eval}
 xgb_conf_class["Class: Adoption","Sensitivity"]
 ```
-
+rfConfusion, 
+xgb_conf,
+multiNomOut_conf,
+svmConfusion
