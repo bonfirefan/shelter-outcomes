@@ -189,8 +189,7 @@ svmModel <- predict(svm_Radial, newdata=testing.set)
 
 svmConfusion <- confusionMatrix(data=svmModel, testing.set$OutcomeType)
 
-save(svmModel, file = "svmModel.rda")
-save(svmConfusion, file = "svmConfusion.rda")
+save(svm_Radial, svmModel, svmConfusion, file = "svmModel.rda")
 ```
 Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
 
