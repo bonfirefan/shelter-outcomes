@@ -223,6 +223,7 @@ svmConfusion <- confusionMatrix(data=svmModel, testing.set$OutcomeType)
 
 save(svm_Radial, svmModel, svmConfusion, file = "svmModel.rda")
 ```
+
 ```{r svm-load}
 load(file = "svmModel.rda")
 confusionMatrix(data=svmModel, testing.set$OutcomeType)
