@@ -1,7 +1,9 @@
 ---
 title: "Modeling for Animal Shelter Data"
 author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou, Bonnie Fan"
-output: html_notebook
+output:
+  html_document:
+    df_print: paged
 ---
 
 In this file we have applied four different models (SVM Radial, Multinomial Regression, XGBoost, and Random Forest) to our dataset to predict animal outcomes for the Austin Animal Center. Below we do additional model related cleanup, apply our models to the dataset, and then detail our conclusions and future recommendations and enhancements we gleaned from doing this project.
@@ -16,7 +18,7 @@ libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
 for(lb in libraries){
   # cat(paste(lb))
   if(!(require(lb, character.only = TRUE))){
-    install.packages(lb)
+    install.packages(lb, repos = "http://cran.us.r-project.org")
   }
 
   library(lb, character.only = TRUE)
@@ -72,6 +74,11 @@ validation.set <- validation.set %>%
 ```
 
 #XGBoost
+We decided to apply the XGBoost model to our data for two main reasons, those are:
+
+* Since XGBoost leverages parallelization, which uses all of our CPU cores during training, this leads to great execution speed. It was running in a quarter to half the time of our Random Forest or SVM Radial mdoels.
+
+* Model performance, XGBoost does a very good job on structured and tabular datasets for classification and regression predictions. Since we cleaned and structured our data in advance, it helps us take full advantage of the XGBoost model.
 ```{r xgboost-setup}
 
 # Convert classes to integers for xgboost
@@ -186,6 +193,9 @@ xgb.ggplot.importance(xgb_imp)
 ```
 
 #Multivariate Logistic Model
+We decided to use multinomial logistic regression for our data to change things up a bit as well as because of one interesting feature it has:
+
+* Like other forms of regression, there is no need for the independent variables to be statistically independent from each other. Since some of the variables in our dataset might be slightly related to another variable, we thought it was worth trying our this model.
 
 ```{r}
 multinomModel <- multinom(OutcomeType ~ ., data = training.set)
@@ -395,7 +405,7 @@ qplot(testing.set$OutcomeType, final_pred_rf,  colour= testing.set$OutcomeTyp,
 ```
 # Model Evaluation
 We have been continually evaluating models for each of the 4 models, but here we will compare on metrics that we care most about.
-FOr the animal shelter, we determined that the following metrics are more important:
+For the animal shelter, we determined that the following metrics are more important:
  * Higher Sensitivity for Died and Euthanasia
     * (we care most about correctly identifying pets that WERE euthanized or died)
  * Higher Specificity for Adopted, Return_to_Owner
@@ -409,7 +419,7 @@ eval_matrix[,c("XGBoost", "Multinomial", "SVM", "RandomForest")] <- NA
 for (class in eval_matrix$OutcomeType) {
   if (class %in% c("Adoption", "Return_to_owner")) {
     evalMetric <- "Sensitivity"
-  } else if (class %in% c("Adoption", "Return_to_owner") {
+  } else if (class %in% c("Adoption", "Return_to_owner")) {
     evalMetric <- "Specificity"
   } else if (class == "Transfer") {
     evalMetric <- "Balanced Accuracy "
@@ -419,11 +429,6 @@ for (class in eval_matrix$OutcomeType) {
   eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
   eval_matrix[eval_matrix$OutcomeType==class,"SVM"] <- svmConfusion$byClass[paste0("Class: ", class), evalMetric]
 }
-
-
-Save off the final fit for the Random Forest model.
-```{r save model parameters}
-save(final_fit_rf, file="rf_final_fit.rda")
 ```
 
 ##Enhancements and Recommendations for Further Optimizing Animal Shelters Data Models
