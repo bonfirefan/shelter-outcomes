@@ -4,6 +4,10 @@ author: "Phil Prosapio, Shayan Khan, Jiyuan Zhou, Bonnie Fan"
 output: html_notebook
 ---
 
+In this file we have applied four different models (SVM Radial, Multinomial Regression, XGBoost, and Random Forest) to our dataset to predict animal outcomes for the Austin Animal Center. Below we do additional model related cleanup, apply our models to the dataset, and then detail our conclusions and future recommendations and enhancements we gleaned from doing this project.
+
+**Note** that we included certain tags like echo=FALSE and eval=FALSE after we had already trained our models and saved them off to a file. We did this to speed up the file knitting process.
+
 ```{r echo=FALSE}
 libraries <- c("tidyverse", "ggplot2", "randomForest", "caret",
                "lubridate", "nnet", "mlr", "FSelector", "xgboost",
@@ -238,7 +242,25 @@ qplot(testing.set$OutcomeType, svmModel,  colour= testing.set$OutcomeTyp,
       ylab = "Predicted Outcome")
 ```
 
-```{r include=FALSE}
+#Random Forest Model
+The reason we chose Random Forest as one of our models is due to a couple of the important features that are a part of the Random Forest model. The ones we were interested were:
+
+* It's ability to easily handle large number of input variables without variable deletion.
+
+* It runs efficiently on large datasets (ours is not super massive, but it is bigger than what we dealt with in class).
+
+* It generates an internal unbiased estimate of the generalization error as the forest building progresses.
+
+We initially trained our Random Forest model with default or auto-tune parameters.
+```{r}
+# rf_fit <- train(OutcomeType ~ .,
+#                 data = training.set,
+#                 method = "rf",
+#                 metric = "Accuracy",
+#                 preProcess = c("center", "scale"),
+#                 tuneLength = 10)
+# save(rf_fit, file="rf_initial_fit.rda")
+load(file="rf_initial_fit.rda")
 new_names <- names(training.set)
 prev_names <- c("Name", "OutcomeType","AgeuponOutcome", "AgeuponIntake", "mix",
                          "breed_common", "S_Organ_Status_In_Intact", "S_Organ_Status_In_Neutered",
@@ -286,7 +308,7 @@ Detection Prevalence          0.5111   0.0001747           0.02533              
 Balanced Accuracy             0.7884   0.5131579           0.65636                 0.7739          0.7588
 
 
-Find best mtry values
+Use bestmtry to find best mtry values for our Random Forest model.
 ```{r rf-mtry, eval=FALSE}
 #Find the best mtry value to use in my model
 x <- training.set %>%
@@ -303,9 +325,9 @@ print(bestmtry)
 knitr::include_graphics('optimal_number_of_trees.png')
 ```
 
-Looks like the best mtry value would be 4.
+Based on the output of bestmtry it looks like the best mtry value to use would be 4.
 
-Find optimized number of trees
+Find optimized number of trees to use in Random Forest model.
 ```{r rf-ntree, eval=FALSE}
 metric <- "Accuracy"
 
@@ -325,9 +347,9 @@ summary(results)
 dotplot(results)
 ```
 
-Optimal number of trees is 1500
+Optimal number of trees to use in our model is 1500.
 
-Find optimized predictor variables
+Find what the most important predictor variables are related to our outcome variable. This leverages the importance and varImpPlot methods from randomForest library.
 ```{r fig.width=10, fig.height=10}
 #Find best predictor variables
 # rf_pv <- randomForest(OutcomeType ~ ., data=training.set, ntree=1000, keep.forest=FALSE, importance=TRUE)
@@ -372,8 +394,8 @@ qplot(testing.set$OutcomeType, final_pred_rf,  colour= testing.set$OutcomeTyp,
       ylab = "Predicted Outcome")
 ```
 # Model Evaluation
-We have been continually evaluating models for each of the 4 models, but here we will compare on metrics that we care most about. 
-FOr the animal shelter, we determined that the following metrics are more important: 
+We have been continually evaluating models for each of the 4 models, but here we will compare on metrics that we care most about.
+FOr the animal shelter, we determined that the following metrics are more important:
  * Higher Sensitivity for Died and Euthanasia
     * (we care most about correctly identifying pets that WERE euthanized or died)
  * Higher Specificity for Adopted, Return_to_Owner
@@ -399,8 +421,21 @@ for (class in eval_matrix$OutcomeType) {
 }
 
 
+Save off the final fit for the Random Forest model.
+```{r save model parameters}
+save(final_fit_rf, file="rf_final_fit.rda")
 ```
-rfConfusion, 
-xgb_conf,
-multiNomOut_conf,
-svmConfusion
+
+##Enhancements and Recommendations for Further Optimizing Animal Shelters Data Models
+Having completed our EDA and data modeling for the Austin Animal Shelter Kaggle competition, we discussed a group what could be done in order to better assist the Austin Animal Center and our models to be able to make more accurate outcome predictions. We came up with a couple of recommendations for the animal center, as well as some enhancements we could do currently if we had more time, to be able to produce more accurate and useful results to help these animals recieve better outcomes.
+
+Enhancements to the process we did:
+* Look to leverage the color variable that was supplied in the Kaggle dataset. We had to ignore this variable due to the
+fact that this variable contained thousands of minor variations and combinations in fur color that we did not have time to try and categorize or group. With more time, we would come up with an accurately and detailed categorization system that would allows us to group animals together based on fur color and combinations in order to allows us to dummify and leverage this column in our models. Since most models can't train if a variable has more than 53 categories (and we didn't want our dummify to produce thousands of distinct columns for all the color combinations), we would want to create a more targetted color categorization system.
+
+* Split up our data set into two new datasets, one for cats and one for dogs, and look to train individual models for each animal type. This would help to remove some of the confusion in our models that having the two types of animals and all their breed and color combinations in the same dataset produced.
+
+Recommendations:
+* If we were to split our dataset up into datasets for cats and dogs, we would then love to work with the Austin Animal Center to collect and utilize additional information that unique to those type of animals. For example, for cats it would be very useful to know if the cat is de-clawed or not, since this is often a major factor in people being willing or able to adopt a cat, since clawed cats can damage furniture or carpets.
+
+* Working with the Austin Animal Center to collect additional general information about their shelter animals. We feel that information like animal intake weight, geo-coded locations for where the animal was found, or if the animal had prior surgeries would be very helpful in being able to better predict animal outcomes with our ML models.
