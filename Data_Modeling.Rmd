@@ -219,11 +219,12 @@ svm_Radial <- caret::train(OutcomeType ~.,
 
 svmModel <- predict(svm_Radial, newdata=testing.set)
 svmConfusion <- confusionMatrix(data=svmModel, testing.set$OutcomeType)
-save(svmModel, svmConfusion, file = "svmModel.rda")
+save(svm_Radial, svmModel, svmConfusion, file = "svmModel.rda")
 ```
 
 ```{r svm-load}
 load(file = "svmModel.rda")
+
 ```
 Here we can see that we're getting an accuracy of 69 percent. This is still better than chance, but we'll see if we can achieve higher accuracy.
 ```{r eval=FALSE}
@@ -361,7 +362,20 @@ Detection Prevalence          0.4983   0.0001747           0.02812              
 Balanced Accuracy             0.7951   0.5131579           0.65811                 0.7720          0.7589
 
 ```{r rf-model-load, fig.height=10, fig.width=10}
+load(file="rf_final_fit.rda")
 final_pred_rf <- predict(final_fit_rf, newdata=testing.set)
 rfConfusion <- confusionMatrix(data=final_pred_rf, testing.set$OutcomeType)
+```
+# Model Evaluation
+We have been continually evaluating models for each of the 4 models, but here we will compare on metrics that we care most about. 
+FOr the animal shelter, we determined that the following metrics are more important: 
+ * Higher Sensitivity for Died and Euthanasia
+    * (we care most about correctly identifying pets that WERE euthanized or died)
+ * Higher Specificity for Adopted, Return_to_Owner
+    * (We care most about correctly identifying pets that were NOT adopted or returned)
+ * Higher Balanced Accuracy for Transfer
+    * (We care most about correctly idnetifying pets when they are transferred overall)
+```{r model-eval}
+xgb_conf_class["Class: Adoption","Sensitivity"]
 ```
 
